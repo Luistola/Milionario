@@ -1,0 +1,130 @@
+<!-- home slider -->
+<section class="section section--first">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="home-carousel-wrap">
+        <div class="home-carousel owl-carousel">
+          <!-- slide -->
+          <div class="item home-carousel__item" data-bg="assets/img/home/slide3.jpg">
+            <div class="home-carousel__text">
+              <div class="home-carousel__title home-carousel__title--right">
+                <!-- <h1>Listen songs with<br><span>Blast</span> template</h1>
+                <a href="" target="_blank" class="default-btn default-btn--red">buy template</a> -->
+              </div>
+            </div>
+          </div>
+          <!-- end slide -->
+
+          <!-- slide -->
+          <div class="item home-carousel__item" data-bg="assets/img/home/slide3.jpg">
+            <div class="home-carousel__text">
+              <div class="home-carousel__title home-carousel__title--white">
+              </div>
+            </div>
+          </div>
+          <!-- end slide -->
+
+          <!-- slide -->
+          <div class="item home-carousel__item" data-bg="assets/img/home/slide2.jpg">
+            <div class="home-carousel__text">
+              <div class="home-carousel__title home-carousel__title--white">
+              </div>
+            </div>
+          </div>
+          <!-- end slide -->
+        </div>
+
+        <button class="home-carousel-nav__prev">
+          <span class="lnr lnr-arrow-left"></span>
+        </button>
+        <button class="home-carousel-nav__next">
+          <span class="lnr lnr-arrow-right"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end home slider -->
+
+<!-- upcoming events -->
+<section class="section">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12 col-md-3">
+      <div class="section__title section__title--vertical clearfix">
+        <h2>Concursos a Decorrer</h2>
+        <p>Tudo que você precisa saber sobre os concursos</p>
+        <a class="section__more" routerLink="/dashboard/concursos">Ver Todos</a>
+      </div>
+    </div>
+    <!-- end section title -->
+
+    <div class="col-xs-12 col-md-9">
+      <div class="row row--grid">
+
+        <!-- news -->
+        <div class="col-xs-12 col-sm-6" *ngFor="let c of premiosCliente | slice:0:2;">
+          <article class="news-post">
+            <figure class="img_dimensao news-post__img"><a (click)="goParticipanteList(c)"><img [src]="getImageUrl(c.foto)" alt=""></a></figure>
+            <header class="news-post__header">
+              <h2 class="news-post__title"><a (click)="goParticipanteList(c)">{{c.nome}}</a></h2>
+              <div class="news-post__date">Termina em: {{c.data_fim | date: 'dd-MM-yyyy'}}</div>
+              <div class="news-post__date">Valor do Prêmio Kz</div>
+              <div class="news-post__title"><p>{{c.premio}}</p></div>
+            </header>
+
+            <div class="news-post__content">
+              <p>{{c.descricao}}</p>
+            </div>
+          </article>
+        </div>
+        <!-- end news -->
+
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end upcoming events -->
+
+<!-- latest news -->
+<section class="section">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12 col-md-3">
+      <div class="section__title section__title--vertical clearfix">
+        <h2>Ultimos Vencedores</h2>
+        <p>Tudo que você precisa saber sobre os vencedores</p>
+        <a class="section__more" routerLink="/dashboard/vencedores">Ver Todos</a>
+      </div>
+    </div>
+    <!-- end section title -->
+
+    <div class="col-xs-12 col-md-9">
+      <div class="row row--grid">
+
+        <!-- news -->
+        <div class="col-xs-12 col-sm-6" *ngFor="let v of vencedorLista | slice:0:2;">
+          <article class="news-post">
+            <figure class="img_dimensao news-post__img"><a (click)="goVencedoresList(v)"><img [src]="getImageUrl(v.artist_foto)" alt=""></a></figure>
+
+            <header class="news-post__header">
+              <div class="news-post__title pull-right"><span class="lnr lnr-eye" title="Ver Foto" data-toggle="modal" data-target="#myModal" (click)="setFoto(v)"></span></div>&nbsp;
+              <h2 class="news-post__title"><a (click)="goVencedoresList(v)">{{v.artist_nome}}</a></h2>
+              <div class="news-post__date">{{v.vencedor_data | date: 'dd-MM-yyyy'}}</div>
+
+            </header>
+
+            <div class="news-post__content">
+              <p>Vencedor do {{v.concurso_nome}}</p>
+            </div>
+          </article>
+        </div>
+        <!-- end news -->
+
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end latest news -->
+
+<app-ver-foto [slide_foto]="slideSelecionado"></app-ver-foto>

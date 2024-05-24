@@ -1,0 +1,43 @@
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Novo Participante</h4>
+      </div>
+      <div class="modal-body">
+        <form class="" autocomplete="off" [formGroup]="participanteForm" (ngSubmit)="save()">
+          <div class="form-group">
+            <label>Escolha o Concurso</label>
+            <div class="input-group margin" style="width: 95%;">
+              <select class="form-control" formControlName="concurso_id">
+                <option value="Selecione..." selected >Selecione...</option>
+                <option *ngFor="let c of concursoLista" [value]='c.id'>{{c.nome}}</option>
+              </select>
+            </div>
+
+          </div>
+          <!-- <div class="form-group">
+            <label>Escolha o Musica</label>
+            <div class="input-group margin">
+              <select class="form-control select2" style="width: 100%;" formControlName="musica_id" >
+                <option selected >Selecione...</option>
+                <option *ngFor="let m of musicas" [value]='m.id'>{{m.titulo}}</option>
+              </select>
+            </div>
+
+          </div> -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-info" >Salvar</button>
+            <button type="button" #closebutton class="btn btn-default" data-dismiss="modal">Sair</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

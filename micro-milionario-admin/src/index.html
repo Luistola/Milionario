@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>MicroMilionarioAdmin</title>
+  <base href="/">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css?v={{ timestamp }}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="assets/bower_components/font-awesome/css/font-awesome.min.css?v={{ timestamp }}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="assets/bower_components/Ionicons/css/ionicons.min.css?v={{ timestamp }}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css?v={{ timestamp }}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="assets/bower_components/select2/dist/css/select2.min.css?v={{ timestamp }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="assets/dist/css/AdminLTE.min.css?v={{ timestamp }}">
+  <!-- Theme Skin -->
+  <link rel="stylesheet" href="assets/dist/css/skins/_all-skins.min.css?v={{ timestamp }}">
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
+</head>
+<body class="hold-transition login-page">
+  <app-root></app-root>
+  <!-- jQuery 3 -->
+<script src="assets/bower_components/jquery/dist/jquery.min.js?v={{ timestamp }}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="assets/bower_components/jquery-ui/jquery-ui.min.js?v={{ timestamp }}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.7 -->
+<script src="assets/bower_components/bootstrap/dist/js/bootstrap.min.js?v={{ timestamp }}"></script>
+<!-- Select2 -->
+<script src="assets/bower_components/select2/dist/js/select2.full.min.js?v={{ timestamp }}"></script>
+<!-- Morris.js charts -->
+<script src="assets/bower_components/raphael/raphael.min.js?v={{ timestamp }}"></script>
+<script src="assets/bower_components/morris.js/morris.min.js?v={{ timestamp }}"></script>
+<!-- Sparkline -->
+<script src="assets/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js?v={{ timestamp }}"></script>
+<!-- jvectormap -->
+<script src="assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js?v={{ timestamp }}"></script>
+<script src="assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js?v={{ timestamp }}"></script>
+<!-- jQuery Knob Chart -->
+<script src="assets/bower_components/jquery-knob/dist/jquery.knob.min.js?v={{ timestamp }}"></script>
+<!-- daterangepicker -->
+<script src="assets/bower_components/moment/min/moment.min.js?v={{ timestamp }}"></script>
+<script src="assets/bower_components/bootstrap-daterangepicker/daterangepicker.js?v={{ timestamp }}"></script>
+<!-- datepicker -->
+<script src="assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js?v={{ timestamp }}"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js?v={{ timestamp }}"></script>
+<!-- Slimscroll -->
+<script src="assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js?v={{ timestamp }}"></script>
+<!-- FastClick -->
+<script src="assets/bower_components/fastclick/lib/fastclick.js?v={{ timestamp }}"></script>
+<!-- AdminLTE App -->
+<script src="assets/dist/js/adminlte.min.js?v={{ timestamp }}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="assets/dist/js/pages/dashboard.js?v={{ timestamp }}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="assets/dist/js/demo.js?v={{ timestamp }}"></script>
+  <script>
+    $(function () {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+
+      $('#example1').DataTable()
+      $('#example2').DataTable({
+        'paging'      : true,
+        'lengthChange': false,
+        'searching'   : false,
+        'ordering'    : true,
+        'info'        : true,
+        'autoWidth'   : false
+      })
+    })
+  </script>
+</body>
+</html>

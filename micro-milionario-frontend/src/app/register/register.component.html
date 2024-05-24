@@ -1,0 +1,87 @@
+<!-- content -->
+<main class="clearfix">
+  <div class="content">
+
+    <section class="section">
+      <div class="row">
+        <div class="col-xs-12">
+
+          <form class="form form--sign" [formGroup]="registerForm" (ngSubmit)="save()">
+            <h6 class="form__title">Registro</h6>
+
+            <div class="form__group">
+              <label for="name" class="form__label">Username</label>
+              <input id="name" name="name" type="text" class="form__input" formControlName="username" [class.is-invalid]="usernameValidate">
+            </div>
+
+            <div class="form__group">
+              <label for="email" class="form__label">Email</label>
+              <input id="email" name="email" type="email" class="form__input" formControlName="email" [class.is-invalid]="emailValidate">
+            </div>
+            <div class="form__group">
+              <label for="telefone" class="form__label">Telefone</label>
+              <input id="telefone" name="telefone" type="number" class="form__input" formControlName="telefone" [class.is-invalid]="telValidate">
+            </div>
+            <div class="form__group">
+              <label for="text" class="form__label">Sexo</label>
+              <div class="form__group">
+                <select class="form__input" formControlName="sexo" style="width: 100%;" >
+                  <option selected>Seleccione...</option>
+                  <option value="Feminino">Feminino</option>
+                  <option value="Masculino">Masculino</option>
+                </select>
+              </div>
+            </div>
+            <div class="form__group">
+              <label for="text" class="form__label">Perfil</label>
+              <div class="form__group">
+                <select class="form__input" formControlName="role" style="width: 100%;"  [(ngModel)]="selectedOption">
+                  <option selected>Seleccione...</option>
+                  <option value="2">Artista</option>
+                  <option value="3">Fã</option>
+                </select>
+              </div>
+            </div>
+
+            <ng-container *ngIf="selectedOption == 2" >
+              <div class="form__group">
+                <label for="text" class="form__label">Foto</label>
+                <input name="foto" type="file"  #inputFile class="form__input" (change)="onChangeFoto($event)" >
+              </div>
+              <div class="form__group">
+                <label for="facebook" class="form__label">Facebook</label>
+                <input id="facebook" name="facebook" type="text" class="form__input" formControlName="facebook">
+              </div>
+              <div class="form__group">
+                <label for="instagram" class="form__label">Instagram</label>
+                <input id="instagram" name="instagram" type="text" class="form__input" formControlName="instagram">
+              </div>
+              <div class="form__group">
+                <label for="twitter" class="form__label">Twitter</label>
+                <input id="twitter" name="twitter" type="text" class="form__input" formControlName="twitter">
+              </div>
+            </ng-container>
+
+
+            <div class="form__group">
+              <label for="password" class="form__label">Senha</label>
+              <input id="password" name="password" type="password" class="form__input" formControlName="password" [class.is-invalid]="passwordValidate">
+            </div>
+
+            <div class="form__group">
+              <label for="password" class="form__label">Confirmar Senha</label>
+              <input id="conf_password" name="conf_password" type="password" class="form__input" formControlName="conf_password">
+            </div>
+
+            <!-- <button type="button" class="default-btn form__btn">Cadastrar</button> -->
+            <button type="submit" class="default-btn form__btn">Cadastrar</button>
+            <!-- <a href="signin.html"></a> -->
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+<!-- end content -->

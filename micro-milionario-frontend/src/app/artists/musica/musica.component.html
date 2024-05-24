@@ -1,0 +1,79 @@
+<!-- news -->
+<section class="section section--first">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12">
+      <div class="section__title section__title--single clearfix">
+        <h2>Cadastrar Musica</h2>
+      </div>
+    </div>
+    <!-- end section title -->
+
+    <!-- contacts form -->
+    <div class="col-xs-12 col-sm-6 col-lg-5">
+      <form action="#" class="form form--contacts" [formGroup]="musicForm" (ngSubmit)="save()">
+
+        <div class="form__group" *ngIf="artista">
+          <label for="name" class="form__label">Artista</label>
+          <input id="artist" name="artist" type="text" class="form__input" formControlName="artist" value="{{artista.nome}}" disabled>
+        </div>
+
+        <div class="form__group">
+          <label for="name" class="form__label">Titulo</label>
+          <input id="name" name="name" type="text" class="form__input" formControlName="titulo">
+        </div>
+
+        <div class="form__group">
+          <label for="email" class="form__label">Duração</label>
+          <input id="email" name="email" type="time" class="form__input" formControlName="duracao">
+        </div>
+
+        <div class="form__group">
+          <label for="text" class="form__label">Genero</label>
+          <!-- <div class="form-group">
+            <label>Multiple</label>
+            <select class="form-control select2" multiple="multiple" formControlName="genero" data-placeholder="Select a State"
+                    style="width: 100%;">
+              <option>Alabama</option>
+              <option>Alaska</option>
+              <option>California</option>
+              <option>Delaware</option>
+              <option>Tennessee</option>
+              <option>Texas</option>
+              <option>Washington</option>
+            </select>
+          </div> -->
+          <!-- <textarea id="text" name="text" class="form__textarea"></textarea> -->
+          <ng-multiselect-dropdown
+            [placeholder]="'Escolha o genero'"
+            [settings]="dropdownSettings"
+            [data]="dropdownList"
+            (onSelect)="onItemSelect($event)"
+          >
+          </ng-multiselect-dropdown>
+        </div>
+
+
+        <div class="form__group">
+          <label for="text" class="form__label">Foto</label>
+          <input id="foto" name="foto" type="file" class="form__input" (change)="onChangeFoto($event)" >
+        </div>
+
+        <div class="form__group">
+          <label for="text" class="form__label">Musica</label>
+          <input id="musica" name="musica" type="file" class="form__input" (change)="onChangeMusica($event)">
+        </div>
+
+        <div class="form__group">
+          <label for="text" class="form__label">Video</label>
+          <input id="video" name="video" type="file" class="form__input" (change)="onChangeVideo($event)">
+        </div>
+
+        <button type="submit" class="default-btn form__btn">Enviar</button>
+      </form>
+    </div>
+    <!-- end contacts form -->
+
+  </div>
+</section>
+<!-- end news -->

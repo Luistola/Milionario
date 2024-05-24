@@ -1,0 +1,57 @@
+<!-- news -->
+<section class="section section--first">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12">
+      <div class="section__title section__title--single clearfix">
+        <h2><span class="lnr lnr-chevron-left" (click)="goBack()"></span></h2>
+        <h2>Carteira</h2>
+      </div>
+    </div>
+    <!-- end section title -->
+
+    <!-- contacts text -->
+    <div class="col-xs-12 col-sm-6 col-lg-7">
+      <div class="contacts__about">
+        <p class="contacts__about-text">Informações sobre a carteira</p>
+
+        <!-- <p class="contacts__about-text">All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+
+        <p class="contacts__about-text">The Blast Company, LLC<br> 32 Barnard St. #145 Savannah, GA 80634</p>
+
+        <p class="contacts__about-text"><a href="mailto:support@blast.com">support@blast.com</a></p>
+
+        <p class="contacts__about-text"><a href="tel:+18002345678">+1 (800) 234-5678</a></p> -->
+      </div>
+    </div>
+    <!-- end contacts text -->
+
+    <!-- contacts form -->
+    <div class="col-xs-12 col-sm-6 col-lg-5">
+      <form action="#" class="form form--contacts">
+        <h6 class="form__title">Carteira</h6>
+
+        <div class="form__group">
+          <label for="name" class="form__label">Pontos</label>
+          <input id="name" name="name" type="text" class="form__input" value="{{pontos}}" disabled>
+        </div>
+
+        <div class="form__group">
+          <label for="email" class="form__label">Unitel Money</label>
+          <input id="email" name="email" type="text" class="form__input" value="{{unitelMoney}}" disabled>
+        </div>
+
+        <button type="button" class="default-btn form__btn" (click)="saveCarregar()" >Carregar</button>
+        <button type="button" class="default-btn form__btn">Enviar</button>
+      </form>
+    </div>
+    <!-- end contacts form -->
+
+    <!-- contacts map -->
+    <div class="col-xs-12">
+      <div id="contacts__map" class="contacts__map"></div>
+    </div>
+    <!-- end contacts map -->
+  </div>
+</section>
+<!-- end news -->

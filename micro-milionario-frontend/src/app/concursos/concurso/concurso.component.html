@@ -1,0 +1,49 @@
+<!-- store -->
+<section class="section section--first">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12">
+      <div class="section__title section__title--single clearfix">
+        <div class="row">
+          <div class="col-xs-12 col-sm-5">
+            <h2><span class="lnr lnr-chevron-left" (click)="goBack()"></span></h2>
+            <h2>Participantes</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end section title -->
+
+    <div class="col-xs-12">
+      <div class="row row--grid-big">
+
+        <!-- store post -->
+        <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let p of participanteLista; ">
+          <div class="store-post">
+            <a class="store-post__link"></a>
+            <figure class="img_dimensao store-post__img">
+              <img [src]="getImageUrl(p.artist_foto)" alt="">
+            </figure>
+            <div class="store-post__title">{{p.artist_nome}}</div>
+            <div class="store-post__model">{{p.musica_titulo}}</div>
+            <!-- <div class="store-post__price">Votos: 199</div> -->
+            <button class="store-post__btn" data-toggle="modal" data-target="#myModal" (click)="setParticipante(p)" ><span class="lnr lnr-checkmark-circle"></span></button>
+          </div>
+        </div>
+        <!-- end store post -->
+
+      </div>
+    </div>
+
+    <div class="col-xs-12">
+      <button type="button" class="default-btn default-btn--red default-btn--center">Ver Mais</button>
+    </div>
+  </div>
+</section>
+<!-- end store -->
+
+<app-voto-modal
+  [participante]="participanteSelecionado"
+  [carteira]="carteira"
+  [idClienteLogado]="idClienteLogado"
+></app-voto-modal>

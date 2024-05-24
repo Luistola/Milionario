@@ -1,0 +1,38 @@
+<!-- news -->
+<section class="section section--first">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12">
+      <div class="section__title section__title--single clearfix">
+        <h2>Participar do Concurso</h2>
+      </div>
+    </div>
+    <!-- end section title -->
+
+    <!-- contacts form -->
+    <div class="col-xs-12 col-sm-6 col-lg-5">
+      <form action="#" class="form form--contacts">
+
+        <div class="form__group" *ngIf="concurso" >
+          <label for="name" class="form__label">Concurso</label>
+          <input id="name" name="name" type="text" class="form__input" value="{{concurso.nome}}" disabled>
+        </div>
+
+        <div class="form__group">
+          <label for="email" class="form__label">Musica</label>
+          <select name="musica" id="musica" class="form__input" >
+            <option *ngFor="let m of musicas" value="{{m.id}}">{{m.titulo}}</option>
+            <!-- <option value="2">bbb</option> -->
+          </select>
+        </div>
+
+        <button type="button" class="default-btn form__btn">Salvar</button>
+      </form>
+    </div>
+    <!-- end contacts form -->
+
+  </div>
+</section>
+<!-- end news -->
+
+

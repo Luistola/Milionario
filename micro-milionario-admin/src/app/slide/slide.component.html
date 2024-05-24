@@ -1,0 +1,83 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      Administrativa
+      <small>Panel Controlo</small>
+      </h1>
+      <ol class="breadcrumb">
+      <li><a routerLink="dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Slide</li>
+      </ol>
+  </section>
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">Novo Slide</h3>
+          </div>
+          <!-- form start -->
+          <form role="form" autocomplete="off" [formGroup]="slideForm" (ngSubmit)="save()">
+            <div class="box-body">
+              <div class="form-group">
+                <label for="exampleInputFile">Foto</label>
+                <input type="file" id="exampleInputFile" (change)="onChangeFoto($event)">
+              </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <!-- Horizontal Form -->
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Lista de Slides</h3>
+          </div>
+
+          <!-- /.box-header -->
+          <div class="box-body">
+            <table class="table table-bordered">
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Foto</th>
+                <th>Activo</th>
+                <th>Acções</th>
+              </tr>
+              <tr *ngFor="let s of slideLista | paginate: { itemsPerPage: pagination.pagination.perPage, currentPage: pagination.pagination.page, totalItems: pagination.pagination.total}; let i=index ">
+                <td>{{i+1}}</td>
+                <td>{{s.foto}}</td>
+                <td *ngIf="!s.is_active" >Sim</td>
+                <td *ngIf="s.is_active" >Não</td>
+                <td>
+                  <div class="btn-group">
+                    <button type="button" title="Ver Foto" data-toggle="modal" data-target="#myModal" (click)="setSlideFoto(s)" class="btn btn-success" ><i class="fa fa-eye"></i></button>&nbsp;
+                    <button type="button" title="Editar" class="btn btn-info" ><i class="fa fa-edit"></i></button>&nbsp;
+                    <button type="button" title="Apagar Slide" class="btn btn-danger" (click)="apagarSlide(s)" ><i class="fa fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer clearfix">
+            <!-- <pagination-controls class="pagination pagination-sm no-margin pull-right" (pageChange)="clientePaginacao(pagination.pagination.page = $event)"></pagination-controls> -->
+          </div>
+        <!-- /.box -->
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+</div>
+
+<app-ver-foto-slide [slide_foto]="slideSelecionado"></app-ver-foto-slide>

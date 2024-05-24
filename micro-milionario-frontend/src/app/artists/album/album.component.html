@@ -1,0 +1,328 @@
+<section class="section section--first">
+  <div class="row">
+
+    <!-- release -->
+    <div class="col-xs-12 col-sm-4 col-md-3">
+      <!-- release cover -->
+      <div class="release__cover">
+        <img src="assets/img/covers/cover.jpg" alt="">
+      </div>
+      <!-- end release cover -->
+
+      <!-- release social -->
+      <ul class="release__social clearfix">
+        <li>
+          <a href="#">
+            <i class="fa fa-soundcloud"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-spotify"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-facebook-official"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-twitter"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-instagram"></i>
+          </a>
+        </li>
+      </ul>
+      <!-- end release social -->
+    </div>
+
+    <div class="col-xs-12 col-sm-8 col-md-9">
+      <!-- release content -->
+      <div class="release__content">
+
+        <h1 class="release__title">{{albums.nome}}</h1>
+
+        <span class="release__producer">Produzido por {{albums.produtor}}</span>
+
+        <p class="release__description">{{albums.descricao}}</p>
+
+        <ul class="release__list clearfix">
+          <li>Lançado por: {{albums.lancamento}}</li>
+          <li>Data de Lançamento: {{albums.data_lancamento}}</li>
+        </ul>
+
+        <!-- <ul class="release__tags clearfix">
+          <li>Genres:</li>
+          <li>
+            <a href="#">rock</a>
+          </li>
+          <li>
+            <a href="#">pop-rock</a>
+          </li>
+          <li>
+            <a href="#">alternative</a>
+          </li>
+        </ul> -->
+
+        <!-- <button type="button" class="default-btn">buy album</button> -->
+      </div>
+      <!-- end release content -->
+    </div>
+    <!-- end release -->
+
+    <!-- tabs -->
+    <div class="col-xs-12">
+      <div class="tabs">
+
+        <!-- tabs nav -->
+        <ul class="tabs__nav clearfix" role="tablist">
+          <li role="presentation" class="active">
+            <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Faixas</a>
+          </li>
+          <li role="presentation">
+            <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Videos</a>
+          </li>
+          <li role="presentation">
+            <a href="#tab3" aria-controls="tab2" role="tab" data-toggle="tab">Comentarios</a>
+          </li>
+        </ul>
+        <!-- end tabs nav -->
+
+        <div class="tab-content">
+          <!-- tab1 -->
+          <div role="tabpanel" class="tab-pane fade in active" id="tab1">
+
+            <span class="tracklist__info">
+              8 faixas • duração: 58:43
+            </span>
+
+            <ul class="tracklist">
+              <li class="tracklist__item">
+                <span class="number">1</span>
+                <span class="title">Intro</span>
+                <span class="time">3:21</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">2</span>
+                <span class="title">Today</span>
+                <span class="time">4:58</span>
+              </li>
+              <li class="tracklist__item tracklist__item--active">
+                <span class="number">3</span>
+                <span class="title">Don't Stop</span>
+                <span class="time">2:40</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">4</span>
+                <span class="title">Above</span>
+                <span class="time">2:47</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">5</span>
+                <span class="title">Bloom</span>
+                <span class="time">6:51</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">6</span>
+                <span class="title">Moon</span>
+                <span class="time">3:54</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">7</span>
+                <span class="title">Star</span>
+                <span class="time">4:01</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">8</span>
+                <span class="title">Wow</span>
+                <span class="time">3:39</span>
+              </li>
+            </ul>
+          </div>
+          <!-- end tab1 -->
+
+          <!-- tab2 -->
+          <div role="tabpanel" class="tab-pane fade" id="tab2">
+            <!-- comments -->
+            <div class="row row--grid">
+              <!-- track -->
+              <div class="col-xs-6 col-sm-3">
+                <div class="track">
+                  <div class="track__cover">
+                    <img src="assets/img/covers/cover.jpg" alt="">
+                  </div>
+
+                  <button class="track__play-btn">
+                    <i class="glyphicon glyphicon-play"></i>
+                    <svg class="svg-circle">
+                      <circle cx="30" cy="30" r="28"></circle>
+                    </svg>
+                  </button>
+
+                  <a href="video_play.html" class="track__link">
+                    <span class="title">Carlitos</span>
+                    <span class="autor">Yola Semedo</span>
+                  </a>
+                </div>
+              </div>
+              <!-- end track -->
+
+              <!-- track -->
+              <div class="col-xs-6 col-sm-3">
+                <div class="track">
+                  <div class="track__cover">
+                    <img src="assets/img/covers/cover.jpg" alt="">
+                  </div>
+
+                  <button class="track__play-btn">
+                    <i class="glyphicon glyphicon-play"></i>
+                    <svg class="svg-circle">
+                      <circle cx="30" cy="30" r="28"></circle>
+                    </svg>
+                  </button>
+
+                  <a href="#" class="track__link">
+                    <span class="title">Forest</span>
+                    <span class="autor">John Doe</span>
+                  </a>
+                </div>
+              </div>
+              <!-- end track -->
+
+              <!-- track -->
+              <div class="col-xs-6 col-sm-3">
+                <div class="track">
+                  <div class="track__cover">
+                    <img src="assets/img/covers/cover.jpg" alt="">
+                  </div>
+
+                  <button class="track__play-btn">
+                    <i class="glyphicon glyphicon-play"></i>
+                    <svg class="svg-circle">
+                      <circle cx="30" cy="30" r="28"></circle>
+                    </svg>
+                  </button>
+
+                  <a href="#" class="track__link">
+                    <span class="title">Forest</span>
+                    <span class="autor">John Doe</span>
+                  </a>
+                </div>
+              </div>
+              <!-- end track -->
+
+              <!-- track -->
+              <div class="col-xs-6 col-sm-3">
+                <div class="track">
+                  <div class="track__cover">
+                    <img src="assets/img/covers/cover.jpg" alt="">
+                  </div>
+
+                  <button class="track__play-btn">
+                    <i class="glyphicon glyphicon-play"></i>
+                    <svg class="svg-circle">
+                      <circle cx="30" cy="30" r="28"></circle>
+                    </svg>
+                  </button>
+
+                  <a href="#" class="track__link">
+                    <span class="title">Forest</span>
+                    <span class="autor">John Doe</span>
+                  </a>
+                </div>
+              </div>
+              <!-- end track -->
+              <!-- <div class="col-xs-12 col-lg-10">
+                <div class="comments">
+                  <ul class="comments__list">
+                    <li class="comments__item">
+                      <div class="comments__autor">
+                        <img src="assets/img/user.png" alt="">
+                        <span class="name">John Doe</span>
+                        <span class="time">53m ago</span>
+                      </div>
+                      <p class="comments__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                    </li>
+
+                    <li class="comments__item">
+                      <div class="comments__autor">
+                        <img src="assets/img/user.png" alt="">
+                        <span class="name">John Doe</span>
+                        <span class="time">21m ago</span>
+                      </div>
+                      <p class="comments__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                    </li>
+                  </ul>
+
+                  <form action="#" class="form form--comments">
+                    <div class="row">
+                      <div class="col-xs-12 col-sm-8 col-md-7 col-lg-6">
+                        <div class="form__group">
+                          <label for="text" class="form__label">Add Comment</label>
+                          <textarea id="text" name="text" class="form__textarea"></textarea>
+                        </div>
+                        <button type="button" class="default-btn form__btn">Send</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div> -->
+            </div>
+            <!-- end comments -->
+          </div>
+          <!-- end tab2 -->
+
+          <!-- tab2 -->
+          <div role="tabpanel" class="tab-pane fade" id="tab3">
+            <!-- comments -->
+            <div class="row">
+              <div class="col-xs-12 col-lg-10">
+                <div class="comments">
+                  <ul class="comments__list">
+                    <li class="comments__item">
+                      <div class="comments__autor">
+                        <img src="assets/img/user.png" alt="">
+                        <span class="name">John Doe</span>
+                        <span class="time">53m ago</span>
+                      </div>
+                      <p class="comments__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                    </li>
+
+                    <li class="comments__item">
+                      <div class="comments__autor">
+                        <img src="assets/img/user.png" alt="">
+                        <span class="name">John Doe</span>
+                        <span class="time">21m ago</span>
+                      </div>
+                      <p class="comments__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                    </li>
+                  </ul>
+
+                  <form action="#" class="form form--comments">
+                    <div class="row">
+                      <div class="col-xs-12 col-sm-8 col-md-7 col-lg-6">
+                        <div class="form__group">
+                          <label for="text" class="form__label">Add Comment</label>
+                          <textarea id="text" name="text" class="form__textarea"></textarea>
+                        </div>
+                        <button type="button" class="default-btn form__btn">Send</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- end comments -->
+          </div>
+          <!-- end tab2 -->
+        </div>
+
+      </div>
+    </div>
+    <!-- end tabs -->
+  </div>
+</section>

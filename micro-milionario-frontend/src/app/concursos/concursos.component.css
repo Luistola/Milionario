@@ -1,0 +1,11 @@
+.img_dimensao {
+  height: 260px;
+}
+
+
+.texto-limitado {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* Ajuste o valor conforme necessário */
+}

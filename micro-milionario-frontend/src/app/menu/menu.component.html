@@ -1,0 +1,61 @@
+<!-- sidebar -->
+<aside class="sidebar">
+  <div class="sidebar__content scrollbar-sidebar">
+    <ul class="sidebar__nav clearfix">
+      <li>
+        <a class="sidebar__link" routerLink="/dashboard" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact:
+          true}">Inicio</a>
+      </li>
+      <li class="sidebar__dropdown">
+        <a class="sidebar__link" routerLink="/dashboard/artists" [routerLinkActive]="'active'">Artistas</a>
+
+        <ul class="sidebar__dropdown-menu" *ngIf="user.role_id == '2'" >
+          <li>
+            <a (click)="goArtistPerfil()">Perfil</a>
+          </li>
+          <!-- <li>
+            <a href="artist.html">Musica</a>
+          </li>
+          <li>
+            <a href="video.html">Video</a>
+          </li>
+          <li>
+            <a href="article.html">Album</a>
+          </li> -->
+        </ul>
+
+      </li>
+      <li class="sidebar__dropdown">
+        <a class="sidebar__link" routerLink="/dashboard/concursos" [routerLinkActive]="'active'">Concurso</a>
+      </li>
+      <!-- <li>
+        <a class="sidebar__link" routerLink="/dashboard/eventos" [routerLinkActive]="'active'" >Eventos</a>
+      </li> -->
+      <li>
+        <a class="sidebar__link" routerLink="/dashboard/vencedores" [routerLinkActive]="'active'" >Vencedores</a>
+      </li>
+      <!-- <li>
+        <a class="sidebar__link" routerLink="/dashboard/recarga" [routerLinkActive]="'active'">Recargas</a>
+      </li> -->
+      <li>
+        <a class="sidebar__link" routerLink="/dashboard/contact" [routerLinkActive]="'active'">Contactos</a>
+      </li>
+      <li>
+        <a class="sidebar__link" routerLink="/dashboard/carteira" [routerLinkActive]="'active'">Carteira</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__footer">
+    <ul class="sidebar__footer-links clearfix">
+      <li><a href="#">Legal</a></li>
+      <li><a href="#">Politica</a></li>
+    </ul>
+
+    <div class="sidebar__copyright">
+      Create by <a href="#">As All Smart</a>
+      <span>© Copyright 2022</span>
+    </div>
+  </div>
+</aside>
+<!-- end sidebar -->

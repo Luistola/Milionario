@@ -1,0 +1,212 @@
+<section class="section section--first">
+  <div class="row">
+    <div class="">
+      <h2><span class="lnr lnr-chevron-left" (click)="goBack()"></span></h2>
+    </div>
+    <!-- artist -->
+    <div class="col-xs-12 col-sm-4 col-md-3">
+      <!-- release cover -->
+      <div class="artist__cover">
+        <img src="assets/img/artists/{{artista.foto}}" alt="">
+      </div>
+      <!-- end release cover -->
+
+      <!-- release social -->
+      <ul class="artist__social clearfix">
+        <li>
+          <a href="#">
+            <i class="fa fa-soundcloud"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-spotify"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-facebook-official"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-twitter"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-instagram"></i>
+          </a>
+        </li>
+      </ul>
+      <!-- end release social -->
+    </div>
+
+    <div class="col-xs-12 col-sm-8 col-md-9">
+      <!-- release content -->
+      <div class="artist__content">
+        <h1 class="artist__title">{{artista.nome}}</h1>
+
+        <p class="artist__description">All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.</p>
+
+        <ul class="artist__list clearfix">
+          <li>Age: 23</li>
+          <li>Location: UK</li>
+          <li>Website: <a href="#">http://website.com</a></li>
+        </ul>
+
+        <ul class="artist__tags clearfix">
+          <li>Genres:</li>
+          <li>
+            <a href="#">Techno</a>
+          </li>
+          <li>
+            <a href="#">House</a>
+          </li>
+          <li>
+            <a href="#">Dance</a>
+          </li>
+        </ul>
+        <div>
+          <button type="button" class="default-btn" (click)="goToPerfil()">editar perfil</button>&nbsp;
+          <!-- <button type="button" class="default-btn" (click)="goToMusica()">cadastrar musica</button> -->
+        </div>
+
+      </div>
+      <!-- end release content -->
+    </div>
+    <!-- end artist -->
+
+    <!-- tabs - ->
+    <div class="col-xs-12">
+      <div class="tabs">
+
+        <!- - tabs nav - ->
+        <ul class="tabs__nav clearfix" role="tablist">
+          <li role="presentation" class="active">
+            <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Musicas</a>
+          </li>
+          <li role="presentation">
+            <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Albuns</a>
+          </li>
+        </ul>
+        <!- - end tabs nav - ->
+
+        <div class="tab-content">
+          <!- - tab1 - ->
+          <div role="tabpanel" class="tab-pane fade in active" id="tab1">
+
+            <span class="tracklist__info">
+              8 faixas • duração: 58:43
+            </span>
+
+            <ul class="tracklist">
+              <li class="tracklist__item">
+                <span class="number">1</span>
+                <span class="title">Intro</span>
+                <span class="time">3:21</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">2</span>
+                <span class="title">Today</span>
+                <span class="time">4:58</span>
+              </li>
+              <li class="tracklist__item tracklist__item--active">
+                <span class="number">3</span>
+                <span class="title">Don't Stop</span>
+                <span class="time">2:40</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">4</span>
+                <span class="title">Above</span>
+                <span class="time">2:47</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">5</span>
+                <span class="title">Bloom</span>
+                <span class="time">6:51</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">6</span>
+                <span class="title">Moon</span>
+                <span class="time">3:54</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">7</span>
+                <span class="title">Star</span>
+                <span class="time">4:01</span>
+              </li>
+              <li class="tracklist__item">
+                <span class="number">8</span>
+                <span class="title">Wow</span>
+                <span class="time">3:39</span>
+              </li>
+            </ul>
+          </div>
+          <!- - end tab1 - ->
+
+          <!- - tab2 - ->
+          <div role="tabpanel" class="tab-pane fade" id="tab2">
+            <div class="row row--grid">
+              <!- - release - ->
+              <div class="col-xs-6 col-sm-3">
+                <article class="release-post">
+                  <figure class="release-post__cover"><a href="release.html"><img src="assets/img/covers/cover.jpg" alt=""></a></figure>
+
+                  <header class="release-post__header">
+                    <h2 class="release-post__title"><a href="release.html">Dreams</a></h2>
+                    <a href="artist.html" class="release-post__autor">John Doe</a>
+                  </header>
+                </article>
+              </div>
+              <!- - end release - ->
+
+              <!- - release - ->
+              <div class="col-xs-6 col-sm-3">
+                <article class="release-post">
+                  <figure class="release-post__cover"><a href="release.html"><img src="assets/img/covers/cover.jpg" alt=""></a></figure>
+
+                  <header class="release-post__header">
+                    <h2 class="release-post__title"><a href="release.html">For You</a></h2>
+                    <a href="artist.html" class="release-post__autor">John Doe</a>
+                  </header>
+                </article>
+              </div>
+              <!- - end release - ->
+
+              <!- - release - ->
+              <div class="col-xs-6 col-sm-3">
+                <article class="release-post">
+                  <figure class="release-post__cover"><a href="release.html"><img src="assets/img/covers/cover.jpg" alt=""></a></figure>
+
+                  <header class="release-post__header">
+                    <h2 class="release-post__title"><a href="release.html">Jungle</a></h2>
+                    <a href="artist.html" class="release-post__autor">Jonh Doe</a>
+                  </header>
+                </article>
+              </div>
+              <!- - end release - ->
+
+              <!- - release - ->
+              <div class="col-xs-6 col-sm-3">
+                <article class="release-post">
+                  <figure class="release-post__cover"><a href="release.html"><img src="assets/img/covers/cover.jpg" alt=""></a></figure>
+
+                  <header class="release-post__header">
+                    <h2 class="release-post__title"><a href="release.html">Underground</a></h2>
+                    <a href="artist.html" class="release-post__autor">John Doe</a>
+                  </header>
+                </article>
+              </div>
+              <!- - end release - ->
+            </div>
+          </div>
+          <!- - end tab2 - ->
+        </div>
+
+      </div>
+    </div>
+    <!- - end tabs -->
+
+  </div>
+</section>

@@ -1,0 +1,78 @@
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Nova Recarga</h4>
+      </div>
+      <div class="modal-body">
+        <form class="" autocomplete="off" [formGroup]="recargaForm" (ngSubmit)="save()">
+          <div class="form-group">
+            <label>Nome</label>
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="inputNome"
+              placeholder="Nome"
+              formControlName="nome"
+            >
+          </div>
+          <div class="form-group">
+            <label>Preço</label>
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="inputPreco"
+              placeholder="Preco"
+              formControlName="preco"
+            >
+          </div>
+          <div class="form-group">
+            <label>Tipo</label>
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="inputTipo"
+              placeholder="Tipo"
+              formControlName="tipo"
+            >
+          </div>
+          <div class="form-group">
+            <label>Data Validade</label>
+
+            <div class="input-group date">
+              <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <input type="date" formControlName="data_validade" class="form-control pull-right" id="datepicker">
+            </div>
+            <!-- /.input group -->
+          </div>
+          <div class="form-group">
+            <label>Quantidade</label>
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="inputQuantidade"
+              placeholder="Quantidade"
+              formControlName="quantidade"
+            >
+          </div>
+          <div class="form-group">
+            <label for="exampleInputFile">Foto</label>
+            <input type="file" id="exampleInputFile" (change)="onChangeFoto($event)">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-info" >Salvar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

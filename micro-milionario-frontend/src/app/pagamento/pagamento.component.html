@@ -1,0 +1,90 @@
+<!-- shopping cart -->
+<section class="section section--first">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12">
+      <div class="section__title section__title--single clearfix">
+        <h2>Carrinho de Compra</h2>
+      </div>
+    </div>
+    <!-- end section title -->
+
+    <!-- cart -->
+    <div class="col-xs-12">
+
+      <div class="empty" *ngIf="itens.length < 1" >
+        <div class="info">
+          <h4>Não tens nenhum item no carrinho</h4>
+        </div>
+      </div>
+      <ng-container *ngIf="itens.length > 0">
+
+        <table class="cart">
+          <thead class="cart__head">
+            <tr>
+              <th>Producto</th>
+              <th></th>
+              <th>Preço</th>
+              <th>Quantidade</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+
+          <tbody class="cart__body">
+            <tr *ngFor="let item of itens; let i = index" >
+              <td class="cart__img">
+                <img src="assets/img/store/{{item.foto}}" alt="">
+              </td>
+              <td class="cart__title">
+                <a href="item.html">{{item.name}}</a>
+              </td>
+              <td class="cart__price">{{item.preco | currency}}</td>
+              <td class="cart__quantity">
+                <div class="cart__spinner">
+                  <button type="button" (click)="removeQtd(i)">-</button>
+                  <input type="number" [value]="item.qtd" (blur)="validateInput($event, i)">
+                  <button type="button" (click)="addQtd(i)">+</button>
+                </div>
+              </td>
+              <td class="cart__total">
+                {{item.preco * item.qtd | currency}}
+                <button class="cart__delete" type="button" (click)="onDelete(i)" ><span class="lnr lnr-cross"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </ng-container>
+
+    </div>
+    <!-- end cart -->
+
+    <!-- cart calculation -->
+    <div class="col-xs-12">
+      <div class="cart-calc">
+        <div class="row">
+          <div class="col-xs-12 col-sm-7 col-lg-6">
+            <form action="#" class="cart-calc__discount">
+              <select name="formaPagamento" id="formaPagamento" [formControl]='formaPagamento'>
+                <option value="1">Por Referencia</option>
+                <option value="2">Pay Pay</option>
+              </select><br>
+               <input type="text" placeholder="Valor Entregue" [formControl]='valorEntregue'>
+              <!--<button type="button">ok</button> -->
+            </form>
+          </div>
+
+          <div class="col-xs-12 col-sm-5 col-lg-6">
+            <div class="cart-calc__wrap">
+              <div class="cart-calc__title">Total</div>
+              <div class="cart-calc__price">{{total | currency}} Kz</div>
+              <button class="default-btn default-btn--red" type="button" (click)="pagarRecarga()" >pagar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end cart calculation -->
+  </div>
+</section>
+<!-- end shopping cart -->

@@ -1,0 +1,57 @@
+<!-- events -->
+<section class="section section--first">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12">
+      <div class="section__title section__title--single clearfix">
+        <div class="row">
+          <div class="col-xs-12 col-sm-5">
+            <h2>Eventos / Concursos a Decorrer</h2>
+          </div>
+
+          <div class="col-xs-12 col-sm-7">
+            <!-- section filter -->
+            <div id="section__filter-3" class="section__filter">
+              <div class="section__filter-btn" data-toggle="dropdown" aria-expanded="false" role="button">
+                <input type="button" value="All Events">
+                <span class="lnr lnr-chevron-down"></span>
+              </div>
+
+              <ul class="section__filter-menu scrollbar-dropdown">
+                <li><a href="#">All Events</a></li>
+                <li><a href="#">Available</a></li>
+                <li><a href="#">Coming Soon</a></li>
+                <li><a href="#">Sold Out</a></li>
+              </ul>
+            </div>
+            <!-- end section filter -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end section title -->
+
+    <div class="col-xs-12">
+      <div class="row row--grid-big">
+        <!-- event -->
+        <div class="col-xs-12 col-sm-6 col-md-6" *ngFor="let c of concursoLista; ">
+          <article class="event-post" [attr.data-bg]="'assets/img/news/'+c.foto">
+            <header class="event-post__header">
+              <div class="event-post__date">{{c.data_inicio | date}}</div>
+              <div class="event-post__time">{{c.data_fim | date}}</div>
+              <h2 class="event-post__title"><a href="event.html">{{c.nome}}</a></h2>
+              <!-- <div class="event-post__address">1 East Plumb Branch St.Saint Petersburg, FL 33702</div> -->
+            </header>
+
+            <!-- <button class="event-post__buy-ticket" (click)="goToParticipar(c)" >Participar</button> -->
+            <button class="event-post__buy-ticket" data-toggle="modal" data-target="#myModal" (click)="setConcurso(c)" >Participar</button>
+          </article>
+        </div>
+        <!-- end event -->
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end events -->
+
+<app-evento-modal [concurso]="concursoSelecionado"></app-evento-modal>

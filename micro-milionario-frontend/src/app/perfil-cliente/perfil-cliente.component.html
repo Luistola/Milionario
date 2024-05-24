@@ -1,0 +1,64 @@
+<!-- content -->
+<main class="clearfix">
+  <div class="content">
+    <div class="">
+      <h2><span class="lnr lnr-chevron-left" (click)="goBack()"></span></h2>
+    </div>
+    <section class="section">
+      <div class="row">
+        <div class="col-xs-12">
+
+          <form class="form form--sign" [formGroup]="perfilForm" (ngSubmit)="update()">
+            <h6 class="form__title">Perfil</h6>
+
+            <div class="form__group">
+              <label for="name" class="form__label">Nome</label>
+              <input id="name" name="name" type="text" value="{{cliente.nome}}" class="form__input" formControlName="username" [class.is-invalid]="usernameValidate">
+            </div>
+
+            <div class="form__group">
+              <label for="telefone" class="form__label">Telefone</label>
+              <input id="telefone" name="telefone" type="number" value="{{cliente.telefone}}" class="form__input" formControlName="telefone" [class.is-invalid]="telValidate">
+            </div>
+
+            <div class="form__group">
+              <label for="text" class="form__label">Sexo</label>
+              <div class="form__group">
+                <select class="form__input" formControlName="sexo" style="width: 100%;" >
+                  <option selected>Seleccione...</option>
+                  <option value="Feminino" [selected]="cliente.sexo =='Feminino'">Feminino</option>
+                  <option value="Masculino" [selected]="cliente.sexo =='Masculino'">Masculino</option>
+                </select>
+              </div>
+            </div>
+
+            <ng-container *ngIf="selectedOption == 2" >
+              <div class="form__group">
+                <label for="password" class="form__label">Senha</label>
+                <input id="password" name="password" type="password" class="form__input" formControlName="password" [class.is-invalid]="passwordValidate">
+              </div>
+
+              <div class="form__group">
+                <label for="password" class="form__label">Senha</label>
+                <input id="password" name="password" type="password" class="form__input" formControlName="password" [class.is-invalid]="passwordValidate">
+              </div>
+
+              <div class="form__group">
+                <label for="password" class="form__label">Confirmar Senha</label>
+                <input id="conf_password" name="conf_password" type="password" class="form__input" formControlName="conf_password">
+              </div>
+            </ng-container>
+
+
+            <!-- <button type="button" class="default-btn form__btn">Cadastrar</button> -->
+            <button type="submit" class="default-btn form__btn">Salvar</button>
+            <!-- <a href="signin.html"></a> -->
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+<!-- end content -->

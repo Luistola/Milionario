@@ -1,0 +1,74 @@
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Novo Utilizador</h4>
+      </div>
+      <div class="modal-body">
+        <form class="" autocomplete="off" [formGroup]="utilizadorForm" (ngSubmit)="save()">
+          <div class="form-group">
+            <label>Nome</label>
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="inputNome"
+              placeholder="Nome"
+              formControlName="username"
+              [class.is-invalid]="usernameValidate"
+            >
+          </div>
+          <div class="form-group">
+            <label>E-mail</label>
+            <input
+              type="email"
+              class="form-control mb-2"
+              id="inputEmail"
+              placeholder="E-mail"
+              formControlName="email"
+              [class.is-invalid]="emailValidate"
+            >
+          </div>
+          <div class="form-group">
+            <label>Nivel de Acesso</label>
+            <select class="form-control" formControlName="role">
+              <option *ngFor="let r of roleLista" [value]='r.id'>{{r.nome}}</option>
+            </select>
+          </div>
+          <div class="form-group has-feedback">
+            <label>Senha</label>
+            <input
+              type="password"
+              class="form-control mb-3"
+              id="inputPassword"
+              placeholder="Password"
+              formControlName="password"
+              [class.is-invalid]="passwordValidate"
+            >
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+            <label>Confirma Senha</label>
+            <input
+              type="password"
+              class="form-control mb-3"
+              id="inputConfPassword"
+              placeholder="Confirmar a Senha"
+              formControlName="conf_password"
+            >
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-info" >Salvar</button>
+            <button type="button" #closebutton class="btn btn-default" data-dismiss="modal">Sair</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

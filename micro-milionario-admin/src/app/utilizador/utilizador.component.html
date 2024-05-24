@@ -1,0 +1,62 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      Administrativa
+      <small>Panel Controlo</small>
+      </h1>
+      <ol class="breadcrumb">
+      <li><a routerLink="dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Utilizador</li>
+      </ol>
+  </section>
+  <!-- Main content -->
+  <section class="content">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="box">
+                  <div class="box-header with-border">
+                      <h3 class="box-title">Lista de Utilizadores</h3>
+                      <div class="pull-right box-tools">
+                        <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-info"><i class="fa fa-plus"></i> Novo</button>
+                      </div>
+                  </div>
+                  <!-- /.box-header -->
+          <div class="box-body">
+              <table id="example2" class="table table-bordered table-hover">
+                <tr>
+                  <th style="width: 10px">#</th>
+                  <th>Nivel de Acesso</th>
+                  <th>Nome</th>
+                  <th>E-mail</th>
+                  <th>Data</th>
+                  <!-- <th>Foto</th>
+                  <th>Activo</th> -->
+                  <!-- <th>Acções</th> -->
+                </tr>
+                <tr *ngFor="let u of utilizadorLista | paginate: { itemsPerPage: paginations.pagination.perPage, currentPage: paginations.pagination.page, totalItems: paginations.pagination.total}; let i=index ">
+                  <td>{{i+1}}</td>
+                  <td>{{u.role_nome}}</td>
+                  <td>{{u.user_username}}</td>
+                  <td>{{u.user_email}}</td>
+                  <td>{{u.user_created_at | date: 'dd-MM-yyyy'}}</td>
+                  <td>
+                    <div class="btn-group">
+                      <button type="button" title="Apagar Utilizador" class="btn btn-danger" (click)="apagarUtilizador(u)" ><i class="fa fa-trash"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <pagination-controls class="pagination pagination-sm no-margin pull-right" (pageChange)="utilizadorPaginacao(paginations.pagination.page = $event)"></pagination-controls>
+            </div>
+          <!-- /.box -->
+              </div>
+          </div>
+      </div>
+  </section>
+</div>
+
+<app-new-utilizador-modal (eventoClicado)="listarUtilizador()"></app-new-utilizador-modal>

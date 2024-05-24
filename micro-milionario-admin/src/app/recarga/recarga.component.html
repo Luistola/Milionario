@@ -1,0 +1,66 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <section class="content-header">
+      <h1>
+      Dashboard
+      <small>Control panel</small>
+      </h1>
+      <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Dashboard</li>
+      </ol>
+  </section>
+  <!-- Main content -->
+  <section class="content">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="box">
+                  <div class="box-header with-border">
+                      <h3 class="box-title">Lista de Recargas</h3>
+                      <div class="pull-right box-tools">
+                        <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-info"><i class="fa fa-plus"></i> Novo</button>
+                      </div>
+                  </div>
+                  <!-- /.box-header -->
+          <div class="box-body">
+              <table class="table table-bordered">
+                <tr>
+                  <th style="width: 10px">#</th>
+                  <th>Codigo</th>
+                  <th>Nome</th>
+                  <th>Preço</th>
+                  <th>Tipo</th>
+                  <th>Data Validade</th>
+                  <th>Qtd</th>
+                  <th>Foto</th>
+                  <th>Saldo</th>
+                  <th>Referencia</th>
+                  <th>Activo</th>
+                </tr>
+                <tr *ngFor="let r of recargaLista | paginate: { itemsPerPage: pagination.pagination.perPage, currentPage: pagination.pagination.page, totalItems: pagination.pagination.total}; let i=index ">
+                  <td>{{i+1}}</td>
+                  <td>{{r.codigo}}</td>
+                  <td>{{r.nome}}</td>
+                  <td>{{r.preco}}</td>
+                  <td>{{r.tipo}}</td>
+                  <td>{{r.data_validade}}</td>
+                  <td>{{r.quantidade}}</td>
+                  <td>{{r.foto}}</td>
+                  <td>{{r.saldo}}</td>
+                  <td>{{r.referencia}}</td>
+                  <td>{{r.is_active}}</td>
+                </tr>
+              </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <pagination-controls class="pagination pagination-sm no-margin pull-right" (pageChange)="recargaPaginacao(pagination.pagination.page = $event)"></pagination-controls>
+            </div>
+          <!-- /.box -->
+              </div>
+          </div>
+      </div>
+  </section>
+</div>
+
+<app-new-recarga-modal></app-new-recarga-modal>

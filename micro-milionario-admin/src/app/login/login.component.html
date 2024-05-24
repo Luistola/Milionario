@@ -1,0 +1,99 @@
+<!-- <div class="background text-center">
+    <form
+      class="form-signin animated fadeIn"
+      autocomplete="off"
+      [formGroup]="loginForm"
+      (ngSubmit)="login()"
+    >
+      <img class="mb-4 img" src="assets/ss.JPG" alt="logo" />
+      <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+      <!- - <label class="sr-only" for="inputEmail">Email Address</label> - ->
+      <input
+        type="email"
+        class="form-control mb-2"
+        id="inputEmail"
+        placeholder="Email Address"
+        formControlName="email"
+        [class.is-invalid]="emailValidate"
+      />
+      <!- - <label class="sr-only" for="inputPassword">Password</label> - ->
+      <input
+        type="password"
+        class="form-control mb-3"
+        id="inputPassword"
+        placeholder="Password"
+        formControlName="password"
+        [class.is-invalid]="passwordValidate"
+      />
+      <button type="submit" class="btn btn-lg btn-primary btn-block mb-2">
+        Sign in
+      </button><br>
+      <a [routerLink]="['/register']">Don't you have an account?</a>
+      <p class="mt-4 mb-3 text-muted">© Nameless Group - 2020</p>
+    </form>
+  </div> -->
+  <div class="container-fluid" *ngIf="isloading">
+    <div class="row">
+      <div class="col d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <!-- Conteúdo da sua div centralizada -->
+        <div>
+          <!--Loader Div Starts-->
+          <div class="spinner-grow text-primary col-md centered" style="width: 3rem; height: 3rem;" role="status" *ngIf="isloading">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <!--Loader Div Ends-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-box">
+
+    <div class="login-logo">
+      <a href="../../index2.html"><b>Microfone Milionario Admin</b></a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+      <p class="login-box-msg">Insira os dados para entrar no sistema</p>
+
+      <form
+        class="form-signin animated fadeIn"
+        autocomplete="off"
+        [formGroup]="loginForm"
+        (ngSubmit)="login()"
+      >
+        <div class="form-group has-feedback">
+          <input
+            type="email"
+            class="form-control mb-2"
+            id="inputEmail"
+            placeholder="Email Address"
+            formControlName="email"
+            [class.is-invalid]="emailValidate"
+          >
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+          <input
+            type="password"
+            class="form-control mb-3"
+            id="inputPassword"
+            placeholder="Password"
+            formControlName="password"
+            [class.is-invalid]="passwordValidate"
+          >
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-xs-4">
+            <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+    </div>
+    <!-- /.login-box-body -->
+  </div>
+  <!-- /.login-box -->

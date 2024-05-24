@@ -1,0 +1,89 @@
+<!-- releases -->
+<section class="section section--first">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12">
+      <div class="section__title section__title--single clearfix">
+        <div class="row">
+          <div class="col-xs-12 col-sm-5">
+            <h2><span class="lnr lnr-chevron-left" (click)="goBack()"></span></h2>
+            <h2>Vencedores</h2>
+          </div>
+
+          <div class="col-xs-12 col-sm-7">
+            <!-- section filter -->
+            <div id="section__filter-2" class="section__filter">
+              <div class="section__filter-btn" data-toggle="dropdown" aria-expanded="false" role="button">
+                <input type="button" value="{{concursoSelecionado}}">
+                <span class="lnr lnr-chevron-down"></span>
+              </div>
+
+              <ul class="section__filter-menu scrollbar-dropdown">
+                <li *ngFor="let c of concursoLista; "><a (click)="carregarListas(c)">{{c.nome}}</a></li>
+                <!-- <li><a href="#">Legacy Artists</a></li>
+                <li><a href="#">Active Artists</a></li> -->
+              </ul>
+            </div>
+            <!-- end section filter -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end section title -->
+  </div>
+
+  <div class="row row--grid-big">
+    <!-- artist -->
+    <div class="col-xs-12 col-sm-4 col-lg-3" *ngFor="let v of vencedorParticipanteLista; let i=index">
+      <div class="artist-post">
+        <a class="artist-post__cover" (click)="goArtist(v)">
+          <img [src]="getImageUrl(v.artist_foto)" alt="">
+          <div>
+            <span>{{v.artist_nome}}</span><br><br>
+            <span>{{v.vencedor_total_votos}} Votos</span><br><br>
+            <span>{{v.vencedor_posicao}}º. Lugar</span>
+            <!-- <ul>
+              <li>Techno</li>
+              <li>House</li>
+              <li>Dance</li>
+            </ul> -->
+          </div>
+        </a>
+      </div>
+    </div>
+    <!-- end artist -->
+
+  </div>
+  <hr>
+  <h2 *ngIf="tituloCliente" >Clientes Vencedores</h2>
+  <div class="row row--grid-big">
+    <!-- artist -->
+    <div class="col-xs-12 col-sm-4 col-lg-3" *ngFor="let v of vencedorClienteLista; let i=index">
+      <div class="artist-post">
+        <a class="img_dimensao artist-post__cover" (click)="goArtist(v)">
+          <img src="assets/img/artists/artist1.jpg" alt="">
+          <div>
+            <span>{{v.cliente_nome}}</span> -
+            <span>{{v.vencedor_total_votos}}</span><br><br>
+            <span>{{v.vencedor_posicao}}º Lugar</span>
+            <!-- <ul>
+              <li>Techno</li>
+              <li>House</li>
+              <li>Dance</li>
+            </ul> -->
+          </div>
+        </a>
+      </div>
+    </div>
+    <!-- end artist -->
+
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- <button type="button" class="default-btn default-btn--red default-btn--center">Ver Mais</button> -->
+    </div>
+  </div>
+  <br>
+</section>
+<!-- end releases -->

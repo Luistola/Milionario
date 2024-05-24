@@ -1,0 +1,45 @@
+<!-- news -->
+<section class="section section--first">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12">
+      <div class="section__title section__title--single clearfix">
+        <h2><span class="lnr lnr-chevron-left" (click)="goBack()"></span></h2>
+        <h2>Concurso</h2>
+      </div>
+    </div>
+    <!-- end section title -->
+
+    <div class="col-xs-12">
+      <div class="row row--grid-big">
+
+        <!-- news -->
+        <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let c of concursoLista|slice:0:itemsToShow" >
+          <article class="news-post">
+            <figure class="img_dimensao1 news-post__img"><a (click)="goParticipanteList(c)" ><img class="img_dimensao" [src]="getImageUrl(c.foto)" alt=""></a></figure>
+
+            <header class="news-post__header">
+              <div class="news-post__title pull-right"><span class="lnr lnr-eye" title="Ver Foto" data-toggle="modal" data-target="#myModal" (click)="setFoto(c)"></span></div>&nbsp;
+              <h3 class="news-post__title texto-limitado"><a (click)="goParticipanteList(c)" title="{{c.nome}}">{{c.nome}}</a></h3>
+              <div class="news-post__date">Inicio: {{c.data_inicio | date: 'dd-MM-yyyy'}}</div>
+              <div class="news-post__date">Final: {{c.data_fim | date: 'dd-MM-yyyy'}}</div>
+            </header>
+
+            <div class="news-post__content">
+              <p class="texto-limitado" title="{{c.descricao}}">{{c.descricao}}</p>
+            </div>
+          </article>
+        </div>
+        <!-- end news -->
+
+      </div>
+    </div>
+
+    <div class="col-xs-12">
+      <button type="button" (click)="loadMoreItems()" class="default-btn default-btn--red default-btn--center">Ver Mais</button>
+    </div>
+  </div>
+</section>
+<!-- end news -->
+
+<app-ver-foto [slide_foto]="slideSelecionado"></app-ver-foto>

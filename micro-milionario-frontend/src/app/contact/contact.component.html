@@ -1,0 +1,61 @@
+<!-- news -->
+<section class="section section--first">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12">
+      <div class="section__title section__title--single clearfix">
+        <h2><span class="lnr lnr-chevron-left" (click)="goBack()"></span></h2>
+        <h2>Contactos</h2>
+      </div>
+    </div>
+    <!-- end section title -->
+
+    <!-- contacts text -->
+    <div class="col-xs-12 col-sm-6 col-lg-7">
+      <div class="contacts__about">
+        <p class="contacts__about-text">Informações do contacto</p>
+
+        <p class="contacts__about-text">Informações da empresa</p>
+
+        <p class="contacts__about-text">Nome da empresa<br> endereço</p>
+
+        <p class="contacts__about-text"><a href="mailto:support@blast.com">email</a></p>
+
+        <p class="contacts__about-text"><a href="tel:+18002345678">telefone</a></p>
+      </div>
+    </div>
+    <!-- end contacts text -->
+
+    <!-- contacts form -->
+    <div class="col-xs-12 col-sm-6 col-lg-5">
+      <form action="#" class="form form--contacts">
+        <h6 class="form__title">Mensagem</h6>
+
+        <div class="form__group">
+          <label for="name" class="form__label">Nome</label>
+          <input id="name" name="name" type="text" class="form__input">
+        </div>
+
+        <div class="form__group">
+          <label for="email" class="form__label">Email</label>
+          <input id="email" name="email" type="text" class="form__input">
+        </div>
+
+        <div class="form__group">
+          <label for="text" class="form__label">Mensagem</label>
+          <textarea id="text" name="text" class="form__textarea"></textarea>
+        </div>
+
+        <button type="button" class="default-btn form__btn">Enviar</button>
+      </form>
+    </div>
+    <!-- end contacts form -->
+
+    <!-- contacts map -->
+    <div class="col-xs-12">
+      <div id="contacts__map" class="contacts__map"></div>
+    </div>
+    <!-- end contacts map -->
+  </div>
+</section>
+<!-- end news -->

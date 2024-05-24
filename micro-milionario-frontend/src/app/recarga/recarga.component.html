@@ -1,0 +1,42 @@
+<!-- store -->
+<section class="section section--first">
+  <div class="row">
+    <!-- section title -->
+    <div class="col-xs-12">
+      <div class="section__title section__title--single clearfix">
+        <div class="row">
+          <div class="col-xs-12 col-sm-5">
+            <h2>Recargas</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end section title -->
+
+    <div class="col-xs-12">
+      <div class="row row--grid-big">
+        <!-- store post -->
+        <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let r of recargaLista; ">
+          <div class="store-post">
+            <a class="store-post__link" href="item.html"></a>
+            <figure class="store-post__img">
+              <!-- <img src="assets/img/store/item.jpg" alt=""> -->
+              <img src="assets/img/store/{{r.foto}}" alt="">
+            </figure>
+            <div class="store-post__title">{{r.nome}}</div>
+            <div class="store-post__model">{{r.saldo}}</div>
+            <div class="store-post__price">{{r.preco}} Kz</div>
+            <button class="store-post__btn" (click)="addToCarrinho(r)"><span class="lnr lnr-cart"></span></button>
+          </div>
+        </div>
+        <!-- end store post -->
+
+      </div>
+    </div>
+
+    <div class="col-xs-12">
+      <button type="button" class="default-btn default-btn--red default-btn--center">Ver Mais</button>
+    </div>
+  </div>
+</section>
+<!-- end store -->

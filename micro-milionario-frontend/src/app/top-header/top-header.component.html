@@ -1,0 +1,77 @@
+<!-- header -->
+<header class="header">
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- mobile button -->
+      <button class="header__mobile-menu">
+        <span class="lnr lnr-menu"></span>
+        <span class="lnr lnr-cross"></span>
+      </button>
+      <!-- end mobile button -->
+
+      <!-- logo -->
+      <div>
+<a class="header__logo" href="index.html">
+        <img src="assets/img/logo.jpeg" width="199" height="50" alt="">
+      </a>
+      </div>
+
+      <!-- end logo -->
+
+      <!-- actions -->
+      <ul class="header__actions">
+        <li class="header__actions-item">
+          <span class="header__actions-btn">
+            <span *ngIf="username" >{{username}}</span>
+          </span>
+
+        </li>
+        <li class="header__actions-item">
+          <span class="header__actions-btn">
+            <span *ngIf="carteira" >Pontos: {{carteiraLocal}}</span>
+          </span>
+
+        </li>
+        <li class="header__actions-item">
+          <button class="header__actions-btn header__search-btn">
+            <span class="lnr lnr-magnifier"></span>
+          </button>
+        </li>
+        <!-- <li class="header__actions-item">
+          <a routerLink="/dashboard/pagamento" class="header__actions-btn">
+            <span class="lnr lnr-cart"></span>
+            <div class="header__cart">{{ itensInCarrinho }}</div>
+          </a>
+        </li> -->
+
+        <li class="header__actions-item">
+          <button class="header__user-btn" data-toggle="dropdown" aria-expanded="false">
+            <img src="assets/img/user.png" alt="">
+          </button>
+
+          <ul class="header__user-menu">
+            <li><a routerLink="/dashboard/perfil-cliente">Perfil</a></li>
+            <!-- <li><a href="#">Tracks</a></li> -->
+            <li><a href="#">Definições</a></li>
+            <li><a href="#">Ajuda</a></li>
+            <li class="delimiter"></li>
+            <li><a (click)="logout()">Sair</a></li>
+          </ul>
+        </li>
+      </ul>
+      <!-- end actions -->
+    </div>
+  </div>
+</header>
+<!-- end header -->
+
+<!-- search -->
+<div class="search">
+  <button class="search__btn">
+    <span class="lnr lnr-cross"></span>
+  </button>
+  <form action="#" class="search__form">
+    <input class="search__input" type="search" placeholder="Enter Keywords">
+  </form>
+</div>
+<!-- end search -->
