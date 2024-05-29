@@ -74,6 +74,10 @@ class ClienteRepositorio{
 
     }
 
+    async getClientById(idCliente) {
+        return await this.baseRespositorio.findById(idCliente)
+    }
+
     async todosClientes(){
       const count = await ClienteModel.query().count('* as totalCliente');
       return count;

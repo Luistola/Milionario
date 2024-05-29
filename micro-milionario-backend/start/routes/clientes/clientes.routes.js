@@ -1,6 +1,7 @@
 module.exports = (ApiRoute, Route) => {
   ApiRoute(() => {
     Route.get("cliente", "ClienteController.index");
+    Route.get("cliente/:id", "ClienteController.get");
     Route.get("cliente_qtd", "ClienteController.showQtdCliente");
     Route.post("cliente", "ClienteController.store");
     Route.post("cliente/listar", "ClienteController.show");
