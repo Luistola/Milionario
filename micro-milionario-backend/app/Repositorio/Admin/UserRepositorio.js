@@ -85,6 +85,10 @@ class UserRepositorio{
 
     }
 
+  async getUserById(isUser) {
+    return await this.baseRespositorio.findById(isUser)
+  }
+
 }
 
 module.exports= UserRepositorio

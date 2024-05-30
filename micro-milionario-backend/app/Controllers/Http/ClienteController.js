@@ -4,6 +4,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const ClienteRepositorio = use('App/Repositorio/Admin/ClienteRepositorio');
+const UserRepositorio = use('App/Repositorio/Admin/UserRepositorio');
 const DataResponse = use("App/Repositorio/DataResponse");
 
 /**
@@ -12,6 +13,7 @@ const DataResponse = use("App/Repositorio/DataResponse");
 class ClienteController {
   constructor(){
     this.clienteRepositorio = new ClienteRepositorio();
+    this.userRepositorio = new UserRepositorio();
     this.dataResponse = new DataResponse();
   }
   /**
@@ -67,7 +69,14 @@ class ClienteController {
   async showByUser({request}){
 
     const {dados}= request.only(['dados']);
-    const listagemCliente= await this.clienteRepositorio.listarByUser(dados);
+    let listagemCliente = await this.clienteRepositorio.listarByUser(dados);
+
+    listagemCliente = await Promise.all(listagemCliente.map(async (client) => {
+
+      let clientData = await this.userRepositorio.getUserById(client.user_id);
+
+      return ({ ...client, email: clientData.email })
+    }))
     return  this.dataResponse.dataReponse(200, 'Listagem de Cliente por User', listagemCliente)
 
   }
