@@ -6,6 +6,10 @@ tmp
 
 # Environment variables, never commit this file
 .env
+.env.example
 
 # The development sqlite file
 database/*.sqlite
+
+package-lock.json
+public/
