@@ -75,7 +75,7 @@ class ClienteRepositorio{
     }
 
     async getClientById(idCliente) {
-        return await this.baseRespositorio.findById(idCliente)
+        return await this.baseRespositorio.findByCol("id", idCliente)
     }
 
     async todosClientes(){
