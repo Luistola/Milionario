@@ -65,6 +65,10 @@ class RolesRepositorio{
 
     }
 
+    async getById(id) {
+        return this.baseRespositorio.findByCol("id", id)
+    }
+
 }
 
 module.exports= RolesRepositorio
