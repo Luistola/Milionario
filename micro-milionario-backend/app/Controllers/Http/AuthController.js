@@ -2,12 +2,14 @@
 
 const User = use('App/Models/User')
 const UserRepositorio = use('App/Repositorio/Admin/UserRepositorio');
+const RoleRepositorio = use('App/Repositorio/Admin/RolesRepositorio');
 const DataResponse = use("App/Repositorio/DataResponse");
 
 class AuthController {
 
   constructor(){
     this.userRepositorio = new UserRepositorio();
+    this.roleRepositorio = new RoleRepositorio();
     this.dataResponse = new DataResponse();
   }
 
@@ -37,6 +39,12 @@ class AuthController {
       updated_at: user.updated_at,
       token: token
       // Adicione outros campos que desejar retornar
+    }
+
+    const role = await this.roleRepositorio.getById(user.role_id);
+
+    if (role) {
+      userData.role_name = role.nome
     }
 
       return userData;
