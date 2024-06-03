@@ -96,9 +96,23 @@ class ClienteController {
 
   async update({ params, request }) {
 
-    const {...dados}= request.only(['nome', 'sexo', 'telefone']);
-    await this.clienteRepositorio.atualizar(dados, params.id, request.url())
-    return this.dataResponse.dataReponse(200, ' Cliente Atualizada com sucesso')
+    const { nome, sexo, telefone } = request.only(['nome', 'sexo', 'telefone']);
+
+    if (!nome || !sexo || !telefone) {
+      return this.dataResponse.dataReponse(500, 'Todos os campos são necessários')
+    }
+
+    let client = await this.clienteRepositorio.getClientByUserId(params.id)
+
+    if (client) {
+
+      let updated = await this.clienteRepositorio.updateById(client.id, { nome, sexo, telefone })
+
+      return this.dataResponse.dataReponse(200, 'Cliente Atualizada com sucesso', updated)
+    }
+
+    return this.dataResponse.dataReponse(200, 'Client not found')
+
 
   }
 

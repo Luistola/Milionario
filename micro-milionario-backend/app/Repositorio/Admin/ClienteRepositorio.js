@@ -78,9 +78,17 @@ class ClienteRepositorio{
         return await this.baseRespositorio.findByCol("id", idCliente)
     }
 
+    async getClientByUserId(idCliente) {
+        return await this.baseRespositorio.findByCol("user_id", idCliente)
+    }
+
     async todosClientes(){
       const count = await ClienteModel.query().count('* as totalCliente');
       return count;
+    }
+
+    async updateById(id, data) {
+        return this.baseRespositorio.update(id, data)
     }
 
 }
