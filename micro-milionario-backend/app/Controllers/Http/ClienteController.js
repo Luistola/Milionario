@@ -71,13 +71,19 @@ class ClienteController {
     const {dados}= request.only(['dados']);
     let listagemCliente = await this.clienteRepositorio.listarByUser(dados);
 
-    listagemCliente = await Promise.all(listagemCliente.map(async (client) => {
+    if (listagemCliente && listagemCliente?.length) {
+      listagemCliente = await Promise.all(listagemCliente.map(async client => {
 
-      let clientData = await this.userRepositorio.getUserById(client.user_id);
+        let clientData = await this.userRepositorio.getUserById(client.user_id);
 
-      return ({ ...client, email: clientData.email })
-    }))
-    return  this.dataResponse.dataReponse(200, 'Listagem de Cliente por User', listagemCliente)
+        return ({ ...client, email: clientData.email })
+      }))
+    } else {
+      let clientData = await this.userRepositorio.getUserById(listagemCliente.user_id);
+      listagemCliente = { ...listagemCliente, email: clientData.email }
+    }
+
+    return this.dataResponse.dataReponse(200, 'Listagem de Cliente por User', listagemCliente)
 
   }
 

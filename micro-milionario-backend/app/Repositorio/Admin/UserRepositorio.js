@@ -86,7 +86,7 @@ class UserRepositorio{
     }
 
   async getUserById(isUser) {
-    return await this.baseRespositorio.findById(isUser)
+    return await this.baseRespositorio.findByCol("id", isUser)
   }
 
 }
