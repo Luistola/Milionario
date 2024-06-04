@@ -1,10 +1,10 @@
-const ClienteModel= use('App/Models/Cliente');
-const BaseRepositorio= use('App/Repositorio/Geral/BaseRepositorio')
-const NotCreatedException= use('App/Exceptions/NotCreatedException')
+const ClienteModel = use('App/Models/Cliente');
+const BaseRepositorio = use('App/Repositorio/Geral/BaseRepositorio')
+const NotCreatedException = use('App/Exceptions/NotCreatedException')
 
-class ClienteRepositorio{
+class ClienteRepositorio {
 
-    constructor(){
+    constructor() {
         this.baseRespositorio = new BaseRepositorio("Cliente")
     }
 
@@ -12,65 +12,65 @@ class ClienteRepositorio{
 
         const cliente = await ClienteModel.query()
             .where('nome', dados.nome).getCount();
-            if(cliente){
-                throw new NotCreatedException
-            }
+        if (cliente) {
+            throw new NotCreatedException
+        }
         return cliente;
     }
 
-    async listar1(pagination, dados){
+    async listar1(pagination, dados) {
         let clienteListar
-        if(dados==undefined || dados== null){
-            clienteListar= await ClienteModel.query()
-            .orderBy("created_at", 'desc')
-            .whereNot({ is_delete: true })
-            .paginate(pagination.page, pagination.perPage)
+        if (dados == undefined || dados == null) {
+            clienteListar = await ClienteModel.query()
+                .orderBy("created_at", 'desc')
+                .whereNot({ is_delete: true })
+                .paginate(pagination.page, pagination.perPage)
 
             return clienteListar.toJSON()
-        }else{
-            clienteListar= await ClienteModel.query()
-            .orderBy("created_at", 'desc')
-            .where('nome', 'like', `%${dados}%`)
-            .whereNot({ is_delete: true })
-            .paginate(pagination.page, pagination.perPage)
+        } else {
+            clienteListar = await ClienteModel.query()
+                .orderBy("created_at", 'desc')
+                .where('nome', 'like', `%${dados}%`)
+                .whereNot({ is_delete: true })
+                .paginate(pagination.page, pagination.perPage)
 
             return clienteListar.toJSON();
         }
     }
 
-    async listarByUser(user_id){
-      let clienteListar
-      clienteListar = await this.baseRespositorio.showById('user_id', user_id)
+    async listarByUser(user_id) {
+        let clienteListar
+        clienteListar = await this.baseRespositorio.showById('user_id', user_id)
 
-      return clienteListar.toJSON();
+        return clienteListar.toJSON();
     }
 
-    async index(){
+    async index() {
         return await this.baseRespositorio.index()
-     }
+    }
 
-    async criar(dados){
+    async criar(dados) {
 
         await this.cadastrado(dados)
         return await this.baseRespositorio.create(dados)
 
     }
 
-    async listar(pagination, dados){
+    async listar(pagination, dados) {
         return this.listar1(pagination, dados)
 
     }
 
-    async eliminar(idCliente){
+    async eliminar(idCliente) {
         await this.baseRespositorio.findById(idCliente)
-        return  this.baseRespositorio.delete(idCliente)
+        return this.baseRespositorio.delete(idCliente)
 
     }
 
-    async atualizar(dadosCliente, idCliente){
+    async atualizar(dadosCliente, idCliente) {
 
         await this.baseRespositorio.findById(idCliente)
-        return  this.baseRespositorio.update(idCliente, dadosCliente)
+        return this.baseRespositorio.update(idCliente, dadosCliente)
 
     }
 
@@ -82,9 +82,9 @@ class ClienteRepositorio{
         return await this.baseRespositorio.findByCol("user_id", idCliente)
     }
 
-    async todosClientes(){
-      const count = await ClienteModel.query().count('* as totalCliente');
-      return count;
+    async todosClientes() {
+        const count = await ClienteModel.query().count('* as totalCliente');
+        return count;
     }
 
     async updateById(id, data) {
@@ -93,4 +93,4 @@ class ClienteRepositorio{
 
 }
 
-module.exports= ClienteRepositorio
+module.exports = ClienteRepositorio

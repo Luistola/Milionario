@@ -25,18 +25,18 @@ class BaseRepositorio {
 
     async findById1(modelId) {
 
-      const modelResponse = await this.Model
-          .query()
-          .where('id', modelId)
-          .first()
+        const modelResponse = await this.Model
+            .query()
+            .where('id', modelId)
+            .first()
 
-      if (!modelResponse) {
-          throw new NotFoundException;
-      }
+        if (!modelResponse) {
+            throw new NotFoundException;
+        }
 
-      return modelResponse.toJSON()
+        return modelResponse.toJSON()
 
-  }
+    }
 
     async findLastId() {
         const modelResponse = await this.Model
@@ -105,26 +105,26 @@ class BaseRepositorio {
     }
 
     async showByIdAlternative(col, id) {
-      try {
-          return await this.Model.query()
-              .where(col, id)
-              .first();
-      } catch (error) {
+        try {
+            return await this.Model.query()
+                .where(col, id)
+                .first();
+        } catch (error) {
 
-      }
-  }
+        }
+    }
 
     async showById1(col, id) {
-      try {
-          return await this.Model.query()
-              .where(col, id)
-              .whereNot({ is_active: true })
-              .whereNot({ is_delete: true })
-              .fetch();
-      } catch (error) {
+        try {
+            return await this.Model.query()
+                .where(col, id)
+                .whereNot({ is_active: true })
+                .whereNot({ is_delete: true })
+                .fetch();
+        } catch (error) {
 
-      }
-  }
+        }
+    }
 
     async index() {
         try {
@@ -137,25 +137,25 @@ class BaseRepositorio {
     }
 
     async indexActive() {
-      try {
-          return await this.Model.query()
-              .whereNot({ is_active: false })
-              .whereNot({ is_delete: true })
-              .fetch();
-      } catch (error) {
+        try {
+            return await this.Model.query()
+                .whereNot({ is_active: false })
+                .whereNot({ is_delete: true })
+                .fetch();
+        } catch (error) {
 
-      }
+        }
     }
 
     async indexPure() {
-      try {
-          return await this.Model.query()
-              .whereNot({ is_active: true })
-              .whereNot({ is_delete: true })
-              .fetch();
-      } catch (error) {
+        try {
+            return await this.Model.query()
+                .whereNot({ is_active: true })
+                .whereNot({ is_delete: true })
+                .fetch();
+        } catch (error) {
 
-      }
+        }
     }
 }
 
