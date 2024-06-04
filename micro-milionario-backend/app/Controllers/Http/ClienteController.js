@@ -118,7 +118,7 @@ class ClienteController {
 
   async getClientById({ params }) {
 
-    const data = await this.clienteRepositorio.getClientById(params.id)
+    const data = await this.clienteRepositorio.getClientByUserId(params.id)
     return this.dataResponse.dataReponse(200, ' El cliente llega con éxito', data)
 
   }

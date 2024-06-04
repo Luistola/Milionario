@@ -91,6 +91,10 @@ class ClienteRepositorio {
         return this.baseRespositorio.update(id, data)
     }
 
+    async getClientByUserId(idCliente) {
+        return await this.baseRespositorio.findByCol("user_id", idCliente)
+    }
+
 }
 
 module.exports = ClienteRepositorio

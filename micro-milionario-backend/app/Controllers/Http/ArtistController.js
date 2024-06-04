@@ -96,7 +96,7 @@ class ArtistController {
 
   async getArtistById({ params }) {
 
-    const data = await this.artistRepositorio.getClientById(params.id)
+    const data = await this.artistRepositorio.getArtistByUserId(params.id)
     return this.dataResponse.dataReponse(200, 'El artista llega con éxito.', data)
 
   }

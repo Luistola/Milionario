@@ -90,6 +90,10 @@ class ArtistRepositorio {
         return await this.baseRespositorio.findByCol("id", idCliente)
     }
 
+    async getArtistByUserId(idCliente) {
+        return await this.baseRespositorio.findByCol("user_id", idCliente)
+    }
+
 }
 
 module.exports = ArtistRepositorio
