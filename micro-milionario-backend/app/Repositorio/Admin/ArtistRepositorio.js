@@ -86,6 +86,10 @@ class ArtistRepositorio {
         return count;
     }
 
+    async getClientById(idCliente) {
+        return await this.baseRespositorio.findByCol("id", idCliente)
+    }
+
 }
 
 module.exports = ArtistRepositorio

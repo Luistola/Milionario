@@ -93,6 +93,13 @@ class ArtistController {
     return this.dataResponse.dataReponse(200, ' Artist Atualizada com sucesso')
 
   }
+
+  async getArtistById({ params }) {
+
+    const data = await this.artistRepositorio.getClientById(params.id)
+    return this.dataResponse.dataReponse(200, 'El artista llega con éxito.', data)
+
+  }
 }
 
 module.exports = ArtistController

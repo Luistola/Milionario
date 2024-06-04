@@ -9,5 +9,6 @@ module.exports = (ApiRoute, Route) => {
     Route.post("artist/images", "ImageController.store");
     Route.post('artist/update/:id', 'ArtistController.update');
     Route.post('artist/delete/:id', 'ArtistController.delete');
+    Route.get('artist/:id', 'ArtistController.getArtistById');
   })
 }
