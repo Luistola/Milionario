@@ -73,6 +73,24 @@ class LandingPageController {
       return this.dataResponse.dataReponse(500, 'ocorreu algum erro', error)
     }
   }
+
+  async read({ request }) {
+    try {
+
+      let existingDatas = await this.landingPageRepositorio.getAll();
+
+      if (existingDatas && existingDatas?.length) {
+        let existingData = existingDatas[0];
+
+        return this.dataResponse.dataReponse(200, 'dados obtidos com sucesso', existingData)
+      } else {
+
+        return this.dataResponse.dataReponse(404, 'Dados não encontrados')
+      }
+    } catch (error) {
+      return this.dataResponse.dataReponse(500, 'ocorreu algum erro', error)
+    }
+  }
 }
 
 module.exports = LandingPageController
