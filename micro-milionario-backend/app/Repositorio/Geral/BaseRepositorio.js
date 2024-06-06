@@ -157,6 +157,15 @@ class BaseRepositorio {
 
         }
     }
+
+    async find() {
+        try {
+            const allRecords = await this.Model.query().fetch();
+            return allRecords.toJSON();
+        } catch (error) {
+
+        }
+    }
 }
 
 module.exports = BaseRepositorio;
