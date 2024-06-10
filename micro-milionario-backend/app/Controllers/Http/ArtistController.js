@@ -100,6 +100,28 @@ class ArtistController {
     return this.dataResponse.dataReponse(200, 'El artista llega con éxito.', data)
 
   }
+
+  async updateArtist({ params, request }) {
+
+    const { nome, sexo, telefone } = request.only(['nome', 'sexo', 'telefone']);
+
+    if (!nome || !sexo || !telefone) {
+      return this.dataResponse.dataReponse(500, 'Todos os campos são necessários')
+    }
+
+    let artist = await this.artistRepositorio.getArtistByUserId(params.id)
+
+    if (artist) {
+
+      let updated = await this.artistRepositorio.updateById(artist.id, { nome, sexo, telefone })
+
+      return this.dataResponse.dataReponse(200, 'Artist Atualizada com sucesso', updated)
+    }
+
+    return this.dataResponse.dataReponse(200, 'Artist not found')
+
+
+  }
 }
 
 module.exports = ArtistController

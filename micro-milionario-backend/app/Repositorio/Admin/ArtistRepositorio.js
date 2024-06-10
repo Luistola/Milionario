@@ -86,12 +86,16 @@ class ArtistRepositorio {
         return count;
     }
 
-    async getClientById(idCliente) {
+    async getArtistById(idCliente) {
         return await this.baseRespositorio.findByCol("id", idCliente)
     }
 
     async getArtistByUserId(idCliente) {
         return await this.baseRespositorio.findByCol("user_id", idCliente)
+    }
+
+    async updateById(id, data) {
+        return this.baseRespositorio.update(id, data)
     }
 
 }
