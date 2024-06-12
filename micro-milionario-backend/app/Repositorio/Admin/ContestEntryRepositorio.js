@@ -22,6 +22,9 @@ class ContestEntryRepositorio {
         return this.baseRespositorio.update(id, data)
     }
 
+    async deleteById(id) {
+        return this.baseRespositorio.deleteData("id", id)
+    }
 
 }
 

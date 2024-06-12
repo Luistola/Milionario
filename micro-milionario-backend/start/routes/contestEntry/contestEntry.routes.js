@@ -4,5 +4,6 @@ module.exports = (ApiRoute, Route) => {
     Route.get("contestEntry/read", "ContestEntryController.read");
     Route.get("contestEntry/artist/:id", "ContestEntryController.getByArtistId");
     Route.post("contestEntry/update/:id", "ContestEntryController.update");
+    Route.delete("contestEntry/delete/:id", "ContestEntryController.delete");
   })
 }

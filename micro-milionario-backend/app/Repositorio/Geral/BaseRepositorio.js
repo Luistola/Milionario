@@ -165,6 +165,15 @@ class BaseRepositorio {
 
         }
     }
+
+    async deleteData(col, id) {
+        try {
+            return await this.Model.query()
+                .where(col, id).delete()
+        } catch (error) {
+
+        }
+    }
 }
 
 module.exports = BaseRepositorio;

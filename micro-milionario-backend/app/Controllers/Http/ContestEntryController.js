@@ -78,6 +78,21 @@ class ContestEntryController {
     }
   }
 
+  async delete({ params }) {
+    try {
+      const id = params.id
+
+      let existingDatas = await this.contestEntryRepositorio.deleteById(id);
+
+      if (existingDatas) {
+        return this.dataResponse.dataReponse(200, 'sucesso', existingDatas)
+      } else {
+        return this.dataResponse.dataReponse(404, 'Dados não encontrados')
+      }
+    } catch (error) {
+      return this.dataResponse.dataReponse(500, 'erro', error)
+    }
+  }
 
 }
 
