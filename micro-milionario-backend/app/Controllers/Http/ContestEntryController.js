@@ -63,6 +63,22 @@ class ContestEntryController {
     }
   }
 
+  async update({ request, params }) {
+    try {
+
+      const { title, description, link, link_type } = request.body;
+
+      let data = await this.contestEntryRepositorio.updateById(params.id, { title, description, link, link_type });
+
+      return this.dataResponse.dataReponse(201, 'sucesso', data)
+
+    } catch (error) {
+
+      return this.dataResponse.dataReponse(500, 'erro', error)
+    }
+  }
+
+
 }
 
 module.exports = ContestEntryController
