@@ -66,9 +66,9 @@ class ContestEntryController {
   async update({ request, params }) {
     try {
 
-      const { title, description, link, link_type } = request.body;
+      const { title, description, link, link_type, status } = request.body;
 
-      let data = await this.contestEntryRepositorio.updateById(params.id, { title, description, link, link_type });
+      let data = await this.contestEntryRepositorio.updateById(params.id, { title, description, link, link_type, status });
 
       return this.dataResponse.dataReponse(201, 'sucesso', data)
 
