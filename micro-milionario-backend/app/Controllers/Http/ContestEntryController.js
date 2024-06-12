@@ -48,7 +48,21 @@ class ContestEntryController {
     }
   }
 
-  
+  async getByArtistId({ params }) {
+    try {
+      const artist_id = params.id
+      let existingDatas = await this.contestEntryRepositorio.getByArtistId(artist_id);
+
+      if (existingDatas && existingDatas?.length) {
+        return this.dataResponse.dataReponse(200, 'sucesso', existingDatas)
+      } else {
+        return this.dataResponse.dataReponse(404, 'Dados não encontrados', existingDatas)
+      }
+    } catch (error) {
+      return this.dataResponse.dataReponse(500, 'erro', error)
+    }
+  }
+
 }
 
 module.exports = ContestEntryController

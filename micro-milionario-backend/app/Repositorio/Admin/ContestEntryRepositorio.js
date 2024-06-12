@@ -14,6 +14,10 @@ class ContestEntryRepositorio {
         return await this.baseRespositorio.find()
     }
 
+    async getByArtistId(id) {
+        return await this.baseRespositorio.findByCol("artist_id", id)
+    }
+
 }
 
 module.exports = ContestEntryRepositorio
