@@ -10,6 +10,10 @@ class ContestEntryRepositorio {
         return await this.baseRespositorio.create(data)
     }
 
+    async getAll() {
+        return await this.baseRespositorio.find()
+    }
+
 }
 
 module.exports = ContestEntryRepositorio

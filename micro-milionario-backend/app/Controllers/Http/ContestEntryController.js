@@ -31,6 +31,24 @@ class ContestEntryController {
     }
   }
 
+  async read() {
+    try {
+
+      let existingDatas = await this.contestEntryRepositorio.getAll();
+
+      if (existingDatas && existingDatas?.length) {
+
+        return this.dataResponse.dataReponse(200, 'sucesso', existingDatas)
+      } else {
+
+        return this.dataResponse.dataReponse(404, 'Dados não encontrados')
+      }
+    } catch (error) {
+      return this.dataResponse.dataReponse(500, 'erro', error)
+    }
+  }
+
+  
 }
 
 module.exports = ContestEntryController
