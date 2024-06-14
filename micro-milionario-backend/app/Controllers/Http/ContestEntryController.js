@@ -19,9 +19,9 @@ class ContestEntryController {
   async create({ request }) {
     try {
 
-      const { title, description, artist_id, link, link_type } = request.body;
+      const { title, description, artist_id, link, link_type, price_percent } = request.body;
 
-      let data = await this.contestEntryRepositorio.create({ title, description, artist_id, link, link_type });
+      let data = await this.contestEntryRepositorio.create({ title, description, artist_id, link, link_type, price_percent });
 
       return this.dataResponse.dataReponse(201, 'sucesso', data)
 
@@ -66,9 +66,9 @@ class ContestEntryController {
   async update({ request, params }) {
     try {
 
-      const { title, description, link, link_type, status } = request.body;
+      const { title, description, link, link_type, status, price_percent } = request.body;
 
-      let data = await this.contestEntryRepositorio.updateById(params.id, { title, description, link, link_type, status });
+      let data = await this.contestEntryRepositorio.updateById(params.id, { title, description, link, link_type, status, price_percent });
 
       return this.dataResponse.dataReponse(201, 'sucesso', data)
 

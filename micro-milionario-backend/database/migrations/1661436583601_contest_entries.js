@@ -9,6 +9,7 @@ class ContestEntSchema extends Schema {
       table.increments()
       table.string('title', 50).notNullable()
       table.string('description', 80).notNullable()
+      table.string('price_percent', 3).notNullable()
       table.string('artist_id', 50).notNullable()
       table.string('link', 50).notNullable()
       table.string('link_type', 50).notNullable()
