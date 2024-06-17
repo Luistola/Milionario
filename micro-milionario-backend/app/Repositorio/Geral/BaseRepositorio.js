@@ -73,7 +73,10 @@ class BaseRepositorio {
     async update(id, dados) {
 
         try {
-            return await this.Model.query().where('id', id).update(dados);
+            await this.Model.query().where('id', id).update(dados);
+            // Fetch and return the updated data
+            const updatedData = await this.Model.find(id);
+            return updatedData;
         } catch (error) {
 
             console.log(error)
