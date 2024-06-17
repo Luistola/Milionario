@@ -7,36 +7,33 @@ class ImageController {
    * Create/save a new image.
    * POST images
    */
-   async store ({ request }) {
-    const images = request.file('file')
-    console.log(images.size);
-    if (images.size > 0) {
-      const type=request.file('file').subtype;
-      const name= request.file('file').filename;
+  async store({ request }) {
+
+    const image = request.file('file')
+
+    let savedfilename = ""
+    let imageType = ""
+    if (image) {
+      imageType = request.file('file').type;
+      const fileName = request.file('file').clientName;
+      const timestamp = Date.now()
       console.log(Helpers.publicPath('uploads'));
-      await images.move(Helpers.publicPath('uploads'), {
-        name: name
+      await image.move(Helpers.publicPath('uploads'), {
+        name: timestamp + fileName
       })
 
-      if (!images.moved()) {
-        return images.error()
-      }else{
+      if (!image.moved()) {
+        return image.error()
+      } else {
         console.log('Sucesso!');
-      }
-    } else {
-      await images.moveAll(Helpers.publicPath('uploads'), (file) => {
-        return {
-          name: file.filename
-        }
-      })
+          savedfilename = timestamp + fileName
 
-      if (!images.movedAll()) {
-        return images.errors()
-      }else{
-        console.log('Sucesso!');
+          return {
+            mssage: "Sucesso",
+            data: savedfilename
+          }
       }
     }
-
   }
 
   async download ({ params, response }) {
