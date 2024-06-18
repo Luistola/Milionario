@@ -7,12 +7,11 @@ class ContestEntSchema extends Schema {
   up() {
     this.create('contest_entries', (table) => {
       table.increments()
-      table.string('title', 50).notNullable()
-      table.string('description', 80).notNullable()
-      table.string('price_percent', 3).notNullable()
-      table.string('artist_id', 50).notNullable()
-      table.string('link', 50).notNullable()
-      table.string('link_type', 50).notNullable()
+      table.string('title', 256).nullable()
+      table.string('description', 512).nullable()
+      table.string('artist_id', 256).nullable()
+      table.string('link', 256).nullable()
+      table.string('link_type', 256).nullable()
       table.boolean('status').defaultTo(false)
       table.timestamps()
     })
