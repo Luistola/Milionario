@@ -7,10 +7,10 @@ class LandingPageSchema extends Schema {
   up() {
     this.create('landing_pages', (table) => {
       table.increments()
-      table.string('title', 50).notNullable()
-      table.string('description', 80).notNullable()
-      table.string('file', 50).notNullable()
-      table.string('type', 50).notNullable()
+      table.string('title', 256).nullable()
+      table.string('description', 512).nullable()
+      table.string('file', 256).nullable()
+      table.string('type', 256).nullable()
       table.timestamps()
     })
   }
