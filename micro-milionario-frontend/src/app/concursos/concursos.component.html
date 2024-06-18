@@ -5,7 +5,7 @@
     <div class="col-xs-12">
       <div class="section__title section__title--single clearfix">
         <h2><span class="lnr lnr-chevron-left" (click)="goBack()"></span></h2>
-        <h2>Concurso</h2>
+        <h2>Concurso1</h2>
       </div>
     </div>
     <!-- end section title -->
@@ -16,7 +16,7 @@
         <!-- news -->
         <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let c of concursoLista|slice:0:itemsToShow" >
           <article class="news-post">
-            <figure class="img_dimensao1 news-post__img"><a (click)="goParticipanteList(c)" ><img class="img_dimensao" [src]="getImageUrl(c.foto)" alt=""></a></figure>
+            <figure class="img_dimensao1 news-post__img"><a (click)="goParticipanteList(c)" ><img class="img_dimensao"  [src]="getImageUrl(c.foto)" alt=""></a></figure>
 
             <header class="news-post__header">
               <div class="news-post__title pull-right"><span class="lnr lnr-eye" title="Ver Foto" data-toggle="modal" data-target="#myModal" (click)="setFoto(c)"></span></div>&nbsp;

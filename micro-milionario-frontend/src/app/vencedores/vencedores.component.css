@@ -1,3 +1,24 @@
 .img_dimensao {
   height: 235px;
 }
+.section__filter-menu {
+  max-height: 300px;
+  overflow-y: auto;
+  list-style-type: none;
+  padding: 15px;
+  margin: 0;
+  
+}
+
+.scrollbar-dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-dropdown::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+.scrollbar-dropdown::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}

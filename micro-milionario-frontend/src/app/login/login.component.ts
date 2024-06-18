@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
 
   createForm(): void{
     this.loginForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
   }
@@ -77,7 +77,6 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.get('password').value
     };
 
-    this.login();
   }
 
   async buscaUtilizadorPeloTelefone(data){
@@ -91,38 +90,34 @@ export class LoginComponent implements OnInit {
    }
 
    async verificarValor() {
-    if (isNaN(this.loginForm.get('name').value)) {
+    if (isNaN(this.loginForm.get('email').value)) {
       console.log('O valor digitado não é um número válido!');
-      this.utilizadorEmail = this.loginForm.get('name').value;
+      this.utilizadorEmail = this.loginForm.get('email').value;
       this.setUsuario(this.utilizadorEmail);
       this.login();
     } else {
       console.log('O valor digitado é um número válido!');
-      await this.buscaUtilizadorPeloTelefone(this.loginForm.get('name').value);
+      await this.buscaUtilizadorPeloTelefone(this.loginForm.get('email').value);
     }
   }
-
-  login(): void{
+  async login(): Promise<void> {
     this.loader = true;
-    if(this.loginForm.invalid){
-      return Object.values(this.loginForm.controls).forEach(control => {
-        control.markAsTouched();
-      });
-    }else{
-      this.authService.login(this.usuario).subscribe(async (data:any) => {
-        this.toastr.success('Login Com Sucesso!', 'Sucesso!');
-        await this.findWinner(this.dataActual);
-        this.loader = false;
-        this.router.navigate(['/dashboard']);
-      }, error =>{
-        this.loader = false;
-        this.toastr.error('Acesso Negado!', 'Erro!');
-        console.log(error);
-      });
+  
+    try {
+      // Convert observable to promise
+      const data: any = await this.authService.login(this.usuario).toPromise();
+      this.toastr.success('Login Com Sucesso!', 'Sucesso!');
+      await this.findWinner(this.dataActual);
+      this.loader = false;
+      this.router.navigate(['/dashboard']);
+    } catch (error) {
+      this.loader = false;
+      this.toastr.error('Acesso Negado!', 'Erro!');
+      console.log(error);
     }
-
   }
 
+  
   formataData(d){
     var curr_date = d.getDate();
     var curr_month = d.getMonth() + 1; //Months are zero based
@@ -277,7 +272,7 @@ export class LoginComponent implements OnInit {
    }
 
   ngOnDestroy() {
-    location.reload();
+    //location.reload();
   }
 
 }

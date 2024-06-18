@@ -230,7 +230,7 @@ export class HomeComponent implements OnInit {
     }
 
     setFoto(slide){
-      console.log(slide);
+      console.log("tttttttttttttttttttttttt",slide);
      this.slideSelecionado = slide.artist_foto;
    }
 }

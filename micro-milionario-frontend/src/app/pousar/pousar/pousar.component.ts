@@ -26,7 +26,7 @@ export class PousarComponent implements OnInit, AfterViewInit {
     try {
       const listagemSlide = await this.pousarService.getPousarByRead().toPromise();
       if (listagemSlide.code === 200) {
-        this.pousarData = listagemSlide.dodos;
+        this.pousarData = listagemSlide.dados;
         this.getImageUrl(this.pousarData.file);
       } else {
         // Handle other status codes if needed

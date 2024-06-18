@@ -22,19 +22,20 @@ export class ClienteService {
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/cliente/listarByUser`,{dados:dados});
   }
 
+  
+
   update(url, body):Observable<GeralInterfaceUser>{
     return this.http.post<GeralInterfaceUser>(`${this.apiURL}${url}`, body);
   }
 
+
   getClientUser(data:any):Observable<GeralInterfaceUser>{
-    return this.http.get<GeralInterfaceUser>(`${this.apiURL}/${data}`);
-
+    return this.http.get<GeralInterfaceUser>(`${this.apiURL}/cliente/${data}`);
   }
-
 
   getArtistUser(data:any):Observable<GeralInterfaceUser>{
-    return this.http.get<GeralInterfaceUser>(`${this.apiURL}/${data}`);
-
+    return this.http.get<GeralInterfaceUser>(`${this.apiURL}/artist/${data}`);
   }
+
 
 }

@@ -93,4 +93,7 @@ export class CarteiraComponent implements OnInit {
     this.location.back();
   }
 
+
+  
+
 }

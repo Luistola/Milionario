@@ -19,9 +19,7 @@
               </div>
 
               <ul class="section__filter-menu scrollbar-dropdown">
-                <li *ngFor="let c of concursoLista; "><a (click)="carregarListas(c)">{{c.nome}}</a></li>
-                <!-- <li><a href="#">Legacy Artists</a></li>
-                <li><a href="#">Active Artists</a></li> -->
+                <li *ngFor="let c of concursoLista"><a (click)="carregarListas(c)">{{c.nome}}</a></li>
               </ul>
             </div>
             <!-- end section filter -->

@@ -37,6 +37,7 @@ export class AuthService {
 
     return this.http.post<any>(`${this.apiURL}/authenticate`, usuario)
         .pipe(map(user => {
+          console.log("get users",user);
             localStorage.setItem('usuario', JSON.stringify(user));
             // this.userLogado = this.getUserByToken(user.token);
             // console.log();

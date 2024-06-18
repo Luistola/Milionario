@@ -11,7 +11,7 @@
 
       <!-- logo -->
       <div>
-<a class="header__logo" href="index.html">
+     <a class="header__logo" href="index.html">
         <img src="assets/img/logo.jpeg" width="199" height="50" alt="">
       </a>
       </div>
@@ -22,7 +22,7 @@
       <ul class="header__actions">
         <li class="header__actions-item">
           <span class="header__actions-btn">
-            <span *ngIf="username" >{{username}}</span>
+            <span>{{username.username}}</span>
           </span>
 
         </li>
@@ -50,7 +50,7 @@
           </button>
 
           <ul class="header__user-menu">
-            <li><a routerLink="/dashboard/perfil-cliente">Perfil</a></li>
+            <li><a (click)="goEditarPerfil(username)">Perfil</a></li>
             <!-- <li><a href="#">Tracks</a></li> -->
             <li><a href="#">Definições</a></li>
             <li><a href="#">Ajuda</a></li>

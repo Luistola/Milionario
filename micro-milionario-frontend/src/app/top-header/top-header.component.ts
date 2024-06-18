@@ -29,7 +29,8 @@ export class TopHeaderComponent implements OnInit {
 
     });
     this.carteira = this.carteiraService.getCarteiraData();
-    this.username = this.auth.pegarUsuario.username
+    this.username = this.auth.pegarUsuario;
+    console.log("first,.......",this.username.username)
   }
 
   ngOnInit() {
@@ -41,5 +42,12 @@ export class TopHeaderComponent implements OnInit {
       this.router.navigate(['/login']);
     })
   }
+
+  goEditarPerfil(username){
+    this.router.navigate(['/dashboard/perfil-cliente',+username.id]);
+  }
+
+   
+
 
 }

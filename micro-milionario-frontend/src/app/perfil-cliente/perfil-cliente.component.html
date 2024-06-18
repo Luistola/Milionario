@@ -10,51 +10,60 @@
 
           <form class="form form--sign" [formGroup]="perfilForm" (ngSubmit)="update()">
             <h6 class="form__title">Perfil</h6>
-
+          
             <div class="form__group">
               <label for="name" class="form__label">Nome</label>
-              <input id="name" name="name" type="text" value="{{cliente.nome}}" class="form__input" formControlName="username" [class.is-invalid]="usernameValidate">
+              <input id="name" name="nome" type="text" [(ngModel)]="clientObject.nome" class="form__input"
+                     formControlName="nome" [ngClass]="{'is-invalid': usernameValidate}">
+              <div *ngIf="usernameValidate" class="invalid-feedback">
+                Username is required and must be at least 3 characters long.
+              </div>
             </div>
-
+          
             <div class="form__group">
               <label for="telefone" class="form__label">Telefone</label>
-              <input id="telefone" name="telefone" type="number" value="{{cliente.telefone}}" class="form__input" formControlName="telefone" [class.is-invalid]="telValidate">
+              <input id="telefone" name="telefone" type="number" [(ngModel)]="clientObject.telefone" class="form__input"
+                     formControlName="telefone" [ngClass]="{'is-invalid': telValidate}">
+              <div *ngIf="telValidate" class="invalid-feedback">
+                Telefone is required and must contain only numbers.
+              </div>
             </div>
-
+          
             <div class="form__group">
-              <label for="text" class="form__label">Sexo</label>
-              <div class="form__group">
-                <select class="form__input" formControlName="sexo" style="width: 100%;" >
-                  <option selected>Seleccione...</option>
-                  <option value="Feminino" [selected]="cliente.sexo =='Feminino'">Feminino</option>
-                  <option value="Masculino" [selected]="cliente.sexo =='Masculino'">Masculino</option>
-                </select>
+              <label for="sexo" class="form__label">Sexo</label>
+              <select id="sexo" [(ngModel)]="clientObject.sexo" name="sexo" class="form__input"
+                      formControlName="sexo" [ngClass]="{'is-invalid': sexoValidate}" style="width: 100%;">
+                <option value="" disabled selected>Seleccione...</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Masculino">Masculino</option>
+              </select>
+              <div *ngIf="sexoValidate" class="invalid-feedback">
+                Sexo is required.
               </div>
             </div>
-
-            <ng-container *ngIf="selectedOption == 2" >
+          
+            <ng-container *ngIf="selectedOption == 2">
               <div class="form__group">
                 <label for="password" class="form__label">Senha</label>
-                <input id="password" name="password" type="password" class="form__input" formControlName="password" [class.is-invalid]="passwordValidate">
+                <input id="password" name="password" type="password" class="form__input" formControlName="password"
+                       [class.is-invalid]="passwordValidate">
               </div>
-
+          
               <div class="form__group">
                 <label for="password" class="form__label">Senha</label>
-                <input id="password" name="password" type="password" class="form__input" formControlName="password" [class.is-invalid]="passwordValidate">
+                <input id="password" name="password" type="password" class="form__input" formControlName="password"
+                       [class.is-invalid]="passwordValidate">
               </div>
-
+          
               <div class="form__group">
-                <label for="password" class="form__label">Confirmar Senha</label>
-                <input id="conf_password" name="conf_password" type="password" class="form__input" formControlName="conf_password">
+                <label for="conf_password" class="form__label">Confirmar Senha</label>
+                <input id="conf_password" name="conf_password" type="password" class="form__input"
+                       formControlName="conf_password">
               </div>
             </ng-container>
-
-
-            <!-- <button type="button" class="default-btn form__btn">Cadastrar</button> -->
+          
             <button type="submit" class="default-btn form__btn">Salvar</button>
-            <!-- <a href="signin.html"></a> -->
           </form>
-
         </div>
       </div>
     </section>

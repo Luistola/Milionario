@@ -120,7 +120,7 @@ export class VencedoresComponent implements OnInit {
      if(listagemConcurso.code == 200){
        this.isloading= false;
       this.concursoLista= listagemConcurso.dados
-      console.log(listagemConcurso);
+      console.log("get lister.........................",listagemConcurso);
     }
   }
 

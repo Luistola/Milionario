@@ -44,7 +44,7 @@ export class ConcursosComponent implements OnInit {
       // this.pagination.pagination.page= listagemConcurso.dados.page;
       // this.pagination.pagination.perPage= listagemConcurso.dados.perPage;
       // this.pagination.pagination.total = listagemConcurso.dados.total;
-      console.log(this.concursoLista);
+      console.log("get .................",this.concursoLista);
     }
   }
 
@@ -77,7 +77,7 @@ export class ConcursosComponent implements OnInit {
   }
 
   setFoto(slide){
-    console.log(slide);
+    console.log("kkkkkkkkkkkk",slide);
    this.slideSelecionado = slide.foto;
  }
 
