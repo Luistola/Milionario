@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ConcursoService } from 'src/app/service/concurso/concurso.service';
 import { MessageService } from 'src/app/service/message/message.service';
@@ -17,8 +17,8 @@ export class NewConcursoModalComponent implements OnInit {
   concursoForm: FormGroup;
   files: Set<File>;
   @Output() eventoClicado = new EventEmitter();
-  @ViewChild('closebutton', {static: false}) closebutton;
-  @ViewChild('inputFile', {static: false}) fileInputRef: ElementRef;
+  @ViewChild('closebutton', { static: false }) closebutton;
+  @ViewChild('inputFile', { static: false }) fileInputRef: ElementRef;
   dataFormatada;
 
 
@@ -42,18 +42,20 @@ export class NewConcursoModalComponent implements OnInit {
     this.eventoClicado.emit();
   }
 
-  createForm(): void{
-    this.concursoForm = this.formBuilder.group({
-      nome: [''],
-      descricao: [''],
-      premio: [''],
-      n_vencedor: [''],
-      data_inicio: [''],
-      data_fim:['']
+  createForm(): void {
+    this.concursoForm = new FormGroup({
+      nome: new FormControl('', Validators.required),
+      descricao: new FormControl('', Validators.required),
+      premio: new FormControl('', Validators.required),
+      n_vencedor: new FormControl('', Validators.required),
+      percentual_de_preço: new FormControl('', Validators.required),
+      data_inicio: new FormControl('', Validators.required),
+      data_fim: new FormControl('', Validators.required),
+      foto: new FormControl('')
     });
   }
 
-  onChangeFoto(event){
+  onChangeFoto(event) {
 
     const selectedFiles = <FileList>event.srcElement.files;
     this.fotoFile = selectedFiles[0].name;
@@ -61,12 +63,13 @@ export class NewConcursoModalComponent implements OnInit {
     // console.log(selectedFiles[0]);
   }
 
-  setConcurso(): void{
+  setConcurso(): void {
     this.concursoBody = {
       nome: this.concursoForm.get('nome').value,
       descricao: this.concursoForm.get('descricao').value,
       premio: this.concursoForm.get('premio').value,
       n_vencedor: this.concursoForm.get('n_vencedor').value,
+      percentual_de_preço: this.concursoForm.get('percentual_de_preço').value,
       data_inicio: this.concursoForm.get('data_inicio').value,
       data_fim: this.concursoForm.get('data_fim').value,
       foto: this.fotoFile
@@ -75,29 +78,35 @@ export class NewConcursoModalComponent implements OnInit {
     console.log(this.concursoBody);
   }
 
-  async upload(){
+  async upload() {
     if (this.files && this.files.size > 0) {
       await this.uploadFileService.upload('/concurso/images', this.files).toPromise();
     }
   }
 
-   async save(){
-    this.setConcurso();
 
-    const concurso = await this.concursoService.post('/concurso', this.concursoBody).toPromise();
-    if(concurso.code == 200){
-      await this.upload();
-      this.emitirEvento();
-      this.closebutton.nativeElement.click();
-      this.toastr.success('Concurso Salvo Com Sucesso!', 'Sucesso!');
-      console.log(concurso.message);
-      this.createForm();
-      this.files = new Set();
-      this.limparInputFile();
+  async save() {
+    if (this.concursoForm.valid) {
+      // Form is valid, you can submit it here
+      this.setConcurso();
+      const concurso = await this.concursoService.post('/concurso', this.concursoBody).toPromise();
+      if (concurso.code == 200) {
+        await this.upload();
+        this.emitirEvento();
+        this.closebutton.nativeElement.click();
+        this.toastr.success('Concurso Salvo Com Sucesso!', 'Sucesso!');
+        console.log(concurso.message);
+        this.createForm();
+        this.files = new Set();
+        this.limparInputFile();
+      }
+      console.log('Form is valid!');
+    } else {
+      // Form is invalid, you can show error messages here
+      console.log('Form is invalid!');
     }
-   }
-
-  formataData(d){
+  }
+  formataData(d) {
     var curr_date = d.getDate();
     var curr_month = d.getMonth() + 1; //Months are zero based
     var curr_year = d.getFullYear();

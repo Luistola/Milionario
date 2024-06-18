@@ -11,38 +11,47 @@
       <div class="modal-body">
         <form class="" autocomplete="off" [formGroup]="concursoForm" (ngSubmit)="save()">
           <div class="form-group">
-            <label>Nome</label>
-            <input
-              type="text"
-              class="form-control mb-2"
-              id="inputNome"
-              placeholder="Nome"
-              formControlName="nome"
-            >
+            <label>Nome <span class="required">*</span></label>
+            <input type="text" class="form-control mb-2" id="inputNome" placeholder="Nome" formControlName="nome">
+            <div
+              *ngIf="concursoForm.get('nome').hasError('required') && (concursoForm.get('nome').dirty || concursoForm.get('nome').touched)">
+              <small class="text-danger">Nome is required</small>
+            </div>
           </div>
           <div class="form-group">
-            <label>Descrição</label>
+            <label>Descrição <span class="required">*</span></label>
             <textarea class="form-control" formControlName="descricao" rows="3" placeholder="Descrição ..."></textarea>
+            <div
+              *ngIf="concursoForm.get('descricao').hasError('required') && (concursoForm.get('descricao').dirty || concursoForm.get('descricao').touched)">
+              <small class="text-danger">Descrição is required</small>
+            </div>
           </div>
           <div class="form-group">
-            <label>Prêmio</label>
-            <input
-              type="text"
-              class="form-control mb-2"
-              id="inputPremio"
-              placeholder="Valor do Premio"
-              formControlName="premio"
-            >
+            <label>Prêmio <span class="required">*</span></label>
+            <input type="text" class="form-control mb-2" id="inputPremio" placeholder="Valor do Premio"
+              formControlName="premio">
+            <div
+              *ngIf="concursoForm.get('premio').hasError('required') && (concursoForm.get('premio').dirty || concursoForm.get('premio').touched)">
+              <small class="text-danger">Prêmio is required</small>
+            </div>
           </div>
           <div class="form-group">
-            <label>Nº de Vencedores</label>
-            <input
-              type="text"
-              class="form-control mb-2"
-              id="inputNVencedor"
-              placeholder="Nº de Vencedores"
-              formControlName="n_vencedor"
-            >
+            <label>Nº de Vencedores <span class="required">*</span></label>
+            <input type="text" class="form-control mb-2" id="inputNVencedor" placeholder="Nº de Vencedores"
+              formControlName="n_vencedor">
+            <div
+              *ngIf="concursoForm.get('n_vencedor').hasError('required') && (concursoForm.get('n_vencedor').dirty || concursoForm.get('n_vencedor').touched)">
+              <small class="text-danger">Nº de Vencedores is required</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>percentual de preço <span class="required">*</span></label>
+            <input type="text" class="form-control mb-2" id="inputNVencedor" placeholder="percentual de preço"
+              formControlName="percentual_de_preço">
+            <div
+              *ngIf="concursoForm.get('percentual_de_preço').hasError('required') && (concursoForm.get('percentual_de_preço').dirty || concursoForm.get('percentual_de_preço').touched)">
+              <small class="text-danger">percentual de preço is required</small>
+            </div>
           </div>
           <div class="form-group">
             <label>Data Inicio</label>
@@ -50,26 +59,38 @@
               <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
               </div>
-              <input type="date" formControlName="data_inicio" class="form-control pull-right" >
+              <input type="date" formControlName="data_inicio" class="form-control pull-right" required>
+              <div *ngIf="concursoForm.get('data_inicio').hasError('required') && (concursoForm.get('data_inicio').dirty || concursoForm.get('data_inicio').touched)">
+                <small class="text-danger">Data Inicio is required</small>
+              </div>
             </div>
             <!-- /.input group -->
           </div>
+          
           <div class="form-group">
             <label>Data Fim</label>
             <div class="input-group date">
               <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
               </div>
-              <input type="date"  formControlName="data_fim" class="form-control pull-right" id="datepicker">
+              <input type="date" formControlName="data_fim" class="form-control pull-right" id="datepicker" required>
+              <div *ngIf="concursoForm.get('data_fim').hasError('required') && (concursoForm.get('data_fim').dirty || concursoForm.get('data_fim').touched)">
+                <small class="text-danger">Data Fim is required</small>
+              </div>
             </div>
             <!-- /.input group -->
           </div>
+          
           <div class="form-group">
             <label for="exampleInputFile">Foto</label>
-            <input type="file" #inputFile (change)="onChangeFoto($event)">
+            <input type="file" #inputFile formControlName="foto" (change)="onChangeFoto($event)" required>
+            <div *ngIf="concursoForm.get('foto').hasError('required') && (concursoForm.get('foto').dirty || concursoForm.get('foto').touched)">
+              <small class="text-danger">Foto is required</small>
+            </div>
           </div>
+          
           <div class="modal-footer">
-            <button type="submit" class="btn btn-info" >Salvar</button>
+            <button type="submit" class="btn btn-info" [disabled]="concursoForm.invalid">Salvar</button>
             <button type="button" #closebutton class="btn btn-default" data-dismiss="modal">Sair</button>
           </div>
         </form>

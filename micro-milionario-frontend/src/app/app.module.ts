@@ -25,6 +25,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { VencedoresComponent } from './vencedores/vencedores.component';
 import { PerfilClienteComponent } from './perfil-cliente/perfil-cliente.component';
 import { SharedModule } from './shared/shared.module';
+import { PousarComponent } from './pousar/pousar/pousar.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { SharedModule } from './shared/shared.module';
     CarteiraComponent,
     VencedoresComponent,
     PerfilClienteComponent,
+    PousarComponent
 
   ],
   imports: [

@@ -1,0 +1,26 @@
+.file-upload-container {
+    margin: 20px;
+  }
+  
+  .file-preview {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .preview-img, .preview-video {
+    max-width: 200px;
+    margin-right: 10px;
+  }
+  
+  button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #d32f2f;
+  }

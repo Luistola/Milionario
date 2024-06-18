@@ -10,6 +10,7 @@ import { VencedorParticipanteComponent } from './vencedor-participante/vencedor-
 import { ParametroComponent } from './parametro/parametro.component';
 import { SlideComponent } from './slide/slide.component';
 import { ContactoComponent } from './contacto/contacto.component';
+import { PousarComponent } from './pousar/pousar.component';
 
 
 const routes: Routes = [
@@ -81,6 +82,11 @@ const routes: Routes = [
         path:'parametros',
         canActivate: [AuthGuardGuard],
         component: ParametroComponent
+      },
+      {
+        path:'pousar',
+        canActivate: [AuthGuardGuard],
+        component: PousarComponent
       },
       {
         path:'slide',

@@ -12,13 +12,18 @@ import { RecargaComponent } from './recarga/recarga.component';
 import { CarteiraComponent } from './carteira/carteira.component';
 import { VencedoresComponent } from './vencedores/vencedores.component';
 import { PerfilClienteComponent } from './perfil-cliente/perfil-cliente.component';
+import { PousarComponent } from './pousar/pousar/pousar.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'pousar',
     pathMatch: "full"
+  },
+  {
+    path: 'pousar',
+    component: PousarComponent,
   },
 
   {
