@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -41,7 +40,7 @@ import { PousarComponent } from './pousar/pousar.component';
     SlideComponent,
     ContactoComponent,
     VerFotoSlideComponent,
-    PousarComponent
+    PousarComponent,
   ],
   imports: [
     BrowserModule,

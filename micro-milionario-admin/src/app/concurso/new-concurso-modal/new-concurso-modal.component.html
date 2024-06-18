@@ -60,13 +60,14 @@
                 <i class="fa fa-calendar"></i>
               </div>
               <input type="date" formControlName="data_inicio" class="form-control pull-right" required>
-              <div *ngIf="concursoForm.get('data_inicio').hasError('required') && (concursoForm.get('data_inicio').dirty || concursoForm.get('data_inicio').touched)">
+              <div
+                *ngIf="concursoForm.get('data_inicio').hasError('required') && (concursoForm.get('data_inicio').dirty || concursoForm.get('data_inicio').touched)">
                 <small class="text-danger">Data Inicio is required</small>
               </div>
             </div>
             <!-- /.input group -->
           </div>
-          
+
           <div class="form-group">
             <label>Data Fim</label>
             <div class="input-group date">
@@ -74,21 +75,23 @@
                 <i class="fa fa-calendar"></i>
               </div>
               <input type="date" formControlName="data_fim" class="form-control pull-right" id="datepicker" required>
-              <div *ngIf="concursoForm.get('data_fim').hasError('required') && (concursoForm.get('data_fim').dirty || concursoForm.get('data_fim').touched)">
+              <div
+                *ngIf="concursoForm.get('data_fim').hasError('required') && (concursoForm.get('data_fim').dirty || concursoForm.get('data_fim').touched)">
                 <small class="text-danger">Data Fim is required</small>
               </div>
             </div>
             <!-- /.input group -->
           </div>
-          
+
           <div class="form-group">
             <label for="exampleInputFile">Foto</label>
             <input type="file" #inputFile formControlName="foto" (change)="onChangeFoto($event)" required>
-            <div *ngIf="concursoForm.get('foto').hasError('required') && (concursoForm.get('foto').dirty || concursoForm.get('foto').touched)">
+            <div
+              *ngIf="concursoForm.get('foto').hasError('required') && (concursoForm.get('foto').dirty || concursoForm.get('foto').touched)">
               <small class="text-danger">Foto is required</small>
             </div>
           </div>
-          
+
           <div class="modal-footer">
             <button type="submit" class="btn btn-info" [disabled]="concursoForm.invalid">Salvar</button>
             <button type="button" #closebutton class="btn btn-default" data-dismiss="modal">Sair</button>

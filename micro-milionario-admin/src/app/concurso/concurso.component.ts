@@ -29,18 +29,20 @@ export class ConcursoComponent implements OnInit {
   }
 
   async listarConcursos(){
-    this.isloading= true
+   
      const listagemConcurso= await this.concursoService.listarConcursos(this.pagination.pagination, this.procurarItem).toPromise();
      if(listagemConcurso.code == 200){
-       this.isloading= false;
       this.concursoLista= listagemConcurso.dados.data
+      console.log("firs.......................t",this.concursoLista)
       this.pagination.pagination.lastPage= listagemConcurso.dados.lastPage;
       this.pagination.pagination.page= listagemConcurso.dados.page;
       this.pagination.pagination.perPage= listagemConcurso.dados.perPage;
       this.pagination.pagination.total = listagemConcurso.dados.total;
-      console.log(listagemConcurso);
+
+      console.log("chhhhhhhhhhhhhhhhhhhhh",listagemConcurso);
     }
   }
+
 
    concursoPaginacao(page:number): void{
 
@@ -53,6 +55,7 @@ export class ConcursoComponent implements OnInit {
 
    }
 
+
    goParticipanteList(concurso){
     this.router.navigate(['/dashboard/concurso/participante', concurso.id]);
    }
@@ -62,6 +65,7 @@ export class ConcursoComponent implements OnInit {
    }
 
    goEditar(concurso){
+    console.log("edit",concurso.id);
     this.router.navigate(['/dashboard/concurso/editar', concurso.id]);
   }
 
@@ -78,5 +82,11 @@ export class ConcursoComponent implements OnInit {
       this.toastr.success(concurso.message, 'Sucesso!');
     }
    }
+   
+
+
+   
+
+
 
 }

@@ -71,7 +71,7 @@ export class SlideComponent implements OnInit {
     this.isloading= true
      const listagemSlide= await this.slideService.listarSlides(this.pagination.pagination, this.procurarItem).toPromise();
      if(listagemSlide.code == 200){
-       this.isloading= false;
+      this.isloading= false;
       this.slideLista= listagemSlide.dados.data
       this.pagination.pagination.lastPage= listagemSlide.dados.lastPage;
       this.pagination.pagination.page= listagemSlide.dados.page;
@@ -119,6 +119,7 @@ export class SlideComponent implements OnInit {
       this.toastr.success(slide.message, 'Sucesso!');
     }
    }
+
 
    setSlideFoto(slide){
      console.log(slide);

@@ -1,112 +1,106 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <section class="content-header">
-      <h1>
+    <h1>
       Administrativa
       <small>Panel Controlo</small>
-      </h1>
-      <ol class="breadcrumb">
+    </h1>
+    <ol class="breadcrumb">
       <li><a routerLink="dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
       <li class="active">Concurso</li>
-      </ol>
+    </ol>
   </section>
   <!-- Main content -->
   <section class="content">
-      <!-- SELECT2 EXAMPLE -->
-      <div class="box box-default">
-        <div class="box-header with-border">
-          <h3 class="box-title">Editar Concurso</h3>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-          <form class="" autocomplete="off" [formGroup]="concursoForm" (ngSubmit)="update()">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Nome</label>
-                  <input
-                    type="text"
-                    class="form-control mb-2"
-                    id="inputNome"
-                    value="{{concurso.nome}}"
-                    placeholder="Nome"
-                    formControlName="nome"
-                  >
-                </div>
-                <!-- /.form-group -->
-                <div class="form-group">
-                  <label>Descrição</label>
-                  <textarea class="form-control" value="{{concurso.descricao}}" formControlName="descricao" rows="3" placeholder="Descrição ..."></textarea>
-                </div>
-                <!-- /.form-group -->
-                <div class="form-group">
-                  <label>Prêmio</label>
-                  <input
-                    type="text"
-                    class="form-control mb-2"
-                    id="inputPremio"
-                    value="{{concurso.premio}}"
-                    placeholder="Valor do Premio"
-                    formControlName="premio"
-                  >
-                </div>
-                <div class="form-group">
-                  <label>Nº de Vencedores</label>
-                  <input
-                    type="text"
-                    class="form-control mb-2"
-                    id="inputNVencedor"
-                    value="{{concurso.n_vencedor}}"
-                    placeholder="Nº de Vencedores"
-                    formControlName="n_vencedor"
-                  >
-                </div>
-              </div>
-              <!-- /.col -->
-              <div class="col-md-6">
-                <div class="form-group">
-              <label>Data Inicio</label>
-              <div class="input-group date">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
-                </div>
-                <input type="date" formControlName="data_inicio" class="form-control pull-right" id="datepicker">
-              </div>
-              <!-- value="{{concurso.data_inicio}}"/.input group -->
-            </div>
-              <!-- /.form-group -->
+    <!-- SELECT2 EXAMPLE -->
+    <div class="box box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title">Editar Concurso</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <form class="" autocomplete="off" [formGroup]="concursoForm" (ngSubmit)="update()">
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group">
-                <label>Data Fim</label>
-                <div class="input-group date">
-                  <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" formControlName="nome">
+                <div
+                  *ngIf="concursoForm.get('nome').invalid && (concursoForm.get('nome').dirty || concursoForm.get('nome').touched)">
+                  <div *ngIf="concursoForm.get('nome').errors.required">
+                    Campo obrigatório
                   </div>
-                  <input type="date" formControlName="data_fim" class="form-control pull-right" id="datepicker">
                 </div>
-                <!-- value="{{concurso.data_fim}}"/.input group -->
               </div>
-              <!-- /.form-group -->
               <div class="form-group">
-                <label for="exampleInputFile">Foto</label>
-                <input type="file" id="exampleInputFile" (change)="onChangeFoto($event)">
+                <label for="descricao">Descrição</label>
+                <textarea class="form-control" id="descricao" formControlName="descricao"></textarea>
+                <div
+                  *ngIf="concursoForm.get('descricao').invalid && (concursoForm.get('descricao').dirty || concursoForm.get('descricao').touched)">
+                  <div *ngIf="concursoForm.get('descricao').errors.required">
+                    Campo obrigatório
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="premio">Prêmio</label>
+                <input type="text" class="form-control" id="premio" formControlName="premio">
+                <div
+                  *ngIf="concursoForm.get('premio').invalid && (concursoForm.get('premio').dirty || concursoForm.get('premio').touched)">
+                  <div *ngIf="concursoForm.get('premio').errors.required">
+                    Campo obrigatório
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="n_vencedor">Nº de Vencedores</label>
+                <input type="text" class="form-control" id="n_vencedor" formControlName="n_vencedor">
+                <div
+                  *ngIf="concursoForm.get('n_vencedor').invalid && (concursoForm.get('n_vencedor').dirty || concursoForm.get('n_vencedor').touched)">
+                  <div *ngIf="concursoForm.get('n_vencedor').errors.required">
+                    Campo obrigatório
+                  </div>
+                </div>
               </div>
             </div>
             <!-- /.col -->
-            <!-- /.box-body -->
-            <div class="box-footer">
-              <button type="submit" class="btn btn-info" >Salvar</button>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="data_inicio">Data Início</label>
+                <input type="date" class="form-control" id="data_inicio" formControlName="data_inicio">
+                <div *ngIf="concursoForm.get('data_inicio').invalid && (concursoForm.get('data_inicio').dirty || concursoForm.get('data_inicio').touched)">
+                  <div *ngIf="concursoForm.get('data_inicio').errors.required">
+                    Campo obrigatório
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="data_fim">Data Fim</label>
+                <input type="date" class="form-control" id="data_fim" formControlName="data_fim">
+                <div *ngIf="concursoForm.get('data_fim').invalid && (concursoForm.get('data_fim').dirty || concursoForm.get('data_fim').touched)">
+                  <div *ngIf="concursoForm.get('data_fim').errors.required">
+                    Campo obrigatório
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="foto">Foto</label>
+                <input type="file" (change)="onChangeFoto($event)">
+              </div>
+              <button type="submit" class="btn btn-primary">Salvar</button>
+              <button type="button" class="btn btn-secondary" (click)="goBack()">Voltar</button>
+            
             </div>
-            <!-- /.box-footer -->
 
           </div>
           <!-- /.row -->
         </form>
-        </div>
-        <!-- /.box-body -->
-        <!-- <div class="box-footer">
+      </div>
+      <!-- /.box-body -->
+      <!-- <div class="box-footer">
           <button type="submit" class="btn btn-info" >Salvar</button>
         </div> -->
-      </div>
-      <!-- /.box -->
+    </div>
+    <!-- /.box -->
   </section>
 </div>

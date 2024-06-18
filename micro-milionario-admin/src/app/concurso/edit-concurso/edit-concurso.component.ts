@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ConcursoService } from 'src/app/service/concurso/concurso.service';
-import { MessageService } from 'src/app/service/message/message.service';
-import { UploadFileService } from 'src/app/service/upload/upload-file.service';
 import { Location } from '@angular/common';
+import { ConcursoService } from 'src/app/service/concurso/concurso.service';
+import { UploadFileService } from 'src/app/service/upload/upload-file.service';
 
 @Component({
   selector: 'app-edit-concurso',
@@ -19,7 +18,7 @@ export class EditConcursoComponent implements OnInit {
   concursoForm: FormGroup;
   files: Set<File>;
   dataFormatada;
-  concursoId
+  concursoId;
   concurso: any;
 
   constructor(
@@ -28,11 +27,8 @@ export class EditConcursoComponent implements OnInit {
     private concursoService: ConcursoService,
     private uploadFileService: UploadFileService,
     private toastr: ToastrService,
-    toast: MessageService,
     private location: Location
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
@@ -41,56 +37,46 @@ export class EditConcursoComponent implements OnInit {
     this.getConcursoById(this.concursoId);
     this.createForm();
     this.files = new Set();
-
   }
 
-  createForm(): void{
-    console.log('1');
+  createForm(): void {
     this.concursoForm = this.formBuilder.group({
-      nome: [''],
-      descricao: [''],
-      premio: [''],
-      n_vencedor: [''],
-      data_inicio: [''],
-      data_fim:['']
+      nome: ['', Validators.required],
+      descricao: ['', Validators.required],
+      premio: ['', Validators.required],
+      n_vencedor: ['', Validators.required],
+      data_inicio: ['', Validators.required],
+      data_fim: ['', Validators.required]
     });
   }
 
-  async getConcursoById(data){
+  async getConcursoById(data) {
     const concurso = await this.concursoService.listarConcursoById(data).toPromise();
-    if(concurso.code == 200){
+    if (concurso.code == 200) {
       this.concurso = concurso.dados[0];
-      console.log(this.concurso);
-      // this.createForm();
       this.preencherData();
-      // this.preencherDataFim();
     }
-   }
+  }
 
-   preencherData(){
+  preencherData() {
+    this.concursoForm.patchValue({
+      nome: this.concurso.nome,
+      descricao: this.concurso.descricao,
+      premio: this.concurso.premio,
+      n_vencedor: this.concurso.n_vencedor,
+      data_inicio: this.formatDate(this.concurso.data_inicio),
+      data_fim: this.formatDate(this.concurso.data_fim)
+    });
+    this.fotoFile = this.concurso.foto;
+  }
 
-    this.concursoForm.get('nome').setValue(this.concurso.nome);
-    this.concursoForm.get('descricao').setValue(this.concurso.descricao);
-    this.concursoForm.get('premio').setValue(this.concurso.premio);
-    this.concursoForm.get('n_vencedor').setValue(this.concurso.n_vencedor);
-
-    this.formataData(this.concurso.data_inicio);
-    this.concursoForm.get('data_inicio').setValue(this.dataFormatada);
-    this.formataData(this.concurso.data_fim)
-    this.concursoForm.get('data_fim').setValue(this.dataFormatada);
-
-    this.fotoFile = this.concurso.foto
-   }
-
-  onChangeFoto(event){
-
+  onChangeFoto(event) {
     const selectedFiles = <FileList>event.srcElement.files;
     this.fotoFile = selectedFiles[0].name;
     this.files.add(selectedFiles[0]);
-    // console.log(selectedFiles[0]);
   }
 
-  setConcurso(): void{
+  setConcurso(): void {
     this.concursoBody = {
       nome: this.concursoForm.get('nome').value,
       descricao: this.concursoForm.get('descricao').value,
@@ -100,37 +86,44 @@ export class EditConcursoComponent implements OnInit {
       data_fim: this.concursoForm.get('data_fim').value,
       foto: this.fotoFile
     };
-
-    console.log(this.concursoBody);
   }
 
-  async upload(){
+  async upload() {
     if (this.files && this.files.size > 0) {
       await this.uploadFileService.upload('/concurso/images', this.files).toPromise();
     }
   }
 
-  async update(){
-    this.setConcurso();
-    const concurso = await this.concursoService.update('/concurso/update/'+this.concursoId, this.concursoBody).toPromise();
-    if(concurso.code == 200){
-      await this.upload();
-      this.toastr.success(concurso.message, 'Sucesso!');
-      this.goBack();
-
+  async update() {
+    if (this.concursoForm.valid) {
+      this.setConcurso();
+      const concurso = await this.concursoService.update('/concurso/update/' + this.concursoId, this.concursoBody).toPromise();
+      if (concurso.code == 200) {
+        await this.upload();
+        this.toastr.success(concurso.message, 'Sucesso!');
+        this.goBack();
+      }
+    } else {
+      this.toastr.error('Formulário inválido', 'Erro!');
     }
   }
 
-  formataData(d){
-    let date = new Date(d);
-    var curr_date = date.getDate();
-    var curr_month = (date.getMonth() + 1).toString().padStart(2, '0'); //Months are zero based
-    var curr_year = date.getFullYear();
-    this.dataFormatada = curr_year + "-" + curr_month + "-" + curr_date;
-    console.log(this.dataFormatada);
+  formatDate(date) {
+    let dateObj = new Date(date);
+    let month = dateObj.getUTCMonth() + 1; //months from 1-12
+    let day = dateObj.getUTCDate();
+    let year = dateObj.getUTCFullYear();
+    return year + '-' + this.pad(month) + '-' + this.pad(day);
   }
 
-  goBack(){
+  pad(number) {
+    if (number < 10) {
+      return '0' + number;
+    }
+    return number;
+  }
+
+  goBack() {
     this.location.back();
   }
 

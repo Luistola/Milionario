@@ -21,7 +21,10 @@ export class UtilizadorComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private router: Router,
-  ) { }
+  ) { 
+
+    console.log("..............................",this.utilizadorLista);
+  }
 
   ngOnInit() {
     this.utilizadorPaginacao(this.paginations.pagination.page);

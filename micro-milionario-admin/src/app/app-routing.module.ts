@@ -98,6 +98,12 @@ const routes: Routes = [
         canActivate: [AuthGuardGuard],
         component: ContactoComponent
       },
+    
+      {
+        path:'pousar',
+        canActivate: [AuthGuardGuard],
+        component: PousarComponent
+      }
       /* {
         path: 'configuracoes-gerais',
         canActivate: [AuthGuard],
