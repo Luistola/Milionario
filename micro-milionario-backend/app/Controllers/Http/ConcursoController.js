@@ -80,7 +80,7 @@ class ConcursoController {
    * @param {Response} ctx.response
    */
    async store ({ request }) {
-    const {...dados}= request.only(['nome', 'descricao', 'foto', 'premio','n_vencedor','data_inicio', 'data_fim']);
+     const { ...dados } = request.only(['nome', 'descricao', 'foto', 'premio', 'n_vencedor', 'data_inicio', 'data_fim', 'price_percent']);
     await this.concursoRepositorio.criar(dados);
     return this.dataResponse.dataReponse(200, "Concurso criada com sucesso");
   }
@@ -125,7 +125,7 @@ class ConcursoController {
   }
   async update({ params, request }) {
 
-    const {...dados}= request.only(['nome', 'descricao', 'foto', 'premio','n_vencedor','data_inicio', 'data_fim','is_active']);
+    const { ...dados } = request.only(['nome', 'descricao', 'foto', 'premio', 'n_vencedor', 'data_inicio', 'data_fim', 'is_active', 'price_percent']);
     await this.concursoRepositorio.atualizar(dados, params.id, request.url())
     return this.dataResponse.dataReponse(200, ' Concurso Atualizada com sucesso')
 
