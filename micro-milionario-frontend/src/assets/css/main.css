@@ -147,6 +147,7 @@ ul {
 	-webkit-transition: 0.3s ease;
 	-moz-transition: 0.3s ease;
 	transition: 0.3s ease;
+	
 }
 .default-btn:hover,
 .default-btn:focus {
@@ -945,6 +946,7 @@ h6 {
 	letter-spacing: 0.4px;
 	display: inline-block;
 	float: left;
+	cursor:pointer;
 }
 .section__title p {
 	display: block;
@@ -1101,6 +1103,7 @@ h6 {
 	color: #bb9729;
 	line-height: 28px;
 	letter-spacing: 0.4px;
+	cursor:pointer;
 }
 .section__filter-menu a:hover,
 .section__filter-menu a:focus {

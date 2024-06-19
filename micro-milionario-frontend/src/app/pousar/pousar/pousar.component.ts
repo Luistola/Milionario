@@ -9,7 +9,7 @@ import { PousarService } from 'src/app/service/pousar/pousar.service';
   styleUrls: ['./pousar.component.css']
 })
 export class PousarComponent implements OnInit, AfterViewInit {
-  pousarData: any;
+  pousarData: any={};
   thumbnail: any;
   format;
   url;

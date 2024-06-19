@@ -12,6 +12,59 @@
         </div>
       </div>
     </div>
+
+
+    <div class="col-xs-12">
+      <h1>Detalhe dos participantes</h1>
+      <div class="row">
+        <div class="col-sm-6">
+          <div>
+            <img class="image-detail" [src]="getImageUrl(concursoObject.foto)" alt="">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="store-post__title">
+            <span>Nome:</span>
+            {{concursoObject.nome}}
+          </div>
+
+          <div class="store-post__title">
+            <span>Descricao:</span>
+            {{concursoObject.descricao}}
+          </div>
+
+          <div class="store-post__title">
+            <span>Premio:</span>
+            {{concursoObject.premio}}
+          </div>
+
+          <div class="store-post__title">
+            <span>data de início:</span>
+            {{concursoObject.data_inicio | date: 'dd-MM-yyyy'}}
+          </div>
+
+          <div class="store-post__title">
+            <span>Data_fim:</span>
+            {{concursoObject.data_fim | date: 'dd-MM-yyyy'}}
+          </div>
+
+
+
+          <div class="store-post__title">
+            <span> preço_porcentagem:</span>
+            {{concursoObject.price_percent}}
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+
+
+
     <!-- end section title -->
 
     <div class="col-xs-12">
@@ -27,7 +80,8 @@
             <div class="store-post__title">{{p.artist_nome}}</div>
             <div class="store-post__model">{{p.musica_titulo}}</div>
             <!-- <div class="store-post__price">Votos: 199</div> -->
-            <button class="store-post__btn" data-toggle="modal" data-target="#myModal" (click)="setParticipante(p)" ><span class="lnr lnr-checkmark-circle"></span></button>
+            <button class="store-post__btn" data-toggle="modal" data-target="#myModal"
+              (click)="setParticipante(p)"><span class="lnr lnr-checkmark-circle"></span></button>
           </div>
         </div>
         <!-- end store post -->
@@ -40,12 +94,8 @@
     </div>
   </div>
 </section>
+
 <!-- end store -->
 
-<app-voto-modal
-  [participante]="participanteSelecionado"
-  [carteira]="carteira"
-  [idClienteLogado]="idClienteLogado"
-></app-voto-modal>
-
-
+<app-voto-modal [participante]="participanteSelecionado" [carteira]="carteira"
+  [idClienteLogado]="idClienteLogado"></app-voto-modal>

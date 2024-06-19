@@ -30,7 +30,7 @@ export class TopHeaderComponent implements OnInit {
     });
     this.carteira = this.carteiraService.getCarteiraData();
     this.username = this.auth.pegarUsuario;
-    console.log("first,.......",this.username.username)
+    console.log("first,.......",this.carteiraLocal)
   }
 
   ngOnInit() {

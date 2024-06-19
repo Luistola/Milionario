@@ -3,7 +3,7 @@
     <a class="img_dimensao artist-post__cover">
       <img *ngIf="pousarData.type==='image'" width="100%" [src]="thumbnail" class="image">
 
-      <video #videoElement *ngIf="pousarData.type === 'video'" width="100%" autoplay muted loop playsInline
+      <video #videoElement [autoplay]="true"  [muted]="true" *ngIf="pousarData.type === 'video'" width="100%"  loop playsInline
         preload="auto">
         <source [src]="thumbnail" type="video/mp4">
       </video>
@@ -12,8 +12,8 @@
   </div>
   <div class="overlay">
 
-    <h4 class="title">{{pousarData.title}}</h4>
-    <h2>{{pousarData.description}}</h2>
+    <h4 class="title">{{pousarData?.title}}</h4>
+    <h2>{{pousarData?.description}}</h2>
 
     <button routerLink="/register">Sign Up</button>
     <button routerLink="/login">Login</button>

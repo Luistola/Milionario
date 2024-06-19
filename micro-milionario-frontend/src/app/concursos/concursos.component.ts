@@ -66,6 +66,7 @@ export class ConcursosComponent implements OnInit {
 
    goParticipanteList(concurso){
     this.router.navigate(['/dashboard/concursos/concurso', concurso.id]);
+    
    }
 
    getImageUrl(filename: string){
