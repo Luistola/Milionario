@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, AfterViewInit, OnChanges, SimpleChanges, Input, ChangeDetectorRef, NgZone } from '@angular/core';
 import { PousarService } from '../service/pousar/pousar.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -20,17 +20,18 @@ export class PousarComponent implements OnInit, AfterViewInit {
   pousarData: any;
   url: string | ArrayBuffer = '';
   format: string;
-  fotoFile: string;
+  fotoFile: File | null = null;
   imagesData: String;
-  files: Set<File> = new Set();
   @ViewChild('inputFile', { static: false }) fileInputRef: ElementRef;
   @ViewChild('videoElement', { static: false }) videoElement: ElementRef;
+  @Input('videoSource') src: string;
 
-  constructor(private pousarService: PousarService, private formBuilder: FormBuilder, private toastr: ToastrService,
+
+  constructor(private pousarService: PousarService, private ngZone: NgZone, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private toastr: ToastrService,
     private sanitizer: DomSanitizer
   ) {
-   this.pousarData = {};
-   }
+    this.pousarData = {};
+  }
 
   ngOnInit() {
     this.createForm();
@@ -40,6 +41,8 @@ export class PousarComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.initVideo();
   }
+
+
 
   createForm(): void {
     this.pousarForm = this.formBuilder.group({
@@ -53,11 +56,8 @@ export class PousarComponent implements OnInit, AfterViewInit {
 
   onChangeFoto(event) {
     const selectedFile = event.target.files[0];
-    this.fotoFile = selectedFile.name;
+    this.fotoFile = selectedFile;
     console.log("first,t", this.fotoFile);
-    if (this.files) {
-      this.files.add(selectedFile);
-    }
   }
 
   async save() {
@@ -65,19 +65,17 @@ export class PousarComponent implements OnInit, AfterViewInit {
     formData.append('title', this.pousarForm.get('title').value);
     formData.append('description', this.pousarForm.get('description').value);
 
-    if (this.files && this.files.size > 0) {
-      this.files.forEach(file => {
-        formData.append('file', file, file.name);
-      });
+    if (this.fotoFile) {
+      formData.append('file', this.fotoFile, this.fotoFile.name);
     }
 
     try {
-      const pousar = await this.pousarService.createPousar(formData).toPromise();
-      if (pousar.code === 202) {
-        this.getByPousarRead();
+      const response = await this.pousarService.createPousar(formData).toPromise();
+      if (response.code === 202) {
+        const imageUrl = response.dados.file; // assuming the response contains the image URL
+        this.pousarData.file = imageUrl; // update the pousarData with the new image URL
         this.getImageUrl(this.pousarData.file);
         this.toastr.success('Slide Salvo Com Sucesso!', 'Sucesso!');
-
       }
     } catch (error) {
       console.error('Error saving slide:', error);
@@ -98,16 +96,28 @@ export class PousarComponent implements OnInit, AfterViewInit {
   }
 
 
-
-
-
   async getImageUrl(filename: string): Promise<string> {
     try {
       const url = await this.pousarService.getImageUrl('/download/images/', filename);
-      this.thumbnail = url;
+      this.ngZone.run(() => {
+        // Update the thumbnail URL
+        this.thumbnail = url;
+
+        // Ensure the video element exists and update it
+        if (this.videoElement && this.videoElement.nativeElement) {
+          this.videoElement.nativeElement.load();
+          this.videoElement.nativeElement.play();
+        }
+
+        // Trigger change detection
+        this.cdr.detectChanges();
+
+        // Log the thumbnail URL for debugging
+        console.log('>>>>>======>>', this.thumbnail);
+      });
       return url;
     } catch (error) {
-      console.error("An error occurred");
+      console.error('An error occurred while getting the image URL', error);
       throw error;
     }
   }

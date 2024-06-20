@@ -24,12 +24,13 @@
                 <label for="title">Title:</label>
                 <input class="form-control" value="{{pousarData.title}}" type="text" id="title" formControlName="title">
               </div>
-          
+
               <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea class="form-control" value="{{pousarData.description}}" id="description" formControlName="description"></textarea>
+                <textarea class="form-control" value="{{pousarData.description}}" id="description"
+                  formControlName="description"></textarea>
               </div>
-          
+
               <div class="form-group">
                 <label for="exampleInputFile">Foto/vedieo</label>
                 <input name="file" type="file" #inputFile class="form__input" (change)="onChangeFoto($event)"
@@ -61,17 +62,15 @@
                 <img *ngIf="pousarData.type==='image'" width="100%" [src]="thumbnail" class="image">
 
               </a>
-              <video #videoElement *ngIf="pousarData.type === 'video'" width="100%" autoplay muted loop playsInline preload="auto">
-                <source [src]="thumbnail" type="video/mp4">
+              <video #videoElement [autoplay]="true" [muted]="true" *ngIf="pousarData.type === 'video'" width="100%"
+                loop playsInline preload="auto">
+                <source  [src]="thumbnail" type="video/mp4">
               </video>
             </div>
           </div>
 
         </div>
       </div>
-
-
-
 
     </div>
 
