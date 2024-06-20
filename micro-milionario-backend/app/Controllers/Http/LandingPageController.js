@@ -26,11 +26,12 @@ class LandingPageController {
       let savedfilename = "";
       let imageType = "";
       if (image) {
+        console.log("file: LandingPageController.js:30 ~ image:", image);
         imageType = request.file("file").type;
         const fileName = request.file("file").clientName;
         const timestamp = Date.now();
-        console.log(Helpers.publicPath("uploads"));
-        await image.move(Helpers.publicPath("uploads"), {
+        // console.log(Helpers.publicPath("uploads"));
+        await image?.move(Helpers.publicPath("uploads"), {
           name: timestamp + fileName,
         });
 
