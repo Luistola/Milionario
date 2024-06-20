@@ -57,6 +57,10 @@ class LandingPageController {
         }
 
         if (image) {
+          console.log(
+            "file: LandingPageController.js:62 ~ existingData.file:",
+            existingData.file
+          );
           const filePath = Helpers.publicPath(`uploads/${existingData.file}`);
 
           existingData.file = savedfilename;
@@ -66,6 +70,7 @@ class LandingPageController {
             await Drive.delete(filePath);
             console.log("File deleted successfully");
           } catch (error) {
+            console.log("file: LandingPageController.js:73 ~ error:", error);
             console.log("File not deleted", error);
           }
         }
@@ -95,6 +100,8 @@ class LandingPageController {
         );
       }
     } catch (error) {
+      console.log("file: LandingPageController.js:73 ~ error:", error);
+
       return this.dataResponse.dataReponse(500, "ocorreu algum erro", error);
     }
   }
@@ -115,6 +122,7 @@ class LandingPageController {
         return this.dataResponse.dataReponse(404, "Dados não encontrados");
       }
     } catch (error) {
+      console.log("file: LandingPageController.js:94 ~ error:", error);
       return this.dataResponse.dataReponse(500, "ocorreu algum erro", error);
     }
   }
