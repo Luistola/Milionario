@@ -30,8 +30,9 @@ class ImageController {
 
           return {
             mssage: "Sucesso",
-            data: savedfilename
-          }
+            data: savedfilename,
+            code: 200,
+          };
       }
     }
   }
