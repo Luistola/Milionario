@@ -1,31 +1,33 @@
 const BaseRepositorio = use('App/Repositorio/Geral/BaseRepositorio')
 
 class ContestEntryRepositorio {
+  constructor() {
+    this.baseRespositorio = new BaseRepositorio("ContestEntry");
+  }
 
-    constructor() {
-        this.baseRespositorio = new BaseRepositorio("ContestEntry")
-    }
+  async create(data) {
+    return await this.baseRespositorio.create(data);
+  }
 
-    async create(data) {
-        return await this.baseRespositorio.create(data)
-    }
+  async getAll() {
+    return await this.baseRespositorio.find();
+  }
 
-    async getAll() {
-        return await this.baseRespositorio.find()
-    }
+  async getByArtistId(id) {
+    return await this.baseRespositorio.findByCol("artist_id", id);
+  }
 
-    async getByArtistId(id) {
-        return await this.baseRespositorio.findByCol("artist_id", id)
-    }
+  async getByContestId(id) {
+    return await this.baseRespositorio.findByCol("contest_id", id);
+  }
 
-    async updateById(id, data) {
-        return this.baseRespositorio.update(id, data)
-    }
+  async updateById(id, data) {
+    return this.baseRespositorio.update(id, data);
+  }
 
-    async deleteById(id) {
-        return this.baseRespositorio.deleteData("id", id)
-    }
-
+  async deleteById(id) {
+    return this.baseRespositorio.deleteData("id", id);
+  }
 }
 
 module.exports = ContestEntryRepositorio

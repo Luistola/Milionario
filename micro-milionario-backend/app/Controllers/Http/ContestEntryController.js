@@ -1,10 +1,12 @@
-'use strict'
-const Helpers = use('Helpers')
+"use strict";
+const Helpers = use("Helpers");
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-const ContestEntryRepositorio = use('App/Repositorio/Admin/ContestEntryRepositorio');
+const ContestEntryRepositorio = use(
+  "App/Repositorio/Admin/ContestEntryRepositorio"
+);
 const DataResponse = use("App/Repositorio/DataResponse");
 
 /**
@@ -18,7 +20,6 @@ class ContestEntryController {
 
   async create({ request }) {
     try {
-
       const {
         title,
         description,
@@ -39,49 +40,70 @@ class ContestEntryController {
         vote,
       });
 
-      return this.dataResponse.dataReponse(201, 'sucesso', data)
-
+      return this.dataResponse.dataReponse(201, "sucesso", data);
     } catch (error) {
-
-      return this.dataResponse.dataReponse(500, 'erro', error)
+      return this.dataResponse.dataReponse(500, "erro", error);
     }
   }
 
   async read() {
     try {
-
       let existingDatas = await this.contestEntryRepositorio.getAll();
 
       if (existingDatas && existingDatas?.length) {
-
-        return this.dataResponse.dataReponse(200, 'sucesso', existingDatas)
+        return this.dataResponse.dataReponse(200, "sucesso", existingDatas);
       } else {
-
-        return this.dataResponse.dataReponse(404, 'Dados não encontrados')
+        return this.dataResponse.dataReponse(404, "Dados não encontrados");
       }
     } catch (error) {
-      return this.dataResponse.dataReponse(500, 'erro', error)
+      return this.dataResponse.dataReponse(500, "erro", error);
     }
   }
 
   async getByArtistId({ params }) {
     try {
-      const artist_id = params.id
-      let existingDatas = await this.contestEntryRepositorio.getByArtistId(artist_id);
+      const artist_id = params.id;
+      let existingDatas = await this.contestEntryRepositorio.getByArtistId(
+        artist_id
+      );
 
       if (existingDatas && existingDatas?.length) {
-        return this.dataResponse.dataReponse(200, 'sucesso', existingDatas)
+        return this.dataResponse.dataReponse(200, "sucesso", existingDatas);
       } else {
-        return this.dataResponse.dataReponse(404, 'Dados não encontrados', existingDatas)
+        return this.dataResponse.dataReponse(
+          404,
+          "Dados não encontrados",
+          existingDatas
+        );
       }
     } catch (error) {
-      return this.dataResponse.dataReponse(500, 'erro', error)
+      return this.dataResponse.dataReponse(500, "erro", error);
+    }
+  }
+
+  async getByContestId({ params }) {
+    try {
+      const contest_id = params.id;
+      let existingDatas = await this.contestEntryRepositorio.getByContestId(
+        contest_id
+      );
+
+      if (existingDatas && existingDatas?.length) {
+        return this.dataResponse.dataReponse(200, "sucesso", existingDatas);
+      } else {
+        return this.dataResponse.dataReponse(
+          404,
+          "Dados não encontrados",
+          existingDatas
+        );
+      }
+    } catch (error) {
+      return this.dataResponse.dataReponse(500, "erro", error);
     }
   }
 
   async update({ request, params }) {
     try {
-
       const { title, description, link, link_type, status, vote } =
         request.body;
 
@@ -94,30 +116,27 @@ class ContestEntryController {
         vote,
       });
 
-      return this.dataResponse.dataReponse(201, 'sucesso', data)
-
+      return this.dataResponse.dataReponse(201, "sucesso", data);
     } catch (error) {
-
-      return this.dataResponse.dataReponse(500, 'erro', error)
+      return this.dataResponse.dataReponse(500, "erro", error);
     }
   }
 
   async delete({ params }) {
     try {
-      const id = params.id
+      const id = params.id;
 
       let existingDatas = await this.contestEntryRepositorio.deleteById(id);
 
       if (existingDatas) {
-        return this.dataResponse.dataReponse(200, 'sucesso', existingDatas)
+        return this.dataResponse.dataReponse(200, "sucesso", existingDatas);
       } else {
-        return this.dataResponse.dataReponse(404, 'Dados não encontrados')
+        return this.dataResponse.dataReponse(404, "Dados não encontrados");
       }
     } catch (error) {
-      return this.dataResponse.dataReponse(500, 'erro', error)
+      return this.dataResponse.dataReponse(500, "erro", error);
     }
   }
-
 }
 
-module.exports = ContestEntryController
+module.exports = ContestEntryController;
