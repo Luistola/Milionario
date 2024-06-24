@@ -39,7 +39,7 @@ export class TopHeaderComponent implements OnInit {
 
   logout() {
     this.auth.logout().pipe(first()).subscribe(data => {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
     })
   }
 
