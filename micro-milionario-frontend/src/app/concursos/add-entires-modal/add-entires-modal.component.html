@@ -1,0 +1,48 @@
+<h2>Inscrição no concurso</h2>
+  <form [formGroup]="contestEntryForm" (ngSubmit)="onSubmit()">
+    <div class="form__group">
+      <label for="title" class="form__label">Title:</label>
+      <input formControlName="title" type="text" class="form__input" id="title">
+      <div *ngIf="contestEntryForm.get('title').invalid && (contestEntryForm.get('title').dirty || contestEntryForm.get('title').touched)">
+        <div *ngIf="contestEntryForm.get('title').errors.required" class="text-danger">
+          Title is required
+        </div>
+      </div>
+    </div>
+    <div class="form__group">
+      <label for="description" class="form__label">Description:</label>
+      <textarea formControlName="description" class="form__input" id="description"></textarea>
+      
+    </div>
+    <div class="form__group">
+      <label for="link_type" class="form__label">Link Type:</label>
+      <select formControlName="link_type" class="form__input" id="link_type">
+        <option value="">Select an option</option>
+        <option value="facebook">Facebook</option>
+        <option value="twitter">Twitter</option>
+        <option value="instagram">Instagram</option>
+      </select>
+      <div *ngIf="contestEntryForm.get('link_type').invalid && (contestEntryForm.get('link_type').dirty || contestEntryForm.get('link_type').touched)">
+        <div *ngIf="contestEntryForm.get('link_type').errors.required" class="text-danger">
+          Link Type is required
+        </div>
+      </div>
+    </div>
+    <div class="form__group">
+      <label for="link" class="form__label">Link:</label>
+      <input formControlName="link" type="url" class="form__input" id="link">
+      <div *ngIf="contestEntryForm.get('link').invalid && (contestEntryForm.get('link').dirty || contestEntryForm.get('link').touched)">
+        <div *ngIf="contestEntryForm.get('link').errors.required" class="text-danger">
+          Link is required
+        </div>
+      </div>
+    </div>
+    <div>
+   
+       <div class="button-container">
+        <button type="submit" class="default-btn-color">Salvar</button>
+        <button type="button" class="default-btn-add"  #closebutton  data-dismiss="modal">Close</button>
+       </div>
+
+    </div>
+  </form>

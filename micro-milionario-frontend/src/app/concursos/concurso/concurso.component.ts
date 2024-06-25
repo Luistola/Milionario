@@ -1,5 +1,5 @@
 import { ParticipanteService } from './../../service/participante/participante.service';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FiltroClass } from 'src/app/service/geral/filtro-service';
 import { AuthService } from 'src/app/service/auth/auth.service';
@@ -9,13 +9,15 @@ import { UploadFileService } from 'src/app/service/upload/upload-file.service';
 import { EncryptionService } from 'src/app/service/encryption/encryption.service';
 import { Location } from '@angular/common';
 import { ConcursoService } from 'src/app/service/concurso/concurso.service';
+import { AddEntiresService } from 'src/app/service/add-entires/add-entires.service';
+import { AddEntiresModalComponent } from '../add-entires-modal/add-entires-modal.component';
 
 @Component({
   selector: 'app-concurso',
   templateUrl: './concurso.component.html',
   styleUrls: ['./concurso.component.css']
 })
-export class ConcursoComponent implements OnInit {
+export class ConcursoComponent implements OnInit,AfterViewInit {
 
   participanteLista: [];
   isloading: boolean = false;
@@ -26,6 +28,11 @@ export class ConcursoComponent implements OnInit {
   carteira: any;
   participanteSelecionado;
   concursoObject:{};
+  addEntriesModalOpen = false;
+  addEntriesData:{};
+  contestEntries:any;
+  formData: any;
+  receivedEntires: any[] = []; // Declare the variable here
 
   constructor(
     private route: ActivatedRoute,
@@ -37,19 +44,23 @@ export class ConcursoComponent implements OnInit {
     private carteiraService: CarteiraService,
     private encryptionService: EncryptionService,
     private location: Location,
-    private concursoService: ConcursoService
+    private concursoService: ConcursoService,
+    private addEntiresService:AddEntiresService,
+
   ) { }
+
+  
+  ngAfterViewInit(): void {
+    
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       this.concursoId = paramMap.get('id');
       this.getConcursoById(this.concursoId);
+      this.getContestEntries();
     });
-
-    // this.route.queryParams.subscribe(params => {
-    //   const encryptedParam = params['id'];
-    //   this.concursoId = this.encryptionService.decryptData(encryptedParam);
-    // });
+   
     this.carteira = this.carteiraService.getCarteiraData();
     this.usuarioActual = this.auth.pegarUsuario
     this.participantePaginacao(1);
@@ -92,13 +103,12 @@ export class ConcursoComponent implements OnInit {
     const concurso = await this.concursoService.listarById(data).toPromise();
     if (concurso.code == 200) {
       this.concursoObject=concurso.dados[0];
-      console.log("............................ggggggggggggggggggggggggggg",this.concursoObject);
 
     }
   }
 
   setParticipante(participante) {
-    //  console.log(participante);
+      console.log("fffffffffffffffffffff",participante);
     this.participanteSelecionado = participante;
   }
 
@@ -109,5 +119,41 @@ export class ConcursoComponent implements OnInit {
   goBack() {
     this.location.back();
   }
+
+
+  openAddEntriesModal(getConcursoObject: any) {
+    console.log("..............................", getConcursoObject);
+    this.addEntriesData = getConcursoObject;
+    console.log("addEntriesData:", this.addEntriesData);
+  }
+
+  // receiveDataFromModal(data: any) {
+  //   console.log('Received data from modal:', data);
+  //   this.receivedEntires.push(data); // Now you can use it
+  //   console.log("push data",this.receivedEntires)
+   
+  // }
+
+  closeAddEntriesModal() {
+    this.addEntriesModalOpen = false;
+  }
+
+
+
+  async getContestEntries() {
+    try {
+      const response = await this.addEntiresService.getAllEntires().toPromise();
+      if(response.code == 200){
+        this.contestEntries = response.dados;
+        console.log(this.contestEntries);
+
+    }
+      
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
 
 }

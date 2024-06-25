@@ -48,6 +48,7 @@ import { PousarComponent } from './pousar/pousar/pousar.component';
     PerfilClienteComponent,
     PolicyComponent,
     PousarComponent,
+    
 
   ],
   imports: [

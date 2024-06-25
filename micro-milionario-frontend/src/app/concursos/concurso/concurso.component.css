@@ -5,3 +5,32 @@
 .image-detail{
   width:100%
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Add some spacing between the table and the surrounding elements */
+.col-xs-12 {
+  padding: -9px;
+}
+
+/* Add some basic styling to the header */
+h2 {
+  margin-top: 0;
+}

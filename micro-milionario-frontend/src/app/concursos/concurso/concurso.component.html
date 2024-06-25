@@ -13,7 +13,6 @@
       </div>
     </div>
 
-
     <div class="col-xs-12">
       <h1>Detalhe dos participantes</h1>
       <div class="row">
@@ -22,6 +21,7 @@
             <img class="image-detail" [src]="getImageUrl(concursoObject.foto)" alt="">
           </div>
         </div>
+
         <div class="col-sm-6">
           <div class="store-post__title">
             <span>Nome:</span>
@@ -39,33 +39,63 @@
           </div>
 
           <div class="store-post__title">
-            <span>data de início:</span>
+            <span>Data de Início:</span>
             {{concursoObject.data_inicio | date: 'dd-MM-yyyy'}}
           </div>
 
           <div class="store-post__title">
-            <span>Data_fim:</span>
+            <span>Data Fim:</span>
             {{concursoObject.data_fim | date: 'dd-MM-yyyy'}}
           </div>
 
-          <button type="button" class="default-btn form__btn" (click)="saveCarregar()" >Carregar</button>
-
-
-
-
-
-
+          <button class="default-btn form__btn" style="margin: 40px;" data-toggle="modal" data-target="#myAddModal"
+          (click)="openAddEntriesModal(concursoObject)">Adicionar entradas</button>
         </div>
+      </div>
+    </div>
+
+    <!-- end section title -->
+
+    <div class="col-xs-12">
+      <div class="row">
+        
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <h2>Contest Entries</h2>
+          <!-- <div class="col-sm-6" *ngFor="let receive of receivedEntires;" >
+            <div class="store-post__title">
+              <span>Title:</span>
+              {{receive.title}}
+            </div>
+  
+            <div class="store-post__title">
+              <span>Description:</span>
+              {{receive.description}}
+            </div>
+  
+            <div class="store-post__title">
+              <span>Link:</span>
+              {{receive.link}}
+            </div>
+  
+            <div class="store-post__title">
+              <span>Link Type:</span>
+              {{receive.link_type}}
+            </div>
+  
+            <div class="store-post__title">
+              <span>Vote:</span>
+              {{receive.vote}}
+            </div>
+          </div> -->
+        </div>
+        
       </div>
     </div>
 
 
 
-    <!-- end section title -->
-
     <div class="col-xs-12">
       <div class="row row--grid-big">
-
         <!-- store post -->
         <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let p of participanteLista; ">
           <div class="store-post">
@@ -81,7 +111,6 @@
           </div>
         </div>
         <!-- end store post -->
-
       </div>
     </div>
 
@@ -90,6 +119,21 @@
     </div>
   </div>
 </section>
+
+<!-- Add this modal HTML code -->
+<div class="modal fade" id="myAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Adicionar entradas</h4>
+      </div>
+      <div class="modal-body">
+        <app-add-entires-modal [getConcursoObject]="addEntriesData"></app-add-entires-modal>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- end store -->
 
