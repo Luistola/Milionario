@@ -13,7 +13,7 @@ class ContestEntSchema extends Schema {
       table.string("artist_id", 256).nullable();
       table.string("link", 256).nullable();
       table.string("link_type", 256).nullable();
-      table.boolean("status").defaultTo(false);
+      table.boolean("status").defaultTo(true);
       table.integer("vote");
       table.timestamps();
     });
