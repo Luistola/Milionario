@@ -46,11 +46,16 @@ class ContestEntryController {
     }
   }
 
-  async read() {
+  async read({ request }) {
     try {
-      let existingDatas = await this.contestEntryRepositorio.getAll();
+      const { pagination, dados } = request.only(["pagination", "dados"]);
 
-      if (existingDatas && existingDatas?.length) {
+      let existingDatas = await this.contestEntryRepositorio.listar(
+        pagination,
+        dados
+      );
+
+      if (existingDatas) {
         return this.dataResponse.dataReponse(200, "sucesso", existingDatas);
       } else {
         return this.dataResponse.dataReponse(404, "Dados não encontrados");

@@ -137,6 +137,17 @@ class BaseRepositorio {
       return await this.Model.query().where(col, id).delete();
     } catch (error) {}
   }
+
+  async findByColSortedByCreatedAt(col, id, sort) {
+    try {
+      return await this.Model.query()
+        .where(col, id)
+        .orderBy("created_at", sort)
+        .fetch();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = BaseRepositorio;

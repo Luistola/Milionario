@@ -1,8 +1,17 @@
 const BaseRepositorio = use('App/Repositorio/Geral/BaseRepositorio')
+const ContestEntry = use("App/Models/ContestEntry");
 
 class ContestEntryRepositorio {
   constructor() {
     this.baseRespositorio = new BaseRepositorio("ContestEntry");
+  }
+
+  async listar1(pagination, dados) {
+    let concursoListar = await ContestEntry.query()
+      .orderBy("created_at", "asc")
+      .paginate(pagination.page, pagination.perPage);
+
+    return concursoListar.toJSON();
   }
 
   async create(data) {
@@ -18,7 +27,11 @@ class ContestEntryRepositorio {
   }
 
   async getByContestId(id) {
-    return await this.baseRespositorio.findByCol("contest_id", id);
+    return await this.baseRespositorio.findByColSortedByCreatedAt(
+      "contest_id",
+      id,
+      "asc"
+    );
   }
 
   async getById(id) {
@@ -31,6 +44,10 @@ class ContestEntryRepositorio {
 
   async deleteById(id) {
     return this.baseRespositorio.deleteData("id", id);
+  }
+
+  async listar(pagination, dados) {
+    return this.listar1(pagination, dados);
   }
 }
 
