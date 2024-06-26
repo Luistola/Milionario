@@ -21,6 +21,10 @@ class ContestEntryRepositorio {
     return await this.baseRespositorio.findByCol("contest_id", id);
   }
 
+  async getById(id) {
+    return await this.baseRespositorio.findByCol("id", id);
+  }
+
   async updateById(id, data) {
     return this.baseRespositorio.update(id, data);
   }
