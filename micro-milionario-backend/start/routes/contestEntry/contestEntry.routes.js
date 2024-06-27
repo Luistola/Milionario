@@ -1,7 +1,7 @@
 module.exports = (ApiRoute, Route) => {
   ApiRoute(() => {
     Route.post("contestEntry/create", "ContestEntryController.create");
-    Route.get("contestEntry/read", "ContestEntryController.read");
+    Route.post("contestEntry/read", "ContestEntryController.read");
     Route.get(
       "contestEntry/artist/:id",
       "ContestEntryController.getByArtistId"
