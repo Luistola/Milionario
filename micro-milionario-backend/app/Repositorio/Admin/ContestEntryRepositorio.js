@@ -1,4 +1,4 @@
-const BaseRepositorio = use('App/Repositorio/Geral/BaseRepositorio')
+const BaseRepositorio = use("App/Repositorio/Geral/BaseRepositorio");
 const ContestEntry = use("App/Models/ContestEntry");
 
 class ContestEntryRepositorio {
@@ -27,10 +27,11 @@ class ContestEntryRepositorio {
   }
 
   async getByContestId(id) {
-    return await this.baseRespositorio.findByColSortedByCreatedAt(
+    return await this.baseRespositorio.findByColSortedByCreatedAtWithStatus(
       "contest_id",
       id,
-      "asc"
+      "asc",
+      1
     );
   }
 
@@ -51,4 +52,4 @@ class ContestEntryRepositorio {
   }
 }
 
-module.exports = ContestEntryRepositorio
+module.exports = ContestEntryRepositorio;

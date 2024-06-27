@@ -148,6 +148,18 @@ class BaseRepositorio {
       console.log(error);
     }
   }
+
+  async findByColSortedByCreatedAtWithStatus(col, id, sort, status) {
+    try {
+      return await this.Model.query()
+        .where(col, id)
+        .where("status", status)
+        .orderBy("created_at", sort)
+        .fetch();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = BaseRepositorio;

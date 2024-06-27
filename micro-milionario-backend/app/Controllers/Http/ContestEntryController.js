@@ -93,7 +93,7 @@ class ContestEntryController {
         contest_id
       );
 
-      if (existingDatas && existingDatas?.length) {
+      if (existingDatas) {
         return this.dataResponse.dataReponse(200, "sucesso", existingDatas);
       } else {
         return this.dataResponse.dataReponse(
