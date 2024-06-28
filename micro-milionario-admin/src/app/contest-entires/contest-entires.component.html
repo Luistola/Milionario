@@ -1,0 +1,65 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+        Administrativa
+        <small>Panel Controlo</small>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a routerLink="dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Inscrições no concurso</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Lista de inscrições do concurso</h3>
+                        
+                    </div>
+                    <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>TÍTULO</th>
+                    <th>Descrição</th>
+                    <th>TIPO DE LINK DE TÍTULO</th>
+                    <th>LINK</th>
+                    <th>STATUS</th>
+                    
+                  </tr>
+                  <tr *ngFor="let c of contestEntriesLista | paginate: { itemsPerPage: pagination.pagination.perPage, currentPage: pagination.pagination.page, totalItems: pagination.pagination.total}; let i=index ">
+                    <td>{{i+1}}</td>
+                    <td>{{c.title}}</td>
+                    <td>{{c.description}}</td>
+                    <td>{{c.link_type}}</td>
+                    <td>{{c.link}}</td>
+                    <td>
+                      <button type="button" (click)="updateStatus(c.id, c)" [class]="c.status? 'btn btn-success' : 'btn btn-danger'">
+                        {{ c.status? 'Aprovado' : 'Rejeitado' }}
+                      </button>
+                    </td>
+                    
+                  </tr>
+                </table>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer clearfix">
+                <pagination-controls class="pagination pagination-sm no-margin pull-right" (pageChange)="concursoEntiresPagination(pagination.pagination.page = $event)"></pagination-controls>
+              </div>
+            <!-- /.box -->
+                </div>
+            </div>
+        </div>
+    </section>
+  
+     
+  </div>
+  
+
+  
+  
+  

@@ -11,7 +11,7 @@ import { UploadFileService } from 'src/app/service/upload/upload-file.service';
   styleUrls: ['./new-concurso-modal.component.css']
 })
 export class NewConcursoModalComponent implements OnInit {
-
+  imageReponse:any;
   concursoBody;
   fotoFile;
   concursoForm: FormGroup;
@@ -63,6 +63,8 @@ export class NewConcursoModalComponent implements OnInit {
     // console.log(selectedFiles[0]);
   }
 
+
+
   setConcurso(): void {
     this.concursoBody = {
       nome: this.concursoForm.get('nome').value,
@@ -72,40 +74,56 @@ export class NewConcursoModalComponent implements OnInit {
       percentual_de_preço: this.concursoForm.get('percentual_de_preço').value,
       data_inicio: this.concursoForm.get('data_inicio').value,
       data_fim: this.concursoForm.get('data_fim').value,
-      foto: this.fotoFile
+      foto: this.imageReponse // set the foto property to the image response
     };
-
-    console.log(this.concursoBody);
+  
+   
   }
-
-  async upload() {
-    if (this.files && this.files.size > 0) {
-      await this.uploadFileService.upload('/concurso/images', this.files).toPromise();
-    }
-  }
+ 
 
 
   async save() {
     if (this.concursoForm.valid) {
-      // Form is valid, you can submit it here
-      this.setConcurso();
-      const concurso = await this.concursoService.post('/concurso', this.concursoBody).toPromise();
-      if (concurso.code == 200) {
-        await this.upload();
-        this.emitirEvento();
-        this.closebutton.nativeElement.click();
-        this.toastr.success('Concurso Salvo Com Sucesso!', 'Sucesso!');
-        console.log(concurso.message);
-        this.createForm();
-        this.files = new Set();
-        this.limparInputFile();
+     
+      if (this.files && this.files.size > 0) {
+        const imageApi = await this.uploadFileService.upload('/concurso/images', this.files).toPromise();
+        if (imageApi.code === 200) {
+          this.imageReponse = imageApi.data;
+        } else {
+          console.error(`Error uploading image: ${imageApi.mssage}`);
+          return; // exit the function if image upload fails
+        }
       }
-      console.log('Form is valid!');
+  
+      this.setConcurso();
+      try {
+        const concurso = await this.concursoService.post('/concurso', this.concursoBody).toPromise();
+        if (concurso.code === 200) {
+          this.emitirEvento();
+          this.closebutton.nativeElement.click();
+          this.toastr.success('Concurso Salvo Com Sucesso!', 'Sucesso!');
+          console.log(concurso.message);
+          this.createForm();
+          this.files = new Set();
+          this.limparInputFile();
+        } else {
+          console.error(`Error saving concurso: ${concurso.message}`);
+        }
+      } catch (error) {
+        if (error.status === 409) {
+          console.error('Concurso already exists:', error.error.message);
+          this.toastr.error('Concurso já cadastrado, verifique os campos!', 'Erro!');
+        } else {
+          console.error('Error saving concurso:', error);
+          this.toastr.error('Erro ao salvar concurso!', 'Erro!');
+        }
+      }
     } else {
-      // Form is invalid, you can show error messages here
       console.log('Form is invalid!');
     }
   }
+
+
   formataData(d) {
     var curr_date = d.getDate();
     var curr_month = d.getMonth() + 1; //Months are zero based

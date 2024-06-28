@@ -43,7 +43,6 @@ export class PousarComponent implements OnInit, AfterViewInit {
   }
 
 
-
   createForm(): void {
     this.pousarForm = this.formBuilder.group({
       title: [''],
@@ -51,7 +50,6 @@ export class PousarComponent implements OnInit, AfterViewInit {
       file: [''],
     });
   }
-
 
 
   onChangeFoto(event) {
@@ -75,6 +73,7 @@ export class PousarComponent implements OnInit, AfterViewInit {
         const imageUrl = response.dados.file; // assuming the response contains the image URL
         this.pousarData.file = imageUrl; // update the pousarData with the new image URL
         this.getImageUrl(this.pousarData.file);
+        this.getByPousarRead();
         this.toastr.success('Slide Salvo Com Sucesso!', 'Sucesso!');
       }
     } catch (error) {
@@ -113,7 +112,6 @@ export class PousarComponent implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
 
         // Log the thumbnail URL for debugging
-        console.log('>>>>>======>>', this.thumbnail);
       });
       return url;
     } catch (error) {
@@ -122,7 +120,6 @@ export class PousarComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   initVideo() {
     if (this.videoElement) {
       document.addEventListener("DOMContentLoaded", () => {
@@ -130,6 +127,5 @@ export class PousarComponent implements OnInit, AfterViewInit {
       });
     }
   }
-
 
 }

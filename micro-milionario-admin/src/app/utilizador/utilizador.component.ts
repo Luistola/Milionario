@@ -23,7 +23,6 @@ export class UtilizadorComponent implements OnInit {
     private router: Router,
   ) { 
 
-    console.log("..............................",this.utilizadorLista);
   }
 
   ngOnInit() {

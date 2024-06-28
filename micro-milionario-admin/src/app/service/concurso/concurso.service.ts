@@ -21,8 +21,8 @@ export class ConcursoService {
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/listarById`,{dados:dados});
   }
 
-  listarConcursos(pagination, dados):Observable<GeralInterfaceListar>{
-    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/listar`,{pagination:pagination, dados:dados});
+  listarConcursos(pagination):Observable<GeralInterfaceListar>{
+    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/listar`,{pagination:pagination});
   }
 
   listarConcursoAberta():Observable<GeralInterfaceListar>{

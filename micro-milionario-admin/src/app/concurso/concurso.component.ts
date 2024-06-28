@@ -30,16 +30,16 @@ export class ConcursoComponent implements OnInit {
 
   async listarConcursos(){
    
-     const listagemConcurso= await this.concursoService.listarConcursos(this.pagination.pagination, this.procurarItem).toPromise();
+     const listagemConcurso= await this.concursoService.listarConcursos(this.pagination.pagination).toPromise();
+
      if(listagemConcurso.code == 200){
       this.concursoLista= listagemConcurso.dados.data
-      console.log("firs.......................t",this.concursoLista)
+      console.log("firs...................hhhhhhhhhhhhhh....t",this.concursoLista)
       this.pagination.pagination.lastPage= listagemConcurso.dados.lastPage;
       this.pagination.pagination.page= listagemConcurso.dados.page;
       this.pagination.pagination.perPage= listagemConcurso.dados.perPage;
       this.pagination.pagination.total = listagemConcurso.dados.total;
 
-      console.log("chhhhhhhhhhhhhhhhhhhhh",listagemConcurso);
     }
   }
 

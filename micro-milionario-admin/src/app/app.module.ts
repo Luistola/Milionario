@@ -23,6 +23,7 @@ import { SlideComponent } from './slide/slide.component';
 import { ContactoComponent } from './contacto/contacto.component';
 import { VerFotoSlideComponent } from './slide/ver-foto-slide/ver-foto-slide.component';
 import { PousarComponent } from './pousar/pousar.component';
+import { ContestEntiresComponent } from './contest-entires/contest-entires.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PousarComponent } from './pousar/pousar.component';
     ContactoComponent,
     VerFotoSlideComponent,
     PousarComponent,
+    ContestEntiresComponent,
   ],
   imports: [
     BrowserModule,

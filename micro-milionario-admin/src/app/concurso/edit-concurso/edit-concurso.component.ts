@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
@@ -12,7 +12,7 @@ import { UploadFileService } from 'src/app/service/upload/upload-file.service';
   styleUrls: ['./edit-concurso.component.css']
 })
 export class EditConcursoComponent implements OnInit {
-
+  imageReponse:any;
   concursoBody;
   fotoFile;
   concursoForm: FormGroup;
@@ -40,13 +40,15 @@ export class EditConcursoComponent implements OnInit {
   }
 
   createForm(): void {
-    this.concursoForm = this.formBuilder.group({
-      nome: ['', Validators.required],
-      descricao: ['', Validators.required],
-      premio: ['', Validators.required],
-      n_vencedor: ['', Validators.required],
-      data_inicio: ['', Validators.required],
-      data_fim: ['', Validators.required]
+    this.concursoForm = new FormGroup({
+      nome: new FormControl('', Validators.required),
+      descricao: new FormControl('', Validators.required),
+      premio: new FormControl('', Validators.required),
+      n_vencedor: new FormControl('', Validators.required),
+      price_percent: new FormControl('', Validators.required),
+      data_inicio: new FormControl('', Validators.required),
+      data_fim: new FormControl('', Validators.required),
+      foto: new FormControl('')
     });
   }
 
@@ -59,13 +61,16 @@ export class EditConcursoComponent implements OnInit {
   }
 
   preencherData() {
+    console.log('concurso.price_percent:', this.concurso.price_percent);
     this.concursoForm.patchValue({
       nome: this.concurso.nome,
       descricao: this.concurso.descricao,
       premio: this.concurso.premio,
       n_vencedor: this.concurso.n_vencedor,
+      price_percent: this.concurso.price_percent ,
       data_inicio: this.formatDate(this.concurso.data_inicio),
       data_fim: this.formatDate(this.concurso.data_fim)
+
     });
     this.fotoFile = this.concurso.foto;
   }
@@ -82,24 +87,28 @@ export class EditConcursoComponent implements OnInit {
       descricao: this.concursoForm.get('descricao').value,
       premio: this.concursoForm.get('premio').value,
       n_vencedor: this.concursoForm.get('n_vencedor').value,
+      price_percent: this.concursoForm.get('price_percent').value,
       data_inicio: this.concursoForm.get('data_inicio').value,
       data_fim: this.concursoForm.get('data_fim').value,
-      foto: this.fotoFile
+      foto: this.imageReponse // set the foto property to the image response
     };
   }
 
-  async upload() {
-    if (this.files && this.files.size > 0) {
-      await this.uploadFileService.upload('/concurso/images', this.files).toPromise();
-    }
-  }
-
+  
   async update() {
     if (this.concursoForm.valid) {
+      if (this.files && this.files.size > 0) {
+        const imageApi = await this.uploadFileService.upload('/concurso/images', this.files).toPromise();
+        if (imageApi.code === 200) {
+          this.imageReponse = imageApi.data;
+        } else {
+          console.error(`Error uploading image: ${imageApi.mssage}`);
+          return; // exit the function if image upload fails
+        }
+      }
       this.setConcurso();
       const concurso = await this.concursoService.update('/concurso/update/' + this.concursoId, this.concursoBody).toPromise();
       if (concurso.code == 200) {
-        await this.upload();
         this.toastr.success(concurso.message, 'Sucesso!');
         this.goBack();
       }
@@ -107,6 +116,8 @@ export class EditConcursoComponent implements OnInit {
       this.toastr.error('Formulário inválido', 'Erro!');
     }
   }
+
+
 
   formatDate(date) {
     let dateObj = new Date(date);
