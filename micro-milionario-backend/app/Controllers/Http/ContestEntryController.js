@@ -30,6 +30,25 @@ class ContestEntryController {
         vote,
       } = request.body;
 
+      if (!artist_id) {
+        return this.dataResponse.dataReponse(500, "artist_id is required");
+      }
+      if (!contest_id) {
+        return this.dataResponse.dataReponse(500, "contest_id is required");
+      }
+
+      let exits = await this.contestEntryRepositorio.getEntryByArtistAndContest(
+        artist_id,
+        contest_id
+      );
+
+      if (exits?.length) {
+        return this.dataResponse.dataReponse(
+          208,
+          "contest entry already exists"
+        );
+      }
+
       let data = await this.contestEntryRepositorio.create({
         title,
         description,

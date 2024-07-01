@@ -54,6 +54,17 @@ class ContestEntryRepositorio {
   async listar(pagination, dados) {
     return this.listar1(pagination, dados);
   }
+
+  async getEntryByArtistAndContest(artist_id, contest_id) {
+    let concursoListar = await ContestEntry.query()
+      .where({
+        contest_id,
+        artist_id,
+      })
+      .fetch();
+
+    return concursoListar.toJSON();
+  }
 }
 
 module.exports = ContestEntryRepositorio;
