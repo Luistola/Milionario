@@ -89,9 +89,10 @@ class ContestEntryController {
   async getByContestId({ params }) {
     try {
       const contest_id = params.id;
-      let existingDatas = await this.contestEntryRepositorio.getByContestId(
-        contest_id
-      );
+      let existingDatas =
+        await this.contestEntryRepositorio.getActiveSortedContestById(
+          contest_id
+        );
 
       if (existingDatas) {
         return this.dataResponse.dataReponse(200, "sucesso", existingDatas);
