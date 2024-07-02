@@ -15,7 +15,7 @@
               <label for="name" class="form__label">Nome</label>
               <input id="name" name="nome" type="text" [(ngModel)]="clientObject.nome" class="form__input"
                      formControlName="nome" [ngClass]="{'is-invalid': usernameValidate}">
-              <div *ngIf="usernameValidate" class="invalid-feedback">
+              <div *ngIf="usernameValidate" class="invalid-feedback text-danger">
                 Username is required and must be at least 3 characters long.
               </div>
             </div>
@@ -24,7 +24,7 @@
               <label for="telefone" class="form__label">Telefone</label>
               <input id="telefone" name="telefone" type="number" [(ngModel)]="clientObject.telefone" class="form__input"
                      formControlName="telefone" [ngClass]="{'is-invalid': telValidate}">
-              <div *ngIf="telValidate" class="invalid-feedback">
+              <div *ngIf="telValidate" class="invalid-feedback text-danger">
                 Telefone is required and must contain only numbers.
               </div>
             </div>
@@ -37,7 +37,7 @@
                 <option value="Feminino">Feminino</option>
                 <option value="Masculino">Masculino</option>
               </select>
-              <div *ngIf="sexoValidate" class="invalid-feedback">
+              <div *ngIf="sexoValidate" class="invalid-feedback text-danger">
                 Sexo is required.
               </div>
             </div>
@@ -45,19 +45,19 @@
             <ng-container *ngIf="selectedOption == 2">
               <div class="form__group">
                 <label for="password" class="form__label">Senha</label>
-                <input id="password" name="password" type="password" class="form__input" formControlName="password"
+                <input id="password" name="password" type="password" class="form__input text-danger" formControlName="password"
                        [class.is-invalid]="passwordValidate">
               </div>
           
               <div class="form__group">
                 <label for="password" class="form__label">Senha</label>
-                <input id="password" name="password" type="password" class="form__input" formControlName="password"
+                <input id="password" name="password" type="password" class="form__input text-danger" formControlName="password"
                        [class.is-invalid]="passwordValidate">
               </div>
           
               <div class="form__group">
                 <label for="conf_password" class="form__label">Confirmar Senha</label>
-                <input id="conf_password" name="conf_password" type="password" class="form__input"
+                <input id="conf_password" name="conf_password" type="password" class="form__input text-danger"
                        formControlName="conf_password">
               </div>
             </ng-container>

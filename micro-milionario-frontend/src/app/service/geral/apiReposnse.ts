@@ -45,13 +45,34 @@ export interface createEntiresInterface {
     code: number,
     message: string,
     dados: {
-        title: string
-        description: string
-        status: boolean
-        link: string
-        link_type: string
-        vote: number
-        artist_id: number
-        contest_id: number
+        total: number,
+        perPage: number,
+        page: number,
+        lastPage: number,
+        data: [
+        
+        ]
     }
 }
+
+export interface GetEntriesInterface {
+    code: number
+    message: string
+    dados: EntiresInterface[]
+  }
+  
+  export interface EntiresInterface {
+    id: number
+    title: string
+    description: string
+    contest_id: string
+    artist_id: string
+    link: string
+    link_type: string
+    status: number
+    vote: any
+    created_at: string
+    updated_at: string
+  }
+  
+

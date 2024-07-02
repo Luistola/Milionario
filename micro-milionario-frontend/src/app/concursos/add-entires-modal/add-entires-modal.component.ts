@@ -1,7 +1,9 @@
-import { Component,EventEmitter,Input, OnInit, Output, ViewChild,  } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AddEntiresService } from 'src/app/service/add-entires/add-entires.service';
+import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
   selector: 'app-add-entires-modal',
@@ -10,47 +12,58 @@ import { AddEntiresService } from 'src/app/service/add-entires/add-entires.servi
 })
 export class AddEntiresModalComponent implements OnInit {
   @ViewChild('closebutton', { static: false }) closebutton;
-  @Input() getConcursoObject: any;
+  @Input() concursoData: any;
   @Output() sendDataBack = new EventEmitter<any>();
   contestEntryForm: FormGroup;
-  concursoObject: any;
-  contestEntries:any;
- 
+  concursoId;
+  user;
+
+  contestEntries: any;
 
 
 
-  constructor(private addEntiresService:AddEntiresService, private toastr: ToastrService){
-    console.log("llllllllllllllllllllllllllllllllll");
+  constructor(private addEntiresService: AddEntiresService, private toastr: ToastrService, private route: ActivatedRoute,
+    private auth: AuthService,
+  ) {
+
   }
 
   ngOnInit() {
+    this.user = this.auth.pegarUsuario;
+    console.log("user", this.user.id)
+    this.route.paramMap.subscribe(paramMap => {
+      this.concursoId = paramMap.get('id');
+
+    });
     this.createFrom();
-    this.getContestEntries();
-    this.concursoObject = this.getConcursoObject;
+    console.log('Received concurso data:', this.concursoData);
   }
 
 
-  createFrom(){
+  createFrom() {
     this.contestEntryForm = new FormGroup({
       title: new FormControl('', Validators.required),
-      description: new FormControl('',),
+      description: new FormControl(''),
       link: new FormControl('', Validators.required),
       link_type: new FormControl('facebook', Validators.required),
-      vote: new FormControl('',)
+      vote: new FormControl(''),
+      contest_id: new FormControl(this.concursoId),// <--- corrected line
+      artist_id: new FormControl(this.user.id)
     });
   }
 
 
   async onSubmit() {
     if (this.contestEntryForm.valid) {
-      console.log(this.contestEntryForm.value);
+      console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",this.contestEntryForm.value);
       const formData = await this.addEntiresService.addEntires(this.contestEntryForm.value).toPromise();
       if (formData.code == 201) {
         console.log(".......................................................", formData.dados)
         this.closebutton.nativeElement.click();
         this.toastr.success(formData.message, 'Sucesso!');
-        this.contestEntryForm.reset();
-       // this.sendDataBack.emit(formData.dados); // Pass the data as an argument
+        this.sendDataBack.emit(this.contestEntryForm.value);
+      } else if (formData.code == 208) {
+        this.toastr.warning('Contest already created', 'Warning!');
       } else {
         console.log('Form is invalid');
       }
@@ -58,23 +71,13 @@ export class AddEntiresModalComponent implements OnInit {
   }
 
 
- async getContestEntries() {
-    try {
-      const response = await this.addEntiresService.getAllEntires().toPromise();
-      if(response.code == 200){
-        console.log(".......................................................",response.dados)
-        this.contestEntries = response.dados;
-        console.log(this.contestEntries);
-
-    }
-      
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-
-
 
   
+
+
+
+
+
+
+
 }

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
-import { createEntiresInterface } from '../geral/apiReposnse';
+import { EntiresInterface, GetEntriesInterface, createEntiresInterface } from '../geral/apiReposnse';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +22,9 @@ export class AddEntiresService {
     return this.http.post<createEntiresInterface>(`${this.apiURL}/contestEntry/update/${entiresID}`, entires);
   }
 
-  getAllEntires():Observable<createEntiresInterface>{
-    return this.http.get<createEntiresInterface>(`${this.apiURL}/contestEntry/read`);
+  
+  getcontestAgainstEntires(contestId):Observable<GetEntriesInterface>{
+    return this.http.get<GetEntriesInterface>(`${this.apiURL}/contestEntry/contest/${contestId}`);
   }
 
   getEntiresById(contest_id:number):Observable<createEntiresInterface>{

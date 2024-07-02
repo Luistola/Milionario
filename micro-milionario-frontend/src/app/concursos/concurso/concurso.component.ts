@@ -11,13 +11,14 @@ import { Location } from '@angular/common';
 import { ConcursoService } from 'src/app/service/concurso/concurso.service';
 import { AddEntiresService } from 'src/app/service/add-entires/add-entires.service';
 import { AddEntiresModalComponent } from '../add-entires-modal/add-entires-modal.component';
+import { EntiresInterface } from 'src/app/service/geral/apiReposnse';
 
 @Component({
   selector: 'app-concurso',
   templateUrl: './concurso.component.html',
   styleUrls: ['./concurso.component.css']
 })
-export class ConcursoComponent implements OnInit,AfterViewInit {
+export class ConcursoComponent implements OnInit, AfterViewInit {
 
   participanteLista: [];
   isloading: boolean = false;
@@ -27,10 +28,11 @@ export class ConcursoComponent implements OnInit,AfterViewInit {
   idClienteLogado;
   carteira: any;
   participanteSelecionado;
-  concursoObject:{};
+  concursoObject: {};
   addEntriesModalOpen = false;
-  addEntriesData:{};
-  contestEntries:any;
+  addEntriesData: {};
+  contestEntriesLista: any;
+  filteredContestEntries: any;
   formData: any;
   receivedEntires: any[] = []; // Declare the variable here
 
@@ -45,25 +47,27 @@ export class ConcursoComponent implements OnInit,AfterViewInit {
     private encryptionService: EncryptionService,
     private location: Location,
     private concursoService: ConcursoService,
-    private addEntiresService:AddEntiresService,
+    private addEntiresService: AddEntiresService,
 
   ) { }
 
-  
+
   ngAfterViewInit(): void {
-    
+
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       this.concursoId = paramMap.get('id');
+      console.log(".........................................uuuuuuuuuuuuuuuuuu", this.concursoId);
       this.getConcursoById(this.concursoId);
-      this.getContestEntries();
+
     });
-   
+
     this.carteira = this.carteiraService.getCarteiraData();
     this.usuarioActual = this.auth.pegarUsuario
     this.participantePaginacao(1);
+    this.getContestAgainEntry();
 
   }
 
@@ -102,13 +106,13 @@ export class ConcursoComponent implements OnInit,AfterViewInit {
   async getConcursoById(data) {
     const concurso = await this.concursoService.listarById(data).toPromise();
     if (concurso.code == 200) {
-      this.concursoObject=concurso.dados[0];
+      this.concursoObject = concurso.dados[0];
+      console.log("..........................................................tt", this.concursoObject)
 
     }
   }
 
   setParticipante(participante) {
-      console.log("fffffffffffffffffffff",participante);
     this.participanteSelecionado = participante;
   }
 
@@ -122,35 +126,43 @@ export class ConcursoComponent implements OnInit,AfterViewInit {
 
 
   openAddEntriesModal(getConcursoObject: any) {
-    console.log("..............................", getConcursoObject);
     this.addEntriesData = getConcursoObject;
     console.log("addEntriesData:", this.addEntriesData);
   }
 
-  // receiveDataFromModal(data: any) {
-  //   console.log('Received data from modal:', data);
-  //   this.receivedEntires.push(data); // Now you can use it
-  //   console.log("push data",this.receivedEntires)
+  receiveDataFromModal(data: any) {
+    console.log('Callback called from parent component!', data);
+    this.getContestAgainEntry();
    
-  // }
+  }
+
+
 
   closeAddEntriesModal() {
+    this.getContestAgainEntry();
     this.addEntriesModalOpen = false;
   }
 
 
 
-  async getContestEntries() {
-    try {
-      const response = await this.addEntiresService.getAllEntires().toPromise();
-      if(response.code == 200){
-        this.contestEntries = response.dados;
-        console.log(this.contestEntries);
 
-    }
-      
+  async getContestAgainEntry() {
+    try {
+      const response = await this.addEntiresService.getcontestAgainstEntires(this.concursoId).toPromise();
+      if (response.code == 200) {
+        this.contestEntriesLista = response.dados
+      }
+
     } catch (error) {
       console.error(error);
+    }
+  }
+
+
+  openLink(link: string) {
+    if (link) {
+      console.log("pppppppppppppppppppppppppppppppppppppppppppppppp");;
+      window.open(link, '_blank');
     }
   }
 

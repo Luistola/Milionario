@@ -34,3 +34,24 @@ tr:nth-child(even) {
 h2 {
   margin-top: 0;
 }
+
+
+.entires_dimensao {
+  height: 235px;
+}
+
+.entires-post__cover {
+    position: relative;
+    margin-bottom: 5px;
+  }
+
+  .entires__title {
+    color: #bb9729;
+    display: block;
+    font-size: 18px;
+    font-weight: 300;
+    -webkit-transition: color 0.3s;
+    -moz-transition: color 0.3s;
+    transition: color 0.3s;
+    text-align:left
+  }

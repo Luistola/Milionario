@@ -16,7 +16,7 @@ import { UploadFileService } from '../service/upload/upload-file.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
+  imageReponse:any;
   registerForm:FormGroup;
   userBody;
   carteiraBody;
@@ -120,7 +120,7 @@ export class RegisterComponent implements OnInit {
       nome: this.registerForm.get('username').value,
       telefone: this.registerForm.get('telefone').value,
       sexo: this.registerForm.get('sexo').value,
-      foto: this.fotoFile,
+      foto: this.imageReponse,
       facebook: this.registerForm.get('facebook').value,
       instagram: this.registerForm.get('instagram').value,
       twitter: this.registerForm.get('twitter').value
@@ -138,43 +138,70 @@ export class RegisterComponent implements OnInit {
     console.log(this.carteiraBody);
   }
 
-  async upload(){
-    if (this.files && this.files.size > 0) {
-      await this.uploadFileService.upload('/artist/images', this.files).toPromise();
-    }
-  }
 
-  async save(){
-    if(this.registerForm.invalid){
-      return Object.values(this.registerForm.controls).forEach(control => {
-        control.markAsTouched();
-      });
-    }else{
-      this.setUsuario();
-      this.authService.register(this.usuario).subscribe(async (data:any) => {
-        console.log(data.dados);
-        if(this.usuario.role_id == '2'){
-          this.setArtista(data.dados);
+  async save() {
+    if (this.registerForm.invalid) {
+      Object.values(this.registerForm.controls).forEach(control => control.markAsTouched());
+      return;
+    }
+  
+    this.setUsuario();
+  
+    try {
+      const response = await this.authService.register(this.usuario).toPromise();
+      const userData = response.dados;
+  
+      if (this.usuario.role_id === '2') {
+        if (this.files && this.files.size > 0) {
+          try {
+            const imageApi = await this.uploadFileService.upload('/concurso/images', this.files).toPromise();
+            if (imageApi.code === 200) {
+              this.imageReponse = imageApi.data;
+            } else {
+              console.error(`Error uploading image: ${imageApi.mssage}`);
+              throw new Error(`Error uploading image: ${imageApi.mssage}`);
+            }
+          } catch (error) {
+            console.error(error);
+            this.toastr.error('Erro ao upload imagem!', 'Erro!');
+            return;
+          }
+        }
+  
+        try {
+          this.setArtista(userData);
           await this.saveArtist(this.userBody);
           // await this.saveCarteira(this.carteiraBody);
-        }else{
-          this.setCliente(data.dados);
-          this.setCarteira(data.dados);
+        } catch (error) {
+          console.error(error);
+          this.toastr.error('Erro ao registar artista!', 'Erro!');
+          return;
+        }
+      } else {
+        try {
+          this.setCliente(userData);
+          this.setCarteira(userData);
           await this.saveCliente(this.userBody);
           await this.saveCarteira(this.carteiraBody);
+        } catch (error) {
+          console.error(error);
+          this.toastr.error('Erro ao registar cliente!', 'Erro!');
+          return;
         }
-        this.toastr.success('Registado Com Sucesso!', 'Sucesso!');
-        console.log('Registado Com Sucesso!');
-        this.router.navigate(['/login']);
-      }, error =>{
-        this.toastr.error('Erro ao registar!', 'Erro!');
-        console.log(error);
-      });
+      }
+  
+      this.toastr.success('Registado Com Sucesso!', 'Sucesso!');
+      console.log('Registado Com Sucesso!');
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error(error);
+      this.toastr.error('Erro ao registar!', 'Erro!');
     }
   }
 
-  async saveCliente(user){
 
+
+  async saveCliente(user){
     const cliente = await this.clienteService.post('/cliente', user).toPromise();
     if(cliente.code == 200){
       console.log(cliente.message);
@@ -184,10 +211,9 @@ export class RegisterComponent implements OnInit {
   }
 
   async saveArtist(user){
-
     const artista = await this.artistService.post('/artist', user).toPromise();
     if(artista.code == 200){
-      await this.upload();
+      // await this.upload();
       console.log(artista.message);
     }else{
       console.log(artista.code);

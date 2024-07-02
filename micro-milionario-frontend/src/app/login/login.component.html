@@ -33,7 +33,7 @@
                 formControlName="email"
                 [ngClass]="{'is-invalid': emailValidate}"
               >
-              <div *ngIf="emailValidate" class="invalid-feedback">
+              <div *ngIf="emailValidate" class="invalid-feedback text-danger">
                 Please enter a valid email address.
               </div>
             </div>
@@ -47,7 +47,7 @@
                 class="form__input"
                 formControlName="password"
                 [ngClass]="{'is-invalid': passwordValidate}">
-              <div  *ngIf="passwordValidate" class="invalid-feedback">
+              <div  *ngIf="passwordValidate" class="invalid-feedback text-danger">
                 Password is required and must be at least 6 characters long.
               </div>
             </div>
