@@ -13,7 +13,7 @@ import { UploadFileService } from '../service/upload/upload-file.service';
   styleUrls: ['./slide.component.css']
 })
 export class SlideComponent implements OnInit {
-
+  imageReponse:any;
   slideLista: [];
   isloading: boolean= false;
   slideCarregar
@@ -49,18 +49,26 @@ export class SlideComponent implements OnInit {
   setSlide(): void{
     this.slideBody = {
       // nome: this.slideForm.get('nome').value,
-      foto: this.fotoFile
+      foto: this.imageReponse // set the foto property to the image response
     };
 
     console.log(this.slideBody);
   }
 
   async save(){
+    if (this.files && this.files.size > 0) {
+      const imageApi = await this.uploadFileService.upload('/concurso/images', this.files).toPromise();
+      if (imageApi.code === 200) {
+        this.imageReponse = imageApi.data;
+      } else {
+        console.error(`Error uploading image: ${imageApi.mssage}`);
+        return; // exit the function if image upload fails
+      }
+    }
     this.setSlide();
 
     const slide = await this.slideService.post('/slide', this.slideBody).toPromise();
     if(slide.code == 200){
-      await this.upload();
       this.toastr.success('Slide Salvo Com Sucesso!', 'Sucesso!');
       console.log(slide.message);
       this.slidePaginacao(this.pagination.pagination.page);
