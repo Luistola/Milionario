@@ -24,7 +24,7 @@ class CarteiraController {
    */
    async index () {
     const listarTodosCarteira= await this.carteiraRepositorio.index();
-    return this.dataResponse.dataReponse(200, "listagem de todas as Carteira", listarTodosCarteira)
+        return this.dataResponse.dataReponse(200, "listagem de todas as Carteira", listarTodosCarteira)
  }
 
   /**
@@ -71,11 +71,21 @@ class CarteiraController {
       return this.dataResponse.dataReponse(200, ' Carteira eliminada com sucesso')
 
   }
+
   async update({ params, request }) {
 
-    const {...dados}= request.only(['user_id', 'pontos']);
-    await this.carteiraRepositorio.atualizar(dados, params.id, request.url())
-    return this.dataResponse.dataReponse(200, ' Carteira Atualizada com sucesso')
+    let {...dados}= request.only(['user_id', 'pontos']);
+
+    let existingData = await this.carteiraRepositorio.listarByUserId(dados.user_id);
+
+    existingData = existingData[0];
+    
+    dados.pontos = existingData.pontos + dados.pontos;
+    dados.valor_unitel_m = dados.pontos;
+
+    let updatedData = await this.carteiraRepositorio.atualizar({...existingData,...dados}, existingData.id)
+      
+    return this.dataResponse.dataReponse(200, ' Carteira Atualizada com sucesso', updatedData)
 
   }
 }

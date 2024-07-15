@@ -5,6 +5,6 @@ module.exports = (ApiRoute, Route) => {
     Route.post("carteira/listar", "CarteiraController.show");
     Route.post("carteira/listarById", "CarteiraController.showById");
     Route.post("carteira/listarByUserId", "CarteiraController.showByUserId");
-    Route.post('carteira/update/:id', 'CarteiraController.update');
+    Route.post('carteira/update/', 'CarteiraController.update');
   })
 }
