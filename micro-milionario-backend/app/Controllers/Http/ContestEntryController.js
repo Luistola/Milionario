@@ -8,6 +8,8 @@ const ContestEntryRepositorio = use(
   "App/Repositorio/Admin/ContestEntryRepositorio"
 );
 const DataResponse = use("App/Repositorio/DataResponse");
+const CarteiraRepositorio = use('App/Repositorio/Admin/CarteiraRepositorio');
+
 
 /**
  * Resourceful controller for interacting
@@ -16,6 +18,7 @@ class ContestEntryController {
   constructor() {
     this.contestEntryRepositorio = new ContestEntryRepositorio();
     this.dataResponse = new DataResponse();
+    this.carteiraRepositorio = new CarteiraRepositorio();
   }
 
   async create({ request }) {
@@ -176,6 +179,49 @@ class ContestEntryController {
         return this.dataResponse.dataReponse(200, "sucesso", existingDatas);
       } else {
         return this.dataResponse.dataReponse(404, "Dados não encontrados");
+      }
+    } catch (error) {
+      return this.dataResponse.dataReponse(500, "erro", error);
+    }
+  }
+
+  async addVote({ request, params }) {
+    try {
+      const { vote, user_id } = request.body;
+      const id = params.id;
+
+      let existingDatas = await this.contestEntryRepositorio.getById(id);
+
+      if (existingDatas) {
+        
+        let carteiraData = await this.carteiraRepositorio.listarByUserId(user_id);
+        carteiraData = carteiraData[0];
+
+        if(!carteiraData){
+          return this.dataResponse.dataReponse(404, "carteira não encontrados");
+        }
+
+        if(carteiraData.pontos < vote){
+          return this.dataResponse.dataReponse(404, "pontos não disponíveis");
+        }
+
+        let data = await this.contestEntryRepositorio.updateById(params.id, {
+          vote: vote + existingDatas.vote,
+        });
+
+        let dados = {};
+        dados.pontos = carteiraData.pontos - vote;
+        dados.valor_unitel_m = dados.pontos;
+
+        await this.carteiraRepositorio.atualizar({...carteiraData,...dados}, carteiraData.id)
+
+        return this.dataResponse.dataReponse(200, "sucesso", data);
+      } else {
+        return this.dataResponse.dataReponse(
+          404,
+          "Dados não encontrados",
+          existingDatas
+        );
       }
     } catch (error) {
       return this.dataResponse.dataReponse(500, "erro", error);
