@@ -7,6 +7,7 @@ const Helpers = use("Helpers");
 const ContestEntryRepositorio = use(
   "App/Repositorio/Admin/ContestEntryRepositorio"
 );
+const VotacaoRepositorio = use('App/Repositorio/Admin/VotacaoRepositorio');
 const DataResponse = use("App/Repositorio/DataResponse");
 const CarteiraRepositorio = use('App/Repositorio/Admin/CarteiraRepositorio');
 
@@ -16,6 +17,7 @@ const CarteiraRepositorio = use('App/Repositorio/Admin/CarteiraRepositorio');
  */
 class ContestEntryController {
   constructor() {
+    this.votacaoRepositorio = new VotacaoRepositorio();
     this.contestEntryRepositorio = new ContestEntryRepositorio();
     this.dataResponse = new DataResponse();
     this.carteiraRepositorio = new CarteiraRepositorio();
@@ -190,9 +192,9 @@ class ContestEntryController {
       const { vote, user_id } = request.body;
       const id = params.id;
 
-      let existingDatas = await this.contestEntryRepositorio.getById(id);
+      let contest_entry = await this.contestEntryRepositorio.getById(id);
 
-      if (existingDatas) {
+      if (contest_entry) {
         
         let carteiraData = await this.carteiraRepositorio.listarByUserId(user_id);
         carteiraData = carteiraData[0];
@@ -205,25 +207,34 @@ class ContestEntryController {
           return this.dataResponse.dataReponse(404, "pontos não disponíveis");
         }
 
-        let data = await this.contestEntryRepositorio.updateById(params.id, {
-          vote: vote + existingDatas.vote,
+        let updatedContestEntry = await this.contestEntryRepositorio.updateById(params.id, {
+          vote: vote + contest_entry.vote,
         });
 
         let dados = {};
         dados.pontos = carteiraData.pontos - vote;
         dados.valor_unitel_m = dados.pontos;
 
-        await this.carteiraRepositorio.atualizar({...carteiraData,...dados}, carteiraData.id)
+        let updatedCarteira = await this.carteiraRepositorio.atualizar({...carteiraData,...dados}, carteiraData.id)
 
-        return this.dataResponse.dataReponse(200, "sucesso", data);
+        let votacao = await this.votacaoRepositorio.criar({
+          concurso_id: parseInt(updatedContestEntry.contest_id),
+          contest_entry_id: updatedContestEntry.id,
+          participante_id: parseInt(updatedContestEntry.artist_id),
+          cliente_id: user_id,
+          voto: vote,
+        });
+       
+        return this.dataResponse.dataReponse(200, "sucesso", updatedContestEntry);
       } else {
         return this.dataResponse.dataReponse(
           404,
           "Dados não encontrados",
-          existingDatas
+          contest_entry
         );
       }
     } catch (error) {
+      console.log("file: ContestEntryController.js:238 ~ ContestEntryController ~ addVote ~ error:", error)
       return this.dataResponse.dataReponse(500, "erro", error);
     }
   }
