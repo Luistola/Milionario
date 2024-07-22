@@ -11,6 +11,7 @@ const VotacaoRepositorio = use('App/Repositorio/Admin/VotacaoRepositorio');
 const DataResponse = use("App/Repositorio/DataResponse");
 const CarteiraRepositorio = use('App/Repositorio/Admin/CarteiraRepositorio');
 const ClienteRepositorio = use('App/Repositorio/Admin/ClienteRepositorio');
+const ArtistRepositorio = use('App/Repositorio/Admin/ArtistRepositorio');
 
 
 /**
@@ -23,6 +24,8 @@ class ContestEntryController {
     this.dataResponse = new DataResponse();
     this.carteiraRepositorio = new CarteiraRepositorio();
     this.clienteRepositorio = new ClienteRepositorio();
+    this.artistRepositorio = new ArtistRepositorio();
+
   }
 
   async create({ request }) {
@@ -42,6 +45,12 @@ class ContestEntryController {
       }
       if (!contest_id) {
         return this.dataResponse.dataReponse(500, "contest_id is required");
+      }
+
+      const artistData = await this.artistRepositorio.getArtistByUserId(artist_id)
+      
+      if(!artistData){
+        return this.dataResponse.dataReponse(404, "artist não disponíveis");
       }
 
       let exits = await this.contestEntryRepositorio.getEntryByArtistAndContest(
