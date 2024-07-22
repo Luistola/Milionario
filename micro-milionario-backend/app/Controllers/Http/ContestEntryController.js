@@ -10,6 +10,7 @@ const ContestEntryRepositorio = use(
 const VotacaoRepositorio = use('App/Repositorio/Admin/VotacaoRepositorio');
 const DataResponse = use("App/Repositorio/DataResponse");
 const CarteiraRepositorio = use('App/Repositorio/Admin/CarteiraRepositorio');
+const ClienteRepositorio = use('App/Repositorio/Admin/ClienteRepositorio');
 
 
 /**
@@ -21,6 +22,7 @@ class ContestEntryController {
     this.contestEntryRepositorio = new ContestEntryRepositorio();
     this.dataResponse = new DataResponse();
     this.carteiraRepositorio = new CarteiraRepositorio();
+    this.clienteRepositorio = new ClienteRepositorio();
   }
 
   async create({ request }) {
@@ -193,6 +195,11 @@ class ContestEntryController {
       const id = params.id;
 
       let contest_entry = await this.contestEntryRepositorio.getById(id);
+      
+      const clientData = await this.clienteRepositorio.getClientByUserId(user_id)
+      if(!clientData){
+        return this.dataResponse.dataReponse(404, "client não disponíveis");
+      }
 
       if (contest_entry) {
         
@@ -221,7 +228,7 @@ class ContestEntryController {
           concurso_id: parseInt(updatedContestEntry.contest_id),
           contest_entry_id: updatedContestEntry.id,
           participante_id: parseInt(updatedContestEntry.artist_id),
-          cliente_id: user_id,
+          cliente_id: clientData.id,
           voto: vote,
         });
        
@@ -234,7 +241,6 @@ class ContestEntryController {
         );
       }
     } catch (error) {
-      console.log("file: ContestEntryController.js:238 ~ ContestEntryController ~ addVote ~ error:", error)
       return this.dataResponse.dataReponse(500, "erro", error);
     }
   }
