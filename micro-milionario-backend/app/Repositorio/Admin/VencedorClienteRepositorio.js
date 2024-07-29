@@ -109,6 +109,20 @@ class VencedorClienteRepositorio{
 
     }
 
+    async getByContestId(pagination,dados){
+        try {
+          
+          let vencedorClienteListar = await VencedorClienteModel.query()
+          .where('vencedor_clientes.concurso_id', dados)
+          .paginate(pagination.page, pagination.perPage)
+          
+          return vencedorClienteListar.toJSON();
+        } catch (error) {
+          console.log("file: VencedorClienteRepositorio.js:121 ~ VencedorClienteRepositorio ~ getByContestId ~ error:", error)
+          return []
+        }
+      }
+
 }
 
 module.exports= VencedorClienteRepositorio

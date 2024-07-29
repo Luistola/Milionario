@@ -5,6 +5,9 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const VencedorClienteRepositorio = use('App/Repositorio/Admin/VencedorClienteRepositorio');
 const DataResponse = use("App/Repositorio/DataResponse");
+const ClienteRepositorio = use('App/Repositorio/Admin/ClienteRepositorio');
+const ConcursoRepositorio = use('App/Repositorio/Admin/ConcursoRepositorio');
+
 
 /**
  * Resourceful controller for interacting with vencedorclientes
@@ -13,6 +16,9 @@ class VencedorClienteController {
   constructor(){
     this.vencedorClienteRepositorio = new VencedorClienteRepositorio();
     this.dataResponse = new DataResponse();
+    this.clienteRepositorio = new ClienteRepositorio();
+    this.concursoRepositorio = new ConcursoRepositorio();
+
   }
   /**
    * Show a list of all vencedorclientes.
@@ -85,6 +91,60 @@ class VencedorClienteController {
     const {...dados}= request.only(['user_id', 'pontos']);
     await this.vencedorClienteRepositorio.atualizar(dados, params.id, request.url())
     return this.dataResponse.dataReponse(200, ' Vencedor Atualizada com sucesso')
+
+  }
+
+  async getByContestId({params,request}){
+    const { pagination, dados } = request.only(["pagination", "dados"]);
+
+    let listagemVencedor = await this.vencedorClienteRepositorio.getByContestId(
+      pagination,
+      params.id
+    );
+
+    let data = await Promise.all(
+      listagemVencedor?.data?.map(async (data) => {
+        let contestData = await this.concursoRepositorio.listarById(
+          data.concurso_id
+        );
+        contestData = contestData[0];
+
+        let clientData = await this.clienteRepositorio.listarById(
+          data.cliente_id
+        );
+        clientData = clientData[0];
+
+        return {
+          vecedor_id: data.id,
+          vencedor_concurso_id: data.concurso_id,
+          vencedor_participante_id: data.participante_id,
+          vencedor_posicao: data.posicao,
+          vencedor_total_votos: data.total_votos,
+          vencedor_premio: data.premio,
+          vencedor_data: data.data,
+          concurso_id: contestData.id,
+          concurso_nome: contestData.nome,
+          concurso_n_vencedor: contestData.n_vencedor,
+          participante_id: data.participante_id,
+          participante_concurso_id: data.concurso_id,
+          client_id: clientData.id,
+          client_user_id: data.participante_id,
+          client_nome: clientData.nome,
+          client_foto: clientData.foto,
+        };
+      })
+    );
+
+    listagemVencedor = {
+      ...listagemVencedor,
+      data,
+    };
+
+    return this.dataResponse.dataReponse(
+      200,
+      "Listagem de Vencedor Cliente",
+      listagemVencedor
+    );
 
   }
 }

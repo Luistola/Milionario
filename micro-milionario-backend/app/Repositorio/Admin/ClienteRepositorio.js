@@ -45,6 +45,13 @@ class ClienteRepositorio {
         return clienteListar.toJSON();
     }
 
+    async listarById(id) {
+        let artistListar
+        artistListar = await this.baseRespositorio.showById('id', id)
+
+        return artistListar.toJSON();
+    }
+
     async index() {
         return await this.baseRespositorio.index()
     }
