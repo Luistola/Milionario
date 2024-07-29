@@ -30,6 +30,10 @@ class ContestEntryRepositorio {
     return await this.baseRespositorio.findByCol("contest_id", id);
   }
 
+  async getAllByContestId(id) {
+    return await this.baseRespositorio.findAllByCol("contest_id", id);
+  }
+
   async getActiveSortedContestById(id) {
     return await this.baseRespositorio.findByColSortedByCreatedAtWithStatus(
       "contest_id",

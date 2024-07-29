@@ -30,7 +30,7 @@ class ContestEntryController {
 
   async create({ request }) {
     try {
-      const {
+      let {
         title,
         description,
         contest_id,
@@ -39,6 +39,8 @@ class ContestEntryController {
         link_type,
         vote,
       } = request.body;
+
+      vote = 0;
 
       if (!artist_id) {
         return this.dataResponse.dataReponse(500, "artist_id is required");

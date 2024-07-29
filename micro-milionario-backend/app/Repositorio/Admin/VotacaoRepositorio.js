@@ -159,6 +159,10 @@ class VotacaoRepositorio{
 
     }
 
+    async getAllByContestEntryId(id) {
+        return await this.baseRespositorio.findAllByCol("contest_entry_id", id);
+    }
+
 }
 
 module.exports= VotacaoRepositorio
