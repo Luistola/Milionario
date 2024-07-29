@@ -106,6 +106,20 @@ class VencedorRepositorio{
       }
     }
 
+    async getByContestId(pagination,dados){
+      try {
+        
+        let vencedorListar = await VencedorModel.query()
+        .where('vencedors.concurso_id', dados)
+        .paginate(pagination.page, pagination.perPage)
+        
+        return vencedorListar.toJSON();
+      } catch (error) {
+        console.log("file: VencedorRepositorio.js:120 ~ VencedorRepositorio ~ getByContestId ~ error:", error)
+        return []
+      }
+    }
+
     async listarById(id){
       let vencedorListar
       vencedorListar = await this.baseRespositorio.showById('user_id', id)

@@ -85,6 +85,17 @@ class BaseRepositorio {
     }
   }
 
+  async findAllByCol(col, id) {
+    try {
+      // return await this.Model.query().where(col, id).fetch();
+      const data = await this.Model.query().where(col, id).fetch();
+      return data.rows.map(row => row.toJSON());
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  }
+
   async showByIdAlternative(col, id) {
     try {
       return await this.Model.query().where(col, id).first();

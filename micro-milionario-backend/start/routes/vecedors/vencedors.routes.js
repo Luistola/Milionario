@@ -7,5 +7,7 @@ module.exports = (ApiRoute, Route) => {
     Route.post("vencedor/listarById", "VencedorController.showById");
     Route.post("vencedor/listarByUserId", "VencedorController.showByUserId");
     Route.post('vencedor/update/:id', 'VencedorController.update');
+    Route.post('vencedor/:id', 'VencedorController.getByContestId');
+
   })
 }
