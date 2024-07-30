@@ -233,7 +233,7 @@ class ConcursoController {
 
           for (let index in winners) {
             index = parseInt(index);
-            const winningAmount = (remainingAmount * pricePercent) / 100;
+            const winningAmount = ((remainingAmount * pricePercent) / 100) / 2;
 
             winners[index] = {
               ...winners[index],
