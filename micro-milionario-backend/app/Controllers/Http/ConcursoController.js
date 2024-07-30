@@ -149,6 +149,16 @@ class ConcursoController {
       if (!CONTEST_ID) {
         return this.dataResponse.dataReponse(400, "Contest Id is required");
       }
+
+      const listagemVencedor = await this.vencedorRepositorio.getByContestId(
+        {page:1, perPage: 2},
+        CONTEST_ID
+      );
+
+      if(listagemVencedor?.data?.length){
+        return this.dataResponse.dataReponse(400, 'o vencedor já existe')
+      }
+
       const contestData = await this.concursoRepositorio.listarById(CONTEST_ID);
 
       if (contestData && contestData.length) {
