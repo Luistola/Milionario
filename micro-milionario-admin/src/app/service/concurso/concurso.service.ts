@@ -48,4 +48,9 @@ export class ConcursoService {
   delete(url):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}${url}`, '');
   }
+
+
+  findContestWinner(contestId):Observable<GeralInterfaceListar>{
+    return this.http.get<GeralInterfaceListar>(`${this.apiURL}/concurso/generateWinner/${contestId}`);
+  }
 }

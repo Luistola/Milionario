@@ -46,7 +46,7 @@ export class NewConcursoModalComponent implements OnInit {
     this.concursoForm = new FormGroup({
       nome: new FormControl('', Validators.required),
       descricao: new FormControl('', Validators.required),
-      premio: new FormControl('', Validators.required),
+      //premio: new FormControl('', Validators.required),
       n_vencedor: new FormControl('', Validators.required),
       percentual_de_preço: new FormControl('', Validators.required),
       data_inicio: new FormControl('', Validators.required),
@@ -69,7 +69,7 @@ export class NewConcursoModalComponent implements OnInit {
     this.concursoBody = {
       nome: this.concursoForm.get('nome').value,
       descricao: this.concursoForm.get('descricao').value,
-      premio: this.concursoForm.get('premio').value,
+      //premio: this.concursoForm.get('premio').value,
       n_vencedor: this.concursoForm.get('n_vencedor').value,
       percentual_de_preço: this.concursoForm.get('percentual_de_preço').value,
       data_inicio: this.concursoForm.get('data_inicio').value,

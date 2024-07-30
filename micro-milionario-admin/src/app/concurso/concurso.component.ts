@@ -34,7 +34,6 @@ export class ConcursoComponent implements OnInit {
 
      if(listagemConcurso.code == 200){
       this.concursoLista= listagemConcurso.dados.data
-      console.log("firs...................hhhhhhhhhhhhhh....t",this.concursoLista)
       this.pagination.pagination.lastPage= listagemConcurso.dados.lastPage;
       this.pagination.pagination.page= listagemConcurso.dados.page;
       this.pagination.pagination.perPage= listagemConcurso.dados.perPage;
@@ -73,6 +72,26 @@ export class ConcursoComponent implements OnInit {
     await this.apagar(concurso.id);
     this.concursoPaginacao(this.pagination.pagination.page);
   }
+
+
+  async vencedorConcurso(concurso) {
+    try {
+      console.log("winner", concurso.id);
+      const findWinner = await this.concursoService.findContestWinner(concurso.id).toPromise();
+      if (findWinner.code == 200) {
+        console.log(concurso.message);
+        this.toastr.success(concurso.message, 'Sucesso!');
+      } else if (findWinner.code == 400) {
+        this.toastr.warning('Vencedor já existe para este concurso', 'Atenção!');
+      }
+    } catch (error) {
+      console.error(error);
+      // You can also display an error message to the user here
+      this.toastr.error('Erro ao encontrar vencedor do concurso', 'Erro!');
+    }
+  }
+
+
 
   async apagar(id){
 

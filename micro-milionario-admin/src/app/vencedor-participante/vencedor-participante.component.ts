@@ -36,7 +36,7 @@ export class VencedorParticipanteComponent implements OnInit {
   }
 
   carregarListas(){
-    console.log(this.selectedOption);
+    console.log("ggggtttttt",this.selectedOption);
     this.votacaoPaginacaoPorParticipante(1);
     this.votacaoPaginacaoPorCliente(1);
   }
@@ -44,7 +44,7 @@ export class VencedorParticipanteComponent implements OnInit {
   async listarVencedoresPorParticipante(){
     // console.log(this.selectedOption);
     this.isloading= true
-     const listagemVencedorParticipante= await this.vencedorService.listarVencedoresParticipantes(this.pagination.pagination, this.selectedOption).toPromise();
+     const listagemVencedorParticipante= await this.vencedorService.listarVencedoresArtistList(this.selectedOption,this.pagination.pagination, this.selectedOption).toPromise();
      if(listagemVencedorParticipante.code == 200){
        this.isloading= false;
       this.vencedorParticipanteLista= listagemVencedorParticipante.dados.data
@@ -52,7 +52,7 @@ export class VencedorParticipanteComponent implements OnInit {
       this.pagination.pagination.page= listagemVencedorParticipante.dados.page;
       this.pagination.pagination.perPage= listagemVencedorParticipante.dados.perPage;
       this.pagination.pagination.total = listagemVencedorParticipante.dados.total;
-      console.log(listagemVencedorParticipante);
+      console.log("artist data",listagemVencedorParticipante);
     }
   }
 
@@ -69,7 +69,7 @@ export class VencedorParticipanteComponent implements OnInit {
    async listarVencedorPorCliente(){
     // console.log(this.selectedOption);
     this.isloading= true
-     const listagemVencedorCliente= await this.vencedorClienteService.listarVencedorClientes(this.pagination.pagination, this.selectedOption).toPromise();
+     const listagemVencedorCliente= await this.vencedorClienteService.listarVencedorClientesWinner(this.selectedOption,this.pagination.pagination, this.selectedOption).toPromise();
      if(listagemVencedorCliente.code == 200){
        this.isloading= false;
       this.vencedorClienteLista= listagemVencedorCliente.dados.data
@@ -77,7 +77,7 @@ export class VencedorParticipanteComponent implements OnInit {
       this.pagination.pagination.page= listagemVencedorCliente.dados.page;
       this.pagination.pagination.perPage= listagemVencedorCliente.dados.perPage;
       this.pagination.pagination.total = listagemVencedorCliente.dados.total;
-      console.log(listagemVencedorCliente);
+      console.log("client data",listagemVencedorCliente);
     }
   }
 
@@ -91,15 +91,30 @@ export class VencedorParticipanteComponent implements OnInit {
 
    }
 
-   async listarConcursos(){
-    this.isloading= true
-     const listagemConcurso= await this.concursoService.listarConcursoFinalizado().toPromise();
-     if(listagemConcurso.code == 200){
-       this.isloading= false;
-      this.concursoLista= listagemConcurso.dados
-      console.log(listagemConcurso);
-    }
-  }
+  //  async listarConcursos(){
+  //   this.isloading= true
+  //    const listagemConcurso= await this.concursoService.listarConcursoFinalizado().toPromise();
+  //    if(listagemConcurso.code == 200){
+  //      this.isloading= false;
+  //     this.concursoLista= listagemConcurso.dados
+  //     console.log(listagemConcurso);
+  //   }
+  // }
+
+
+  async listarConcursos(){
+   
+    const listagemConcurso= await this.concursoService.listarConcursos(this.pagination.pagination).toPromise();
+
+    if(listagemConcurso.code == 200){
+     this.concursoLista= listagemConcurso.dados.data;
+     this.pagination.pagination.lastPage= listagemConcurso.dados.lastPage;
+     this.pagination.pagination.page= listagemConcurso.dados.page;
+     this.pagination.pagination.perPage= listagemConcurso.dados.perPage;
+     this.pagination.pagination.total = listagemConcurso.dados.total;
+
+   }
+ }
 
   //  concursoPaginacao(page:number): void{
 
@@ -111,5 +126,11 @@ export class VencedorParticipanteComponent implements OnInit {
   //    }
 
   //  }
+
+
+
+
+
+
 
 }

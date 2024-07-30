@@ -28,7 +28,7 @@
                   <th style="width: 10px">#</th>
                   <th>Nome</th>
                   <th>Descrição</th>
-                  <th>Prémio Kz</th>
+                  <!-- <th>Prémio Kz</th> -->
                   <th>Nº Vencedores</th>
                   <th>Data Inicio</th>
                   <th>Data Fim</th>
@@ -38,7 +38,7 @@
                   <td>{{i+1}}</td>
                   <td>{{c.nome}}</td>
                   <td>{{c.descricao}}</td>
-                  <td>{{c.premio}}</td>
+                  <!-- <td>{{c.premio}}</td> -->
                   <td>{{c.n_vencedor}}</td>
                   <td>{{c.data_inicio | date: 'dd-MM-yyyy'}}</td>
                   <td>{{c.data_fim | date: 'dd-MM-yyyy'}}</td>
@@ -46,7 +46,8 @@
                     <div class="text-center">
                       <button type="button" title="Editar" (click)="goEditar(c)" class="btn btn-success"><i class="fa fa-edit"></i></button>&nbsp;
                       <button type="button" title="Ver Participantes" class="btn btn-info" (click)="goParticipanteList(c)" ><i class="fa fa-eye"></i></button>&nbsp;
-                      <button type="button" title="Apagar Concurso" class="btn btn-danger" (click)="apagarConcurso(c)" ><i class="fa fa-trash"></i></button>
+                      <button type="button" title="Apagar Concurso" class="btn btn-danger" (click)="apagarConcurso(c)" ><i class="fa fa-trash"></i></button>&nbsp;
+                      <button type="button" title="Apagar Concurso" class="btn btn-success" (click)="vencedorConcurso(c)" ><i class="fa fa-trophy"></i></button>
                     </div>
                   </td>
                 </tr>
