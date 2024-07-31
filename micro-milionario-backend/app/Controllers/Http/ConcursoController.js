@@ -241,6 +241,7 @@ class ConcursoController {
               contestEntryId,
               clienteId: voteClientMapping[0][0],
               entryTotalVotes,
+              givenvote: voteClientMapping[0][1],
             });
           }
 
@@ -278,6 +279,7 @@ class ConcursoController {
               entryTotalVotes,
               winningAmount,
               position,
+              givenvote
             } = winner;
 
             let entry = contestEntryData.find(
@@ -297,7 +299,7 @@ class ConcursoController {
             delete data.participante_id;
 
             data.cliente_id = clienteId;
-
+            data.total_votos = givenvote;
             let vencedorClient = await this.vencedorClienteRepositorio.criar(
               data
             );
