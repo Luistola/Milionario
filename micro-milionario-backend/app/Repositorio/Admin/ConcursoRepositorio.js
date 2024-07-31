@@ -29,7 +29,8 @@ class ConcursoRepositorio{
             .whereNot({ is_active: true }) // Se = 0 = Activo
             .whereNot({ is_delete: true }) // Se = 0
             .paginate(pagination.page, pagination.perPage)
-
+            
+            console.log("file: ConcursoRepositorio.js:33 ~ ConcursoRepositorio ~ listar1 ~ concursoListar.toJSON():", concursoListar.toJSON())
             return concursoListar.toJSON()
         }else{
             concursoListar= await ConcursoModel.query()
@@ -39,6 +40,7 @@ class ConcursoRepositorio{
             .whereNot({ is_delete: true })
             .paginate(pagination.page, pagination.perPage)
 
+            console.log("file: ConcursoRepositorio.js:44 ~ ConcursoRepositorio ~ listar1 ~ concursoListar.toJSON():", concursoListar.toJSON())
             return concursoListar.toJSON();
         }
     }
