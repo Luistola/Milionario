@@ -26,8 +26,8 @@ class ConcursoRepositorio{
         if(dados==undefined || dados== null){
             concursoListar= await ConcursoModel.query()
             .orderBy("created_at", 'desc')
-            .whereNot({ is_active: true }) // Se = 0 = Activo
-            .whereNot({ is_delete: true }) // Se = 0
+            // .whereNot({ is_active: true }) // Se = 0 = Activo
+            // .whereNot({ is_delete: true }) // Se = 0
             .paginate(pagination.page, pagination.perPage)
             
             console.log("file: ConcursoRepositorio.js:33 ~ ConcursoRepositorio ~ listar1 ~ concursoListar.toJSON():", concursoListar.toJSON())
@@ -36,8 +36,8 @@ class ConcursoRepositorio{
             concursoListar= await ConcursoModel.query()
             .orderBy("created_at", 'desc')
             .where('nome', 'like', `%${dados}%`)
-            .whereNot({ is_active: true })
-            .whereNot({ is_delete: true })
+            // .whereNot({ is_active: true })
+            // .whereNot({ is_delete: true })
             .paginate(pagination.page, pagination.perPage)
 
             console.log("file: ConcursoRepositorio.js:44 ~ ConcursoRepositorio ~ listar1 ~ concursoListar.toJSON():", concursoListar.toJSON())
