@@ -92,7 +92,7 @@ class ConcursoController {
    * @param {Response} ctx.response
    */
    async store ({ request }) {
-     const { ...dados } = request.only(['nome', 'descricao', 'foto', 'n_vencedor', 'data_inicio', 'data_fim', 'price_percent']);
+     const { ...dados } = request.only(['nome', 'descricao', 'foto', 'n_vencedor', 'data_inicio', 'premio', 'data_fim', 'price_percent']);
     await this.concursoRepositorio.criar(dados);
     return this.dataResponse.dataReponse(200, "Concurso criada com sucesso");
   }
