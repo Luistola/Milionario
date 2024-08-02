@@ -122,6 +122,16 @@ class ClienteController {
     return this.dataResponse.dataReponse(200, ' El cliente llega con éxito', data)
 
   }
+
+  async search({request}) {
+    // const queryParams = request.get(); // to get all query param
+
+    const inputName = request.input("name");
+    
+    const listagemConcurso = await this.clienteRepositorio.searchWithName(inputName);
+    
+    return  this.dataResponse.dataReponse(200, 'Listagem de Concurso', listagemConcurso)
+  }
 }
 
 module.exports = ClienteController

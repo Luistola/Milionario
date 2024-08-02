@@ -98,6 +98,12 @@ class ClienteRepositorio {
         return this.baseRespositorio.update(id, data)
     }
 
+    async searchWithName(name){
+        let client= await ArtistModel.query()
+        .where('nome', 'like', `%${name}%`).fetch()
+
+        return client.toJSON()
+    }
 }
 
 module.exports = ClienteRepositorio
