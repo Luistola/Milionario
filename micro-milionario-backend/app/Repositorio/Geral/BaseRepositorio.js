@@ -89,6 +89,7 @@ class BaseRepositorio {
     try {
       // return await this.Model.query().where(col, id).fetch();
       const data = await this.Model.query().where(col, id).fetch();
+      console.log("file: BaseRepositorio.js:92 ~ BaseRepositorio ~ findAllByCol ~ data:", data)
       return data.rows.map(row => row.toJSON());
     } catch (error) {
       console.log(error);

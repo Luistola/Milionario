@@ -106,6 +106,14 @@ class ConcursoController {
 
   }
 
+  async adminShow({request}){
+
+    const {pagination, dados}= request.only(['pagination','dados']);
+    const listagemConcurso= await this.concursoRepositorio.getAllWithPagination(pagination,dados);
+    return  this.dataResponse.dataReponse(200, 'Listagem de Concurso', listagemConcurso)
+
+  }
+
   async showAlt({request}){
 
     const {dados}= request.only(['dados']);
@@ -141,6 +149,16 @@ class ConcursoController {
     const { ...dados } = request.only(['nome', 'descricao', 'foto', 'premio', 'n_vencedor', 'data_inicio', 'data_fim', 'is_active', 'price_percent']);
     await this.concursoRepositorio.atualizar(dados, params.id, request.url())
     return this.dataResponse.dataReponse(200, ' Concurso Atualizada com sucesso')
+
+  }
+
+  async search({request}) {
+    // const queryParams = request.get(); // to get all query param
+
+    const inputName = request.input("name");
+    
+    const listagemConcurso = await this.concursoRepositorio.searchWithName(inputName);
+    return  this.dataResponse.dataReponse(200, 'Listagem de Concurso', listagemConcurso)
 
   }
 

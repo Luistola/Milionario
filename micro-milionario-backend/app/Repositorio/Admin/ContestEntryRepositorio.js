@@ -42,7 +42,7 @@ class ContestEntryRepositorio {
       1
     );
   }
-
+  
   async getAllEntryByContest(id) {
     return await this.baseRespositorio.findAllByCol("contest_id", id);
   }
@@ -73,6 +73,13 @@ class ContestEntryRepositorio {
 
     return concursoListar.toJSON();
   }
+
+  async searchWithName(name){
+    let concursoListar= await ContestEntry.query()
+    .where('title', 'like', `%${name}%`).fetch()
+
+    return concursoListar.toJSON()
+}
 }
 
 module.exports = ContestEntryRepositorio;

@@ -127,9 +127,10 @@ class ContestEntryController {
     try {
       const contest_id = params.id;
       let existingDatas =
-        await this.contestEntryRepositorio.getActiveSortedContestById(
-          contest_id
-        );
+      await this.contestEntryRepositorio.getActiveSortedContestById(
+        contest_id
+      );
+      console.log("file: ContestEntryController.js:130 ~ ContestEntryController ~ getByContestId ~ existingDatas:", existingDatas)
 
       if (existingDatas) {
         return this.dataResponse.dataReponse(200, "sucesso", existingDatas);
@@ -221,6 +222,16 @@ class ContestEntryController {
     } catch (error) {
       return this.dataResponse.dataReponse(500, "erro", error);
     }
+  }
+
+  async search({request}) {
+    // const queryParams = request.get(); // to get all query param
+
+    const title = request.input("title");
+    
+    const entry = await this.contestEntryRepositorio.searchWithName(title);
+    return  this.dataResponse.dataReponse(200, 'sucesso', entry)
+
   }
 
   async addVote({ request, params }) {
