@@ -1,5 +1,6 @@
 module.exports = (ApiRoute, Route) => {
   ApiRoute(() => {
+    Route.get("artist/search/", "ArtistController.search");
     Route.get("artist", "ArtistController.index");
     Route.get("artist_qtd", "ArtistController.showQtdArtista");
     Route.post("artist", "ArtistController.store");

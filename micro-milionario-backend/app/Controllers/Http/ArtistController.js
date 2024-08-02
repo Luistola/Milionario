@@ -122,6 +122,15 @@ class ArtistController {
 
 
   }
+
+  async search({request}) {
+    // const queryParams = request.get(); // to get all query param
+
+    const inputName = request.input("name");
+    
+    const listagemConcurso = await this.artistRepositorio.searchWithName(inputName);
+    return  this.dataResponse.dataReponse(200, 'Listagem de Concurso', listagemConcurso)
+  }
 }
 
 module.exports = ArtistController

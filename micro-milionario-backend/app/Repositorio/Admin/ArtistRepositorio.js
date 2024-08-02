@@ -98,6 +98,12 @@ class ArtistRepositorio {
         return this.baseRespositorio.update(id, data)
     }
 
+    async searchWithName(name){
+        let concursoListar= await ArtistModel.query()
+        .where('nome', 'like', `%${name}%`).fetch()
+
+        return concursoListar.toJSON()
+    }
 }
 
 module.exports = ArtistRepositorio
