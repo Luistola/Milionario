@@ -99,7 +99,7 @@ class ClienteRepositorio {
     }
 
     async searchWithName(name){
-        let client= await ArtistModel.query()
+        let client= await ClienteModel.query()
         .where('nome', 'like', `%${name}%`).fetch()
 
         return client.toJSON()
