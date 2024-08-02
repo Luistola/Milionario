@@ -145,6 +145,29 @@ class ContestEntryController {
     }
   }
 
+  async adminGetByContestId({ params }) {
+    try {
+      const contest_id = params.id;
+      console.log("file: ContestEntryController.js:152 ~ ContestEntryController ~ adminGetByContestId ~ contest_id:", contest_id)
+      let existingDatas = await this.contestEntryRepositorio.getAllEntryByContest(
+        contest_id
+      );
+
+      console.log("file: ContestEntryController.js:158 ~ ContestEntryController ~ adminGetByContestId ~ existingDatas:", existingDatas)
+      if (existingDatas) {
+        return this.dataResponse.dataReponse(200, "sucesso", existingDatas);
+      } else {
+        return this.dataResponse.dataReponse(
+          404,
+          "Dados não encontrados",
+          existingDatas
+        );
+      }
+    } catch (error) {
+      return this.dataResponse.dataReponse(500, "erro", error);
+    }
+  }
+
   async getById({ params }) {
     try {
       const id = params.id;

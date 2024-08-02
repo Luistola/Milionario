@@ -10,6 +10,11 @@ module.exports = (ApiRoute, Route) => {
       "contestEntry/contest/:id",
       "ContestEntryController.getByContestId"
     );
+    Route.get(
+      "contestEntry/admin/contest/:id",
+      "ContestEntryController.adminGetByContestId"
+    );
+    Route.get("contestEntry/search/", "ContestEntryController.search");
     Route.get("contestEntry/:id", "ContestEntryController.getById");
     Route.post("contestEntry/update/:id", "ContestEntryController.update");
     Route.delete("contestEntry/delete/:id", "ContestEntryController.delete");

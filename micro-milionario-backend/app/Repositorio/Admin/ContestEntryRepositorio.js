@@ -43,6 +43,10 @@ class ContestEntryRepositorio {
     );
   }
 
+  async getAllEntryByContest(id) {
+    return await this.baseRespositorio.findAllByCol("contest_id", id);
+  }
+
   async getById(id) {
     return await this.baseRespositorio.findByCol("id", id);
   }
