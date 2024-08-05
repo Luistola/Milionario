@@ -22,16 +22,26 @@ class ArtistRepositorio {
         let artistListar
         if (dados == undefined || dados == null) {
             artistListar = await ArtistModel.query()
+                .innerJoin('users', 'artists.user_id', 'users.id')
+                .select(
+                'artists.*',  
+                'users.email as artist_email',
+                )
                 .orderBy("created_at", 'desc')
-                .whereNot({ is_delete: true })
+                .whereNot({ "artists.is_delete": true })
                 .paginate(pagination.page, pagination.perPage)
 
             return artistListar.toJSON()
         } else {
             artistListar = await ArtistModel.query()
+                .innerJoin('users', 'artists.user_id', 'users.id')
+                .select(
+                'artists.*',  
+                'users.email as artist_email',
+                )
                 .orderBy("created_at", 'desc')
                 .where('nome', 'like', `%${dados}%`)
-                .whereNot({ is_delete: true })
+                .whereNot({ "artists.is_delete": true })
                 .paginate(pagination.page, pagination.perPage)
 
             return artistListar.toJSON();

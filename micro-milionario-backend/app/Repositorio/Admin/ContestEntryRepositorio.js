@@ -44,7 +44,23 @@ class ContestEntryRepositorio {
   }
   
   async getAllEntryByContest(id) {
-    return await this.baseRespositorio.findAllByCol("contest_id", id);
+    try {
+      let concursoListar = await ContestEntry.query()
+        .where("contest_id", id)
+        .innerJoin('artists', 'contest_entries.artist_id', 'artists.user_id')
+        .innerJoin('users', 'contest_entries.artist_id', 'users.id')
+        .select(
+          'contest_entries.*',  
+          'artists.nome as artist_nome',
+          'users.email as artist_email',
+        )
+        .fetch();
+  
+      return concursoListar.toJSON();
+    } catch (error) {
+      console.log(error);
+      throw new Error('Unable to fetch contest entries');
+    }
   }
 
   async getById(id) {

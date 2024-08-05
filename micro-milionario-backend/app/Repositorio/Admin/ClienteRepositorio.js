@@ -22,8 +22,13 @@ class ClienteRepositorio {
         let clienteListar
         if (dados == undefined || dados == null) {
             clienteListar = await ClienteModel.query()
+            .innerJoin('users', 'clientes.user_id', 'users.id')
+                .select(
+                'clientes.*',  
+                'users.email as artist_email',
+                )
                 .orderBy("created_at", 'desc')
-                .whereNot({ is_delete: true })
+                .whereNot({ "clientes.is_delete": true })
                 .paginate(pagination.page, pagination.perPage)
 
             return clienteListar.toJSON()
