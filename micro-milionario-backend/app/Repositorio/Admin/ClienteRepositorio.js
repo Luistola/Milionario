@@ -103,9 +103,10 @@ class ClienteRepositorio {
         return this.baseRespositorio.update(id, data)
     }
 
-    async searchWithName(name){
+    async searchWithName(name, pagination){
         let client= await ClienteModel.query()
-        .where('nome', 'like', `%${name}%`).fetch()
+        .where('nome', 'like', `%${name}%`)
+        .paginate(pagination.page, pagination.perPage)
 
         return client.toJSON()
     }

@@ -125,10 +125,11 @@ class ClienteController {
 
   async search({request}) {
     // const queryParams = request.get(); // to get all query param
+    // const inputName = request.input("name");
 
-    const inputName = request.input("name");
+    const { pagination, name:inputName } = request.only(['pagination', 'name']);
     
-    const listagemConcurso = await this.clienteRepositorio.searchWithName(inputName);
+    const listagemConcurso = await this.clienteRepositorio.searchWithName(inputName, pagination);
     
     return  this.dataResponse.dataReponse(200, 'Listagem de Concurso', listagemConcurso)
   }

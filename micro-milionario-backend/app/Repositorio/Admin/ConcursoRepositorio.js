@@ -140,9 +140,10 @@ class ConcursoRepositorio{
         return concursoListar.toJSON()
     }
 
-    async searchWithName(name){
+    async searchWithName(name, pagination){
         let concursoListar= await ConcursoModel.query()
-        .where('nome', 'like', `%${name}%`).fetch()
+        .where('nome', 'like', `%${name}%`)
+        .paginate(pagination.page, pagination.perPage)
 
         return concursoListar.toJSON()
     }
