@@ -20,9 +20,14 @@ export class ConcursoService {
    listarConcursoById(dados):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/listarById`,{dados:dados});
   }
-
+//old
   listarConcursos(pagination):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/listar`,{pagination:pagination});
+  }
+
+//new
+  adminlistarConcursos(pagination):Observable<GeralInterfaceListar>{
+    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/admin/listar`,{pagination:pagination});
   }
 
   listarConcursoAberta():Observable<GeralInterfaceListar>{
@@ -52,5 +57,14 @@ export class ConcursoService {
 
   findContestWinner(contestId):Observable<GeralInterfaceListar>{
     return this.http.get<GeralInterfaceListar>(`${this.apiURL}/concurso/generateWinner/${contestId}`);
+  }
+
+
+  getEntryByContest(contestId):Observable<GeralInterfaceListar>{
+    return this.http.get<GeralInterfaceListar>(`${this.apiURL}/contestEntry/admin/contest/${contestId}`);
+  }
+
+  getSreachByConsurso(pagination,concursoname):Observable<GeralInterfaceListar>{
+    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/search`,{pagination:pagination,name:concursoname});
   }
 }

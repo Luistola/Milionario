@@ -4,7 +4,16 @@ import { Injectable } from "@angular/core";
 
 export class FiltroClass {
     pagination = {
-        perPage: 4,
+        perPage: 10,
+        page: 1,
+        lastPage: null,
+        total: null
+    
+    }
+
+
+    adminpagination = {
+        perPage: 10000,
         page: 1,
         lastPage: null,
         total: null

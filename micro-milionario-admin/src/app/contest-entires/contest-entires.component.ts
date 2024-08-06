@@ -3,6 +3,7 @@ import { ContestEntiresService } from '../service/contest-entires/contest-entire
 import { ToastrService } from 'ngx-toastr';
 import { FiltroEntriesClass } from '../service/geral/filter-entires-service';
 import { EntiresInterface } from '../service/geral/geral-interface-listar';
+import { ConcursoService } from '../service/concurso/concurso.service';
 
 @Component({
   selector: 'app-contest-entires',
@@ -13,24 +14,37 @@ export class ContestEntiresComponent implements OnInit {
   contestEntriesLista: [];
   editStatus: EntiresInterface;
   entiresList: EntiresInterface[] = []; // define entiresList here
+  concursoLista: [];
+  selectedOption
+  ContestBYEntries
 
-
-  constructor(private addEntiresService: ContestEntiresService, private toastr: ToastrService, public pagination: FiltroEntriesClass,) {
+  constructor(private addEntiresService: ContestEntiresService, private toastr: ToastrService, public pagination: FiltroEntriesClass,
+    private concursoService: ConcursoService,
+  ) {
 
 
   }
+
+  ngOnInit() {
+    this.listarConcursos();
+  }
+
+  carregarListas(){
+    this.getEntryByContest(this.selectedOption);
+  }
+
+
 
   async getContestEntries() {
     try {
       const response = await this.addEntiresService.getAllEntires(this.pagination.pagination).toPromise();
       if (response.code == 200) {
-        console.log(".......................................................", response.dados)
         this.contestEntriesLista = response.dados.data;
         this.pagination.pagination.lastPage = response.dados.lastPage;
         this.pagination.pagination.page = response.dados.page;
         this.pagination.pagination.perPage = response.dados.perPage;
         this.pagination.pagination.total = response.dados.total;
-
+      
       }
 
     } catch (error) {
@@ -55,6 +69,40 @@ export class ContestEntiresComponent implements OnInit {
   }
 
 
+  async listarConcursos(){
+   
+    const listagemConcurso= await this.concursoService.adminlistarConcursos(this.pagination.adminpagination).toPromise();
+    if(listagemConcurso.code == 200){
+     this.concursoLista= listagemConcurso.dados.data
+     this.pagination.pagination.lastPage= listagemConcurso.dados.lastPage;
+     this.pagination.pagination.page= listagemConcurso.dados.page;
+     this.pagination.pagination.perPage= listagemConcurso.dados.perPage;
+     this.pagination.pagination.total = listagemConcurso.dados.total;
+
+   }
+ }
+
+
+
+ 
+
+
+ async getEntryByContest(selectedOption) {
+  try {
+    const fetEntryByContest = await this.concursoService.getEntryByContest(selectedOption).toPromise();
+    if (fetEntryByContest.code == 200) {
+      this.ContestBYEntries = fetEntryByContest.dados;
+      if(this.ContestBYEntries.length==0){
+        this.toastr.warning('as integrações do concurso não existem');
+
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching contest entries:", error);
+    // You can also add additional error handling logic here, such as displaying an error message to the user
+  }
+}
+
 
   concursoEntiresPagination(page: number): void {
 
@@ -68,9 +116,7 @@ export class ContestEntiresComponent implements OnInit {
   }
 
 
-  ngOnInit() {
-    this.concursoEntiresPagination(this.pagination.pagination.page);
-  }
+ 
 
 
 

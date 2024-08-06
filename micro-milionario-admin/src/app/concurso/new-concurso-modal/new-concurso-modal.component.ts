@@ -46,9 +46,9 @@ export class NewConcursoModalComponent implements OnInit {
     this.concursoForm = new FormGroup({
       nome: new FormControl('', Validators.required),
       descricao: new FormControl('', Validators.required),
-      //premio: new FormControl('', Validators.required),
+      premio: new FormControl('', Validators.required),
       n_vencedor: new FormControl('', Validators.required),
-      percentual_de_preço: new FormControl('', Validators.required),
+      price_percent: new FormControl('', Validators.required),
       data_inicio: new FormControl('', Validators.required),
       data_fim: new FormControl('', Validators.required),
       foto: new FormControl('')
@@ -69,9 +69,9 @@ export class NewConcursoModalComponent implements OnInit {
     this.concursoBody = {
       nome: this.concursoForm.get('nome').value,
       descricao: this.concursoForm.get('descricao').value,
-      //premio: this.concursoForm.get('premio').value,
+      premio: this.concursoForm.get('premio').value,
       n_vencedor: this.concursoForm.get('n_vencedor').value,
-      percentual_de_preço: this.concursoForm.get('percentual_de_preço').value,
+      price_percent: this.concursoForm.get('price_percent').value,
       data_inicio: this.concursoForm.get('data_inicio').value,
       data_fim: this.concursoForm.get('data_fim').value,
       foto: this.imageReponse // set the foto property to the image response

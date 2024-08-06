@@ -13,6 +13,25 @@
   <!-- Main content -->
   <section class="content">
       <div class="row">
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Escolha o Concurso</label>
+            <div class="input-group margin">
+              <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Search...">
+              <span class="input-group-btn">
+                <button type="button" (click)="search()" class="btn btn-info btn-flat">Ver</button>
+              </span>
+             <div class="button-with-margin">
+              <span class="input-group-btn ">
+                <button type="button" (click)="clearSearch()" class="btn btn-warning btn-flat ">Reset</button>
+              </span>
+             </div>
+              
+            </div>
+          </div>
+        </div>
+
           <div class="col-md-12">
               <div class="box">
                   <div class="box-header with-border">
@@ -28,7 +47,8 @@
                   <th style="width: 10px">#</th>
                   <th>Nome</th>
                   <th>Descrição</th>
-                  <!-- <th>Prémio Kz</th> -->
+                  <th>Prêmio(target vote)</th>
+                  <th>percentual de preço</th>
                   <th>Nº Vencedores</th>
                   <th>Data Inicio</th>
                   <th>Data Fim</th>
@@ -38,7 +58,8 @@
                   <td>{{i+1}}</td>
                   <td>{{c.nome}}</td>
                   <td>{{c.descricao}}</td>
-                  <!-- <td>{{c.premio}}</td> -->
+                  <td>{{c.premio}}</td>
+                  <td>{{c.price_percent}}</td>
                   <td>{{c.n_vencedor}}</td>
                   <td>{{c.data_inicio | date: 'dd-MM-yyyy'}}</td>
                   <td>{{c.data_fim | date: 'dd-MM-yyyy'}}</td>
@@ -54,9 +75,13 @@
               </table>
             </div>
             <!-- /.box-body -->
-            <div class="box-footer clearfix">
+            <div  class="box-footer clearfix " id="concursoPage">
               <pagination-controls class="pagination pagination-sm no-margin pull-right" (pageChange)="concursoPaginacao(pagination.pagination.page = $event)"></pagination-controls>
             </div>
+            <div class="box-footer clearfix" id="serachPag" style="display: none;">
+              <pagination-controls class="pagination pagination-sm no-margin pull-right" (pageChange)="searchPaginacao(pagination.pagination.page = $event)"></pagination-controls>
+            </div>
+
           <!-- /.box -->
               </div>
           </div>

@@ -26,15 +26,15 @@
               <small class="text-danger">Descrição is required</small>
             </div>
           </div>
-          <!-- <div class="form-group">
-            <label>Prêmio <span class="required">*</span></label>
+          <div class="form-group">
+            <label>Prêmio(target vote) <span class="required">*</span></label>
             <input type="text" class="form-control mb-2" id="inputPremio" placeholder="Valor do Premio"
               formControlName="premio">
             <div
               *ngIf="concursoForm.get('premio').hasError('required') && (concursoForm.get('premio').dirty || concursoForm.get('premio').touched)">
               <small class="text-danger">Prêmio is required</small>
             </div>
-          </div> -->
+          </div>
           <div class="form-group">
             <label>Nº de Vencedores <span class="required">*</span></label>
             <input type="text" class="form-control mb-2" id="inputNVencedor" placeholder="Nº de Vencedores"
@@ -47,9 +47,9 @@
           <div class="form-group">
             <label>Percentual de preço <span class="required">*</span></label>
             <input type="text" class="form-control mb-2" id="inputNVencedor" placeholder="percentual de preço"
-              formControlName="percentual_de_preço">
+              formControlName="price_percent">
             <div
-              *ngIf="concursoForm.get('percentual_de_preço').hasError('required') && (concursoForm.get('percentual_de_preço').dirty || concursoForm.get('percentual_de_preço').touched)">
+              *ngIf="concursoForm.get('price_percent').hasError('required') && (concursoForm.get('price_percent').dirty || concursoForm.get('price_percent').touched)">
               <small class="text-danger">percentual de preço is required</small>
             </div>
           </div>

@@ -11,5 +11,13 @@ export class FiltroEntriesClass {
     
     }
 
+   adminpagination = {
+        perPage: 1000,
+        page: 1,
+        lastPage: null,
+        total: null
+    
+    }
+
     constructor(){}
 }

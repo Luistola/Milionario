@@ -16,6 +16,9 @@ export class ConcursoComponent implements OnInit {
   concursoCarregar
   procurarItem:string
   concursoSelecionado: any;
+  searchconcursoList:[];
+  searchTerm
+  setBoeelean:boolean=false;
 
   constructor(
     public pagination: FiltroClass,
@@ -26,12 +29,32 @@ export class ConcursoComponent implements OnInit {
 
   ngOnInit() {
     this.concursoPaginacao(this.pagination.pagination.page);
+    
   }
 
-  async listarConcursos(){
-   
-     const listagemConcurso= await this.concursoService.listarConcursos(this.pagination.pagination).toPromise();
 
+
+
+  clearSearch() {
+    document.getElementById('serachPag').style.display='none';
+    document.getElementById('concursoPage').style.display='block';
+    this.searchTerm = '';
+    this.concursoPaginacao(1);
+    
+  }
+
+
+  search(){
+    document.getElementById('concursoPage').style.display='none';
+    document.getElementById('serachPag').style.display='block';
+    this.searchPaginacao(1);
+    
+  }
+
+
+
+  async listarConcursos(){
+     const listagemConcurso= await this.concursoService.adminlistarConcursos(this.pagination.pagination).toPromise();
      if(listagemConcurso.code == 200){
       this.concursoLista= listagemConcurso.dados.data
       this.pagination.pagination.lastPage= listagemConcurso.dados.lastPage;
@@ -43,16 +66,49 @@ export class ConcursoComponent implements OnInit {
   }
 
 
+   
+
+   async sreachConcurso(){
+    const listConcursoSerch= await this.concursoService.getSreachByConsurso(this.pagination.pagination,this.searchTerm).toPromise();
+    if(listConcursoSerch.code == 200){
+      this.concursoLista= listConcursoSerch.dados.data
+      this.pagination.pagination.lastPage= listConcursoSerch.dados.lastPage;
+      this.pagination.pagination.page= listConcursoSerch.dados.page;
+      this.pagination.pagination.perPage= listConcursoSerch.dados.perPage;
+      this.pagination.pagination.total = listConcursoSerch.dados.total;
+      console.log("first",this.concursoLista);
+      // if(this.concursoLista.length==0){
+      //   this.concursoPaginacao(this.pagination.pagination.page);
+      // }
+    }
+   }
+
+
+
    concursoPaginacao(page:number): void{
 
-     if(this.pagination.pagination.page == null){
-       this.pagination.pagination.page=1;
-     }else{
-       this.pagination.pagination.page= page
-       this.listarConcursos()
-     }
+    if(this.pagination.pagination.page == null){
+      this.pagination.pagination.page=1;
+      this.listarConcursos();
+    }else{
+      this.pagination.pagination.page= page
+      this.listarConcursos();
+    }
 
-   }
+  }
+
+   searchPaginacao(page:number): void{
+    
+    if(this.pagination.pagination.page == null){
+      this.pagination.pagination.page=1;
+      this.sreachConcurso()
+    }else{
+      this.pagination.pagination.page= page
+      this.sreachConcurso()
+    }
+
+  }
+
 
 
    goParticipanteList(concurso){
@@ -94,7 +150,6 @@ export class ConcursoComponent implements OnInit {
 
 
   async apagar(id){
-
     const concurso = await this.concursoService.delete('/concurso/delete/'+id).toPromise();
     if(concurso.code == 200){
       console.log(concurso.message);

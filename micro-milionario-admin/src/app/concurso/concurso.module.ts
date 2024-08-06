@@ -20,5 +20,6 @@ import { EditConcursoComponent } from './edit-concurso/edit-concurso.component';
     ConcursoRoutingModule,
     ShareModuloModule
   ],
+  
 })
 export class ConcursoModule { }

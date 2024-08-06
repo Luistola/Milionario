@@ -90,7 +90,7 @@ const routes: Routes = [
         component: PousarComponent
       },
       {
-        path:'inteiros',
+        path:'participante',
         canActivate:[AuthGuardGuard],
         component:ContestEntiresComponent
 

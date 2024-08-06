@@ -24,6 +24,7 @@ import { ContactoComponent } from './contacto/contacto.component';
 import { VerFotoSlideComponent } from './slide/ver-foto-slide/ver-foto-slide.component';
 import { PousarComponent } from './pousar/pousar.component';
 import { ContestEntiresComponent } from './contest-entires/contest-entires.component';
+import { FilterpipePipe } from './pipes/filterpipe.pipe';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { ContestEntiresComponent } from './contest-entires/contest-entires.compo
     VerFotoSlideComponent,
     PousarComponent,
     ContestEntiresComponent,
+    
   ],
   imports: [
     BrowserModule,

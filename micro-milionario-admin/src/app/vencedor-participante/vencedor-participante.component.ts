@@ -3,6 +3,7 @@ import { ConcursoService } from '../service/concurso/concurso.service';
 import { FiltroClass } from '../service/geral/filtro-service';
 import { VencedorClienteService } from '../service/vencedor-cliente/vencedor-cliente.service';
 import { VencedorService } from '../service/vencedor/vencedor.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vencedor-participante',
@@ -29,6 +30,7 @@ export class VencedorParticipanteComponent implements OnInit {
     private concursoService: ConcursoService,
     private vencedorService: VencedorService,
     private vencedorClienteService: VencedorClienteService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -67,9 +69,8 @@ export class VencedorParticipanteComponent implements OnInit {
    }
 
    async listarVencedorPorCliente(){
-    // console.log(this.selectedOption);
     this.isloading= true
-     const listagemVencedorCliente= await this.vencedorClienteService.listarVencedorClientesWinner(this.selectedOption,this.pagination.pagination, this.selectedOption).toPromise();
+     const listagemVencedorCliente= await this.vencedorClienteService.listarVencedorClientesWinner(this.selectedOption,this.pagination.adminpagination, this.selectedOption).toPromise();
      if(listagemVencedorCliente.code == 200){
        this.isloading= false;
       this.vencedorClienteLista= listagemVencedorCliente.dados.data
@@ -77,7 +78,10 @@ export class VencedorParticipanteComponent implements OnInit {
       this.pagination.pagination.page= listagemVencedorCliente.dados.page;
       this.pagination.pagination.perPage= listagemVencedorCliente.dados.perPage;
       this.pagination.pagination.total = listagemVencedorCliente.dados.total;
-      console.log("client data",listagemVencedorCliente);
+      if(this.vencedorClienteLista.length==0){
+        this.toastr.warning('vencedor não existe');
+
+      }
     }
   }
 
@@ -104,7 +108,7 @@ export class VencedorParticipanteComponent implements OnInit {
 
   async listarConcursos(){
    
-    const listagemConcurso= await this.concursoService.listarConcursos(this.pagination.pagination).toPromise();
+    const listagemConcurso= await this.concursoService.adminlistarConcursos(this.pagination.adminpagination).toPromise();
 
     if(listagemConcurso.code == 200){
      this.concursoLista= listagemConcurso.dados.data;

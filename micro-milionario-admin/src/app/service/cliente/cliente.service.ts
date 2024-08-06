@@ -32,4 +32,8 @@ export class ClienteService {
   delete(url):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}${url}`, '');
   }
+
+  getSreachByClient(pagination,clientname):Observable<GeralInterfaceListar>{
+    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/cliente/search`,{pagination:pagination,name:clientname});
+  }
 }
