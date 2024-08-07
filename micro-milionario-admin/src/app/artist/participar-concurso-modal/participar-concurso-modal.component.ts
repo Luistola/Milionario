@@ -79,7 +79,7 @@ export class ParticiparConcursoModalComponent implements OnInit {
 
    async listarConcursos(){
     this.isloading= true
-     const listagemConcurso= await this.concursoService.listarConcursos(this.pagination.pagination, this.procurarItem).toPromise();
+     const listagemConcurso= await this.concursoService.listarConcursos(this.pagination.pagination).toPromise();
      if(listagemConcurso.code == 200){
        this.isloading= false;
       this.concursoLista= listagemConcurso.dados.data

@@ -16,8 +16,13 @@ export class VencedorClienteService {
   post(url, body):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}${url}`, body);
    }
-
+//old
   listarVencedorClientes(pagination, dados):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/vencedor-cliente/listarByVencedorCliente`,{pagination:pagination, dados:dados});
   }
+//new
+  listarVencedorClientesWinner(contestId,pagination, dados):Observable<GeralInterfaceListar>{
+    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/vencedor-cliente/${contestId}`,{pagination:pagination, dados:dados});
+  }
 }
+

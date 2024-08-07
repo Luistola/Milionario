@@ -40,20 +40,23 @@
       <li>
         <a class="sidebar__link" routerLink="/dashboard/contact" [routerLinkActive]="'active'">Contactos</a>
       </li>
+      <li  *ngIf="user.role_id == '3'">
+        <a  class="sidebar__link" routerLink="/dashboard/carteira" [routerLinkActive]="'active'">Carteira</a>
+      </li>
       <li>
-        <a class="sidebar__link" routerLink="/dashboard/carteira" [routerLinkActive]="'active'">Carteira</a>
+        <a class="sidebar__link" routerLink="/dashboard/política" [routerLinkActive]="'active'">política</a>
       </li>
     </ul>
   </div>
 
   <div class="sidebar__footer">
     <ul class="sidebar__footer-links clearfix">
-      <li><a href="#">Legal</a></li>
-      <li><a href="#">Politica</a></li>
+      <li><a href="javascript:void(0)">Legal</a></li>
+      <li><a href="javascript:void(0)">Politica</a></li>
     </ul>
 
     <div class="sidebar__copyright">
-      Create by <a href="#">As All Smart</a>
+      Create by <a href="javascript:void(0)">As All Smart</a>
       <span>© Copyright 2022</span>
     </div>
   </div>

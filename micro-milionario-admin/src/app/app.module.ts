@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -23,6 +22,8 @@ import { ParametroComponent } from './parametro/parametro.component';
 import { SlideComponent } from './slide/slide.component';
 import { ContactoComponent } from './contacto/contacto.component';
 import { VerFotoSlideComponent } from './slide/ver-foto-slide/ver-foto-slide.component';
+import { PousarComponent } from './pousar/pousar.component';
+import { ContestEntiresComponent } from './contest-entires/contest-entires.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,10 @@ import { VerFotoSlideComponent } from './slide/ver-foto-slide/ver-foto-slide.com
     SlideComponent,
     ContactoComponent,
     VerFotoSlideComponent,
+    PousarComponent,
+    ContestEntiresComponent,
+    
+    
   ],
   imports: [
     BrowserModule,

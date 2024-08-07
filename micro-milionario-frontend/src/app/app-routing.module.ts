@@ -12,15 +12,15 @@ import { RecargaComponent } from './recarga/recarga.component';
 import { CarteiraComponent } from './carteira/carteira.component';
 import { VencedoresComponent } from './vencedores/vencedores.component';
 import { PerfilClienteComponent } from './perfil-cliente/perfil-cliente.component';
+import { PolicyComponent } from './policy/policy.component';
+import { PousarComponent } from './pousar/pousar/pousar.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: "full"
+    component: PousarComponent, // Set the landing page as the default route
   },
-
   {
     path: 'login',
     component: LoginComponent,
@@ -92,7 +92,12 @@ const routes: Routes = [
         component: CarteiraComponent
       },
       {
-        path:'perfil-cliente',
+        path:'política',
+        canActivate: [AuthGuardGuard],
+        component: PolicyComponent
+      },
+      {
+        path:'perfil-cliente/:id',
         canActivate: [AuthGuardGuard],
         component: PerfilClienteComponent
       },

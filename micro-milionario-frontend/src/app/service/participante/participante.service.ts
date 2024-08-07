@@ -21,4 +21,5 @@ export class ParticipanteService {
    return this.http.post<GeralInterfaceListar>(`${this.apiURL}${url}`, body);
   }
 
+
 }

@@ -28,4 +28,8 @@ export class ArtistService {
   delete(url):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}${url}`, '');
   }
+
+  getSreachByArtist(pagination,artistname):Observable<GeralInterfaceListar>{
+    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/artist/search	`,{pagination:pagination,name:artistname});
+  }
 }

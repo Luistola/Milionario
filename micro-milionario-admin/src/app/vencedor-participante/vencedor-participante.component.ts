@@ -3,6 +3,7 @@ import { ConcursoService } from '../service/concurso/concurso.service';
 import { FiltroClass } from '../service/geral/filtro-service';
 import { VencedorClienteService } from '../service/vencedor-cliente/vencedor-cliente.service';
 import { VencedorService } from '../service/vencedor/vencedor.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vencedor-participante',
@@ -20,8 +21,9 @@ export class VencedorParticipanteComponent implements OnInit {
   usuarioActual;
   userLogado
   procurarItem:string
-  vv;
-  selectedOption;
+  selectedOption:any;
+  
+  
 
 
   constructor(
@@ -29,22 +31,27 @@ export class VencedorParticipanteComponent implements OnInit {
     private concursoService: ConcursoService,
     private vencedorService: VencedorService,
     private vencedorClienteService: VencedorClienteService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
     this.listarConcursos();
   }
 
+  selectOption(nome) {
+   this.selectedOption=nome;
+    console.log(`Selected option: ${nome}`);
+  }
+
   carregarListas(){
-    console.log(this.selectedOption);
+    console.log("ggggtttttt",this.selectedOption);
     this.votacaoPaginacaoPorParticipante(1);
     this.votacaoPaginacaoPorCliente(1);
   }
 
   async listarVencedoresPorParticipante(){
-    // console.log(this.selectedOption);
     this.isloading= true
-     const listagemVencedorParticipante= await this.vencedorService.listarVencedoresParticipantes(this.pagination.pagination, this.selectedOption).toPromise();
+     const listagemVencedorParticipante= await this.vencedorService.listarVencedoresArtistList(this.selectedOption,this.pagination.pagination, this.selectedOption).toPromise();
      if(listagemVencedorParticipante.code == 200){
        this.isloading= false;
       this.vencedorParticipanteLista= listagemVencedorParticipante.dados.data
@@ -52,7 +59,7 @@ export class VencedorParticipanteComponent implements OnInit {
       this.pagination.pagination.page= listagemVencedorParticipante.dados.page;
       this.pagination.pagination.perPage= listagemVencedorParticipante.dados.perPage;
       this.pagination.pagination.total = listagemVencedorParticipante.dados.total;
-      console.log(listagemVencedorParticipante);
+      console.log("artist data",listagemVencedorParticipante);
     }
   }
 
@@ -67,9 +74,8 @@ export class VencedorParticipanteComponent implements OnInit {
    }
 
    async listarVencedorPorCliente(){
-    // console.log(this.selectedOption);
     this.isloading= true
-     const listagemVencedorCliente= await this.vencedorClienteService.listarVencedorClientes(this.pagination.pagination, this.selectedOption).toPromise();
+     const listagemVencedorCliente= await this.vencedorClienteService.listarVencedorClientesWinner(this.selectedOption,this.pagination.adminpagination, this.selectedOption).toPromise();
      if(listagemVencedorCliente.code == 200){
        this.isloading= false;
       this.vencedorClienteLista= listagemVencedorCliente.dados.data
@@ -77,7 +83,10 @@ export class VencedorParticipanteComponent implements OnInit {
       this.pagination.pagination.page= listagemVencedorCliente.dados.page;
       this.pagination.pagination.perPage= listagemVencedorCliente.dados.perPage;
       this.pagination.pagination.total = listagemVencedorCliente.dados.total;
-      console.log(listagemVencedorCliente);
+      if(this.vencedorClienteLista.length==0){
+        this.toastr.warning('vencedor não existe');
+
+      }
     }
   }
 
@@ -91,25 +100,29 @@ export class VencedorParticipanteComponent implements OnInit {
 
    }
 
-   async listarConcursos(){
-    this.isloading= true
-     const listagemConcurso= await this.concursoService.listarConcursoFinalizado().toPromise();
-     if(listagemConcurso.code == 200){
-       this.isloading= false;
-      this.concursoLista= listagemConcurso.dados
-      console.log(listagemConcurso);
-    }
-  }
+  
 
-  //  concursoPaginacao(page:number): void{
 
-  //    if(this.pagination.pagination.page == null){
-  //      this.pagination.pagination.page=1;
-  //    }else{
-  //      this.pagination.pagination.page= page
-  //      this.listarConcursos()
-  //    }
+  async listarConcursos(){
+   
+    const listagemConcurso= await this.concursoService.adminlistarConcursos(this.pagination.adminpagination).toPromise();
 
-  //  }
+    if(listagemConcurso.code == 200){
+     this.concursoLista= listagemConcurso.dados.data;
+     this.pagination.pagination.lastPage= listagemConcurso.dados.lastPage;
+     this.pagination.pagination.page= listagemConcurso.dados.page;
+     this.pagination.pagination.perPage= listagemConcurso.dados.perPage;
+     this.pagination.pagination.total = listagemConcurso.dados.total;
+
+   }
+ }
+
+  
+
+
+
+
+
+
 
 }

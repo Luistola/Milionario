@@ -20,4 +20,8 @@ export class VencedorService {
   listarVencedoresParticipantes(pagination, dados):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/vencedor/listarByVencedor`,{pagination:pagination, dados:dados});
   }
+
+  listarVencedoresArtistList(contestId,pagination, dados):Observable<GeralInterfaceListar>{
+    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/vencedor/${contestId}`,{pagination:pagination, dados:dados});
+  }
 }

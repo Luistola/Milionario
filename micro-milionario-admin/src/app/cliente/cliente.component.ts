@@ -15,7 +15,7 @@ export class ClienteComponent implements OnInit {
   isloading: boolean= false;
   clientCarregar
   procurarItem:string
-
+  searchTerm;
   constructor(
     public pagination: FiltroClass,
     private clienteService: ClienteService,
@@ -25,6 +25,25 @@ export class ClienteComponent implements OnInit {
 
   ngOnInit() {
     this.clientePaginacao(1);
+  }
+
+
+  clearSearch() {
+    document.getElementById('serachPag').style.display='none';
+    document.getElementById('clientList').style.display='block';
+    console.log('clear artist function called');
+    this.searchTerm = '';
+    this.clientePaginacao(1);
+  }
+
+
+  search(){
+    document.getElementById('clientList').style.display='none';
+    document.getElementById('serachPag').style.display='block';
+    console.log("serch artist function here");
+    this.searchPaginacao(1);
+    
+  
   }
 
   async listarCliente(){
@@ -41,16 +60,46 @@ export class ClienteComponent implements OnInit {
     }
   }
 
+  async searchCliente(){
+    this.isloading= true
+     const listagemCliente = await this.clienteService.getSreachByClient(this.pagination.pagination, this.searchTerm).toPromise();
+     if(listagemCliente.code == 200){
+       this.isloading= false;
+      this.clienteLista= listagemCliente.dados.data
+      this.pagination.pagination.lastPage= listagemCliente.dados.lastPage;
+      this.pagination.pagination.page= listagemCliente.dados.page;
+      this.pagination.pagination.perPage= listagemCliente.dados.perPage;
+      this.pagination.pagination.total = listagemCliente.dados.total;
+      if(this.clienteLista.length==0){
+        this.toastr.warning('cliente não encontrado');
+      }
+    }
+  }
+
   clientePaginacao(page:number): void{
 
      if(this.pagination.pagination.page == null){
        this.pagination.pagination.page=1;
+       this.listarCliente()
      }else{
        this.pagination.pagination.page= page
        this.listarCliente()
      }
 
    }
+
+
+   searchPaginacao(page:number): void{
+
+    if(this.pagination.pagination.page == null){
+      this.pagination.pagination.page=1;
+      this.searchCliente()
+    }else{
+      this.pagination.pagination.page= page
+      this.searchCliente()
+    }
+
+  }
 
    verCarteira(cliente){
     this.router.navigate(['/dashboard/cliente/carteira', cliente.user_id]);

@@ -85,7 +85,7 @@
               <tr *ngFor="let v of vencedorClienteLista | paginate: { itemsPerPage: pagination.pagination.perPage, currentPage: pagination.pagination.page, totalItems: pagination.pagination.total}; let i=index ">
                 <td>{{i+1}}</td>
                 <td>{{v.concurso_nome}}</td>
-                <td>{{v.cliente_nome}}</td>
+                <td>{{v.client_nome}}</td>
                 <td>{{v.vencedor_total_votos}}</td>
                 <td>{{v.vencedor_posicao}}º Lugar</td>
                 <td>{{v.vencedor_premio}}</td>

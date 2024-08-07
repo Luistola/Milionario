@@ -1,3 +1,59 @@
 .img_dimensao {
   height: 157px;
 }
+
+.image-detail{
+  width:100%
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Add some spacing between the table and the surrounding elements */
+.col-xs-12 {
+  padding: -9px;
+}
+
+/* Add some basic styling to the header */
+h2 {
+  margin-top: 0;
+}
+
+
+.entires_dimensao {
+  height: 235px;
+}
+
+.entires-post__cover {
+    position: relative;
+    margin-bottom: 5px;
+  }
+
+  .entires__title {
+    color: #bb9729;
+    display: block;
+    font-size: 18px;
+    font-weight: 300;
+    -webkit-transition: color 0.3s;
+    -moz-transition: color 0.3s;
+    transition: color 0.3s;
+    text-align:left
+  }
+
+ 

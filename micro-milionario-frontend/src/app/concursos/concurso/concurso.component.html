@@ -12,11 +12,78 @@
         </div>
       </div>
     </div>
+
+    <div class="col-xs-12">
+      <h1>Detalhe dos participantes</h1>
+      <div class="row" *ngIf="concursoObject">
+        <div class="col-sm-6">
+          <div>
+            <img class="image-detail" [src]="getImageUrl(concursoObject.foto)" alt="">
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="store-post__title">
+            <span>Nome:</span>
+            {{concursoObject.nome}}
+          </div>
+
+          <div class="store-post__title">
+            <span>Descricao:</span>
+            {{concursoObject.descricao}}
+          </div>
+
+          <div class="store-post__title">
+            <span>Premio:</span>
+            {{concursoObject.premio}}
+          </div>
+
+          <div class="store-post__title">
+            <span>Data de Início:</span>
+            {{concursoObject.data_inicio | date: 'dd-MM-yyyy'}}
+          </div>
+
+          <div class="store-post__title">
+            <span>Data Fim:</span>
+            {{concursoObject.data_fim | date: 'dd-MM-yyyy'}}
+          </div>
+
+          <button *ngIf="usuarioActual.role_id != '3'" class="default-btn form__btn" style="margin: 40px;" data-toggle="modal" data-target="#myAddModal"
+            (click)="openAddEntriesModal(concursoObject)">Adicionar entradas</button>
+        </div>
+      </div>
+    </div>
+
     <!-- end section title -->
+
+    <div   class="col-xs-12" style="margin-top: 25px;">
+      <div class="row row--grid-big">
+        <!-- store post -->
+        <div  class="col-xs-12 col-sm-6 col-md-4" *ngFor="let entry of contestEntriesLista;">
+          <div class="store-post">
+            <a class="store-post__link"></a>
+
+            <div class="entires__title">Título: {{ entry.title }}</div>
+            <div class="entires__title">descricao: {{ entry.description }}</div>
+            <div class="entires__title">Tipo de link: {{ entry.link_type }}</div>
+            <div class="entires__title">Link:
+              <a href="{{ entry.link }}" target="_blank">{{ entry.link }}</a>
+            </div>
+            <div class="entires__title">Vote: {{ entry.vote }}</div>
+            <button  *ngIf="usuarioActual.role_id != '2'" class="store-post__btn" data-toggle="modal" data-target="#myModal"
+            (click)="setContestEntry(entry)"><span class="lnr lnr-checkmark-circle"></span></button>
+            
+
+          </div>
+        </div>
+        <!-- end store post -->
+      </div>
+    </div>
+
+
 
     <div class="col-xs-12">
       <div class="row row--grid-big">
-
         <!-- store post -->
         <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let p of participanteLista; ">
           <div class="store-post">
@@ -27,23 +94,39 @@
             <div class="store-post__title">{{p.artist_nome}}</div>
             <div class="store-post__model">{{p.musica_titulo}}</div>
             <!-- <div class="store-post__price">Votos: 199</div> -->
-            <button class="store-post__btn" data-toggle="modal" data-target="#myModal" (click)="setParticipante(p)" ><span class="lnr lnr-checkmark-circle"></span></button>
+            <button class="store-post__btn" data-toggle="modal" data-target="#myModal"
+              (click)="setParticipante(p)"><span class="lnr lnr-checkmark-circle"></span></button>
           </div>
         </div>
         <!-- end store post -->
-
       </div>
     </div>
 
-    <div class="col-xs-12">
+    <!-- <div class="col-xs-12">
       <button type="button" class="default-btn default-btn--red default-btn--center">Ver Mais</button>
-    </div>
+    </div> -->
   </div>
 </section>
+
+<!-- Add this modal HTML code -->
+<div class="modal fade" id="myAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Adicionar entradas</h4>
+      </div>
+      <div class="modal-body">
+        <app-add-entires-modal [getConcursoObject]="addEntriesData"
+          (sendDataBack)="receiveDataFromModal($event)"></app-add-entires-modal>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- end store -->
 
-<app-voto-modal
-  [participante]="participanteSelecionado"
-  [carteira]="carteira"
-  [idClienteLogado]="idClienteLogado"
-></app-voto-modal>
+<app-voto-modal [participante]="participanteSelecionado" [contestEntry]="ContestEntrySelecionado" [carteira]="carteira"
+  [idClienteLogado]="idClienteLogado"></app-voto-modal>
+  
