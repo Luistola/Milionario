@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { GeralInterfaceListar } from '../geral/geral-interface-listar';
 import { BehaviorSubject } from 'rxjs';
@@ -15,11 +15,15 @@ export class CarteiraService {
   placeholder = [];
   carteira = new BehaviorSubject([]);
 
+  private votesChangedSource = new Subject<any>();
+  votesChanged = this.votesChangedSource.asObservable();
+
   constructor(private http: HttpClient) {
     const ls = this.getCarteiraData()
     console.log(ls);
     if(ls) this.carteira.next(ls);
   }
+
 
   removeItem(carteira: Carteira, qtdVotos:number){
     const ls = this.getCarteiraData()
@@ -67,10 +71,8 @@ export class CarteiraService {
   }
 
 
-
   setCarteiraData(data:any){
     localStorage.setItem('carteira', JSON.stringify(data));
-
     this.getCarteiraData();
   }
 
@@ -89,4 +91,13 @@ export class CarteiraService {
   listarById(dados):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/carteira/listarById`,{dados:dados});
   }
+
+  
+
+  updateVotes(votes: any) {
+    console.log(votes);
+    this.votesChangedSource.next(votes);
+  }
 }
+
+

@@ -10,8 +10,7 @@ import { EncryptionService } from 'src/app/service/encryption/encryption.service
 import { Location } from '@angular/common';
 import { ConcursoService } from 'src/app/service/concurso/concurso.service';
 import { AddEntiresService } from 'src/app/service/add-entires/add-entires.service';
-import { AddEntiresModalComponent } from '../add-entires-modal/add-entires-modal.component';
-import { EntiresInterface } from 'src/app/service/geral/apiReposnse';
+import { data } from 'src/app/service/geral/geral-interface-listar';
 
 @Component({
   selector: 'app-concurso',
@@ -28,13 +27,15 @@ export class ConcursoComponent implements OnInit, AfterViewInit {
   idClienteLogado;
   carteira: any;
   participanteSelecionado;
-  concursoObject: {};
+  ContestEntrySelecionado;
+  concursoObject: data;
   addEntriesModalOpen = false;
   addEntriesData: {};
   contestEntriesLista: any;
   filteredContestEntries: any;
   formData: any;
   receivedEntires: any[] = []; // Declare the variable here
+  responseVote:any;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,17 +60,32 @@ export class ConcursoComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       this.concursoId = paramMap.get('id');
-      console.log(".........................................uuuuuuuuuuuuuuuuuu", this.concursoId);
       this.getConcursoById(this.concursoId);
 
     });
 
     this.carteira = this.carteiraService.getCarteiraData();
     this.usuarioActual = this.auth.pegarUsuario
+    console.log("oooyyyyyyyyyyyyyyyyyyyyyyyyyyy",this.usuarioActual);
     this.participantePaginacao(1);
     this.getContestAgainEntry();
+    this.updateVoteData();
+
+     
 
   }
+
+    updateVoteData(){
+      this.carteiraService.votesChanged.subscribe((response: any) => {
+        // Handle the response from the first API
+        console.log("vote update",response);
+        // Call the second API
+        this.getContestAgainEntry();
+        
+      });
+    }
+
+
 
   async listarParticipante() {
     this.isloading = true
@@ -107,13 +123,19 @@ export class ConcursoComponent implements OnInit, AfterViewInit {
     const concurso = await this.concursoService.listarById(data).toPromise();
     if (concurso.code == 200) {
       this.concursoObject = concurso.dados[0];
-      console.log("..........................................................tt", this.concursoObject)
+      this.concursoObject.premio=this.concursoObject.premio*this.concursoObject.price_percent/100;
+      console.log("contest award",(this.concursoObject.premio)*(this.concursoObject.price_percent)/100);
 
     }
   }
 
   setParticipante(participante) {
     this.participanteSelecionado = participante;
+  }
+
+  setContestEntry(entry){
+    this.ContestEntrySelecionado=entry;
+
   }
 
   getImageUrl(filename: string) {
@@ -150,7 +172,9 @@ export class ConcursoComponent implements OnInit, AfterViewInit {
     try {
       const response = await this.addEntiresService.getcontestAgainstEntires(this.concursoId).toPromise();
       if (response.code == 200) {
+        console.log("ooooouuuuuuuuuuuuuuuuuuuuuu",response.dados);
         this.contestEntriesLista = response.dados
+
       }
 
     } catch (error) {

@@ -22,13 +22,13 @@
       <ul class="header__actions">
         <li class="header__actions-item">
           <span class="header__actions-btn">
-            <span>{{username.username}}</span>
+            <span>{{User.username}}</span>
           </span>
 
         </li>
         <li class="header__actions-item">
           <span class="header__actions-btn">
-            <span *ngIf="carteira" >Pontos: {{carteiraLocal}}</span>
+            <span *ngIf="User.role_name !== 'ARTISTA' && fetchpoints" >Pontos: {{fetchpoints.pontos}}</span>
           </span>
 
         </li>

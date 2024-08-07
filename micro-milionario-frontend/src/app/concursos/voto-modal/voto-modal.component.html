@@ -9,19 +9,28 @@
         <h4 class="modal-title">Votação</h4>
       </div>
       <div class="modal-body">
-        <form action="#" class="">
-
-          <div class="form__group" *ngIf="participante" >
+        <form [formGroup]="contestEntryForm" class="">
+          <div class="form__group" *ngIf="contestEntry">
             <label for="voto" class="form__label">Votos</label>
-            <input id="votos" name="votos" type="number" class="form__input" value="1" [formControl]='votos'>
+            <input id="votos" type="number" name="votos" class="form__input" formControlName="vote">
+            <div
+              *ngIf="contestEntryForm.get('vote').hasError('required') && (contestEntryForm.get('vote').dirty || contestEntryForm.get('vote').touched)">
+              <small class="text-danger">Votos is required.</small>
+            </div>
+        
+            <div *ngIf="contestEntryForm.get('vote').hasError('min')">
+              <small class="text-danger">Votos must be at least 1.</small>
+            </div>
           </div>
 
+          <!-- no need for ngModel or [formControl] here -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal" [disabled]="contestEntryForm.invalid" (click)="votarData()">Salvar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal" (click)="votar()"  >Salvar</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+
     </div>
 
   </div>

@@ -144,7 +144,6 @@ export class LoginComponent implements OnInit {
     const concursos = await this.concursoService.listarByDataFim(data).toPromise();
     if(concursos.code == 200){
       this.concursos = concursos.dados;
-      console.log(this.concursos);
     }
    }
 
@@ -162,15 +161,12 @@ export class LoginComponent implements OnInit {
    }
 
    async listarVotacaoPorParticipante(concursoId){
-    // console.log(this.selectedOption);
     this.isloading= true
      const listagemVotacao= await this.votacaoService.listarByConcurso(this.pagination.pagination, concursoId).toPromise();
      if(listagemVotacao.code == 200){
        this.isloading= false;
       this.votacaoParticipanteLista= listagemVotacao.dados.data
-      console.log(this.votacaoParticipanteLista);
       for (const [i, v] of this.votacaoParticipanteLista.entries()) {
-        console.log('Posicao A: ' +i);
         console.log('Participante 1: ' +v);
         await this.saveVencedor(v, i+1);
       }

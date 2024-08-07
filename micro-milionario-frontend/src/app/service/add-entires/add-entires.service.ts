@@ -16,6 +16,11 @@ export class AddEntiresService {
 
   addEntires(entires:any):Observable<createEntiresInterface> {
     return this.http.post<createEntiresInterface>(`${this.apiURL}/contestEntry/create`, entires);
+    
+  }
+
+  updateVote(entiresID:Number,voteObj:any):Observable<createEntiresInterface> {
+    return this.http.post<createEntiresInterface>(`${this.apiURL}/contestEntry/give-vote/${entiresID}`, voteObj);
   }
 
   updateEntires(entiresID:Number,entires:any):Observable<createEntiresInterface> {

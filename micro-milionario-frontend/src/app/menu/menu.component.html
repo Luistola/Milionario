@@ -40,8 +40,8 @@
       <li>
         <a class="sidebar__link" routerLink="/dashboard/contact" [routerLinkActive]="'active'">Contactos</a>
       </li>
-      <li>
-        <a class="sidebar__link" routerLink="/dashboard/carteira" [routerLinkActive]="'active'">Carteira</a>
+      <li  *ngIf="user.role_id == '3'">
+        <a  class="sidebar__link" routerLink="/dashboard/carteira" [routerLinkActive]="'active'">Carteira</a>
       </li>
       <li>
         <a class="sidebar__link" routerLink="/dashboard/política" [routerLinkActive]="'active'">política</a>

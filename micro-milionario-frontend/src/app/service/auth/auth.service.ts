@@ -64,10 +64,12 @@ export class AuthService {
     // this.username = userId.username;
     // console.log('USER: '+this.username);
     const carteira = await this.carteiraService.listarById(userId.id).toPromise();
-    if(carteira.code == 200){
+    if (carteira.code == 200) {
       this.carteira = carteira.dados[0];
-      this.carteiraService.addItem(this.carteira);
-      console.log(this.carteira);
+      if (this.carteira) { // check if this.carteira is not null or undefined
+        this.carteiraService.addItem(this.carteira);
+       
+      }
     }
   }
 

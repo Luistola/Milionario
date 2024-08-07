@@ -78,8 +78,9 @@ export class ConcursosComponent implements OnInit {
   }
 
   setFoto(slide){
-    console.log("kkkkkkkkkkkk",slide);
    this.slideSelecionado = slide.foto;
  }
+
+ 
 
 }

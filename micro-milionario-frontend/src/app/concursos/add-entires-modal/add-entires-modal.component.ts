@@ -55,7 +55,6 @@ export class AddEntiresModalComponent implements OnInit {
 
   async onSubmit() {
     if (this.contestEntryForm.valid) {
-      console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",this.contestEntryForm.value);
       const formData = await this.addEntiresService.addEntires(this.contestEntryForm.value).toPromise();
       if (formData.code == 201) {
         console.log(".......................................................", formData.dados)

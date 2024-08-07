@@ -28,20 +28,19 @@
 
     <!-- contacts form -->
     <div class="col-xs-12 col-sm-6 col-lg-5">
-      <form action="#" class="form form--contacts">
+      <form [formGroup]="carteiraForm" class="form form--contacts" (ngSubmit)="saveCarregar()">
         <h6 class="form__title">Carteira</h6>
-
+        
         <div class="form__group">
-          <label for="name" class="form__label">Pontos</label>
-          <input id="name" name="name" type="text" class="form__input" value="{{pontos}}" disabled>
+          <label for="unitelMoney" class="form__label">Unitel Money</label>
+          <input formControlName="unitelMoney" id="unitelMoney" type="text" class="form__input">
         </div>
-
         <div class="form__group">
-          <label for="email" class="form__label">Unitel Money</label>
-          <input id="email" name="email" type="text" class="form__input" value="{{unitelMoney}}" disabled>
+          <label for="pontos" class="form__label">Pontos</label>
+          <input formControlName="pontos" id="pontos" type="text" class="form__input">
         </div>
-
-        <button type="button" class="default-btn form__btn" (click)="saveCarregar()" >Carregar</button>
+        
+        <button type="submit" class="default-btn form__btn" [disabled]="!carteiraForm.valid">Carregar</button>
         <button type="button" class="default-btn form__btn">Enviar</button>
       </form>
     </div>

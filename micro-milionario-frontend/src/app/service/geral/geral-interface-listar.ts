@@ -31,7 +31,7 @@ export interface GeralInterfacePousar {
     nome: string
     descricao: string
     foto: string
-    premio: string
+    premio: number
     n_vencedor: number
     data_inicio: string
     data_fim: string
