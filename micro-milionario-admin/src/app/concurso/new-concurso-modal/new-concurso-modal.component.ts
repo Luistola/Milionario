@@ -77,7 +77,6 @@ export class NewConcursoModalComponent implements OnInit {
       foto: this.imageReponse // set the foto property to the image response
     };
   
-   
   }
  
 

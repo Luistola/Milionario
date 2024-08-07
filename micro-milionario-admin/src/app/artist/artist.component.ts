@@ -53,6 +53,9 @@ export class ArtistComponent implements OnInit {
       this.pagination.pagination.page= listagemArtista.dados.page;
       this.pagination.pagination.perPage= listagemArtista.dados.perPage;
       this.pagination.pagination.total = listagemArtista.dados.total;
+      if(this.artistaLista.length==0){
+        this.toastr.warning('artista não encontrado');
+      }
       console.log(listagemArtista);
     }
   }

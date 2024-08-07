@@ -70,7 +70,9 @@ export class ClienteComponent implements OnInit {
       this.pagination.pagination.page= listagemCliente.dados.page;
       this.pagination.pagination.perPage= listagemCliente.dados.perPage;
       this.pagination.pagination.total = listagemCliente.dados.total;
-      console.log(listagemCliente);
+      if(this.clienteLista.length==0){
+        this.toastr.warning('cliente não encontrado');
+      }
     }
   }
 
