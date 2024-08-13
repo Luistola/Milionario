@@ -117,7 +117,12 @@ class ConcursoController {
   async showAlt({request}){
 
     const {dados}= request.only(['dados']);
-    const listagemConcurso= await this.concursoRepositorio.listaAlt(dados);
+    let listagemConcurso= await this.concursoRepositorio.listaAlt(dados);
+    console.log("file: ConcursoController.js:123 ~ ConcursoController ~ showAlt ~ listagemConcurso:", listagemConcurso)
+
+    if(listagemConcurso && listagemConcurso?.length)
+      listagemConcurso = listagemConcurso?.filter((d)=>new Date(d.data_fim)>=new Date())
+    
     return  this.dataResponse.dataReponse(200, 'Listagem de Concurso', listagemConcurso)
 
   }
