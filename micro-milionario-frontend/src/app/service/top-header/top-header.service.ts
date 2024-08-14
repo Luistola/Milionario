@@ -9,7 +9,6 @@ export class TopHeaderService {
   pointsChanged = this.pointsChangedSource.asObservable();
 
   updatePoints(points: any) {
-    console.log("ppppppppppppppppp",points);
     this.pointsChangedSource.next(points);
   }
 

@@ -1,0 +1,22 @@
+<section class="dFlex llsSec">
+    <div class="llsSecBg">
+        <img *ngIf="pousarData.type==='image'" width="100%" [src]="thumbnail">
+
+        <video #videoElement [autoplay]="true" [muted]="true" *ngIf="pousarData.type === 'video'" width="100%" loop
+            playsInline preload="auto">
+            <source [src]="thumbnail" type="video/mp4">
+        </video>
+        <!-- <img src="assets/images/llsBg.jpg" alt="MM"> -->
+    </div>
+    <div class="dFlex llsIn">
+        <div class="landingBox">
+            <h1 class="h1 mb_20">{{pousarData?.title}}</h1>
+            <h6 class="lh_24 mb_20">{{pousarData?.description}}</h6>
+            <h6>Enter your email to create and sign in to your account</h6>
+            <div class="dFlex jcCenter aiCenter mt_40 landingBtns">
+                <a routerLink="/login" class="btn">Login</a>
+                <a routerLink="/register" class="btn">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,26 @@
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70%;
+    height: 100%;
+    display: flex;
+    justify-content:right;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background-color: var(--black);
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%; /* adjust the width as needed */
+  } 
+
+  .voteBox{
+    padding: 20px;
+    
+  }
+
+  .voteModal{
+    margin-top:-240px;
+  }

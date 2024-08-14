@@ -1,7 +1,7 @@
-import { Recarga } from './../../models/recarga/recarga.model';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Carteira } from 'src/app/models/carteira/carteira.model';
+import { Carteira } from 'src/app/components/models/carteira/carteira.model';
+import { Recarga } from 'src/app/components/models/recarga/recarga.model';
 
 @Injectable({
   providedIn: 'root'

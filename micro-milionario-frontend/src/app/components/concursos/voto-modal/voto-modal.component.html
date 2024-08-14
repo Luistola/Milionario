@@ -1,0 +1,16 @@
+<form [formGroup]="contestEntryForm">
+    <div class="lsForm mt_32">
+        <div class="formInpt mb_20">
+            <input type="number" placeholder="Votos" formControlName="vote">
+            <div
+                *ngIf="contestEntryForm.get('vote').hasError('required') && (contestEntryForm.get('vote').dirty || contestEntryForm.get('vote').touched)">
+                <small class="text-danger">Votos is required.</small>
+            </div>
+            <div *ngIf="contestEntryForm.get('vote').hasError('min')">
+                <small class="text-danger">Votos must be at least 1.</small>
+            </div>
+        </div>
+        <button type="submit" class="btnLogin" [disabled]="contestEntryForm.invalid"
+            (click)="votarData()">Salvar</button>
+    </div>
+</form>

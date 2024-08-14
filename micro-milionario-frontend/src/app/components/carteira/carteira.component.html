@@ -1,0 +1,48 @@
+<section class="sec pt_80 mb_80 artistsSec">
+    <div class="container">
+        <div class="ssIn">
+            <div class="dFlex mb_80 ssHD">
+                <h1 class="dFlex h4">
+                    <a (click)="goBack()" class="back">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 22L6 12L16 2L17.775 3.775L9.55 12L17.775 20.225L16 22Z" fill="" />
+                        </svg>
+                    </a>
+                    Carteira
+                </h1>
+            </div>
+            <div class="dFlex contacts">
+                <div class="contactsLeft">
+                    <div class="accordion">
+                        <div class="tab mb_32">
+                            <input type="checkbox" name="accordion-1" id="cb1">
+                            <label for="cb1" class="tab__label txt18 fwBold">Informações sobre a carteira</label>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="contactsRight">
+                    <div class="signupBox">
+                        <h2 class="h3 textCenter mb_20">Carteira</h2>
+                        <div class="lsForm mt_32">
+                            <form [formGroup]="carteiraForm" (ngSubmit)="saveCarregar()">
+                                <div class="formInpt mb_20">
+                                    <input formControlName="unitelMoney" type="text" placeholder="Unitel Money">
+                                </div>
+                                <div class="formInpt shPW mb_20">
+                                    <input formControlName="pontos" type="text" placeholder="Pontos">
+                                </div>
+                                <div class="formInpt mb_20">
+                                    <button type="submit"  [disabled]="!carteiraForm.valid" class="btnLogin">Carregar</button>
+                                </div>
+                                <div class="formInpt mb_20">
+                                    <button type="button" class="btnLogin">Enviar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

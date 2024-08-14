@@ -1,0 +1,51 @@
+<div>
+  <!-- <h2 class="h3 textCenter mb_20">Enviar entrada</h2> -->
+  <form [formGroup]="contestEntryForm" (ngSubmit)="onSubmit()">
+    <div class="lsForm mt_32">
+      <div class="formInpt mb_20">
+        <input formControlName="title" type="text" placeholder="Título">
+        <div
+          *ngIf="contestEntryForm.get('title').invalid && (contestEntryForm.get('title').dirty || contestEntryForm.get('title').touched)">
+          <div *ngIf="contestEntryForm.get('title').errors.required" class="text-danger">
+            Title is required
+          </div>
+        </div>
+      </div>
+      <div class="formInpt shPW mb_20">
+        <textarea formControlName="description" placeholder="DESCRIÇÃO"></textarea>
+      </div>
+      <div class="formInpt mb_20">
+        <div class="customSelect">
+          <select class="selectMenu" formControlName="link_type" placeholder="Tipo de link">
+            <option value="">Select an option</option>
+            <option value="facebook">Facebook</option>
+            <option value="twitter">Twitter</option>
+            <option value="instagram">Instagram</option>
+            <option value="youtube">Youtube</option>
+          </select>
+        </div>
+        <div
+          *ngIf="contestEntryForm.get('link_type').invalid && (contestEntryForm.get('link_type').dirty || contestEntryForm.get('link_type').touched)">
+          <div *ngIf="contestEntryForm.get('link_type').errors.required" class="text-danger">
+            Link Type is required
+          </div>
+        </div>
+      </div>
+      <div class="formInpt mb_20">
+        <input formControlName="link" type="url" placeholder="Link">
+        <div
+          *ngIf="contestEntryForm.get('link').invalid && (contestEntryForm.get('link').dirty || contestEntryForm.get('link').touched)">
+          <div *ngIf="contestEntryForm.get('link').errors.required" class="text-danger">
+            Link is required
+          </div>
+        </div>
+      </div>
+      <input type="submit" id="closebutton" name="Enviar" value="Salvar" class="btnLogin">
+
+
+        <button #closebutton type="button" class="btnLogin" (click)="closeModal()">Close
+      </button>
+     
+    </div>
+  </form>
+</div>

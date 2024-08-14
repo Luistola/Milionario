@@ -1,0 +1,13 @@
+.contactsRight{
+    flex-shrink: 0;
+    width: 650px;
+  }
+
+  .contactsRight {
+    width: 100%;
+  }
+
+  .contactsRight {
+    flex-shrink: unset;
+    width: 55%;
+  }

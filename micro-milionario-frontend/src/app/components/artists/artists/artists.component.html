@@ -1,0 +1,41 @@
+<section class="sec pt_80 pb_80 artistsSec">
+    <div class="container">
+        <div class="ssIn">
+            <div class="dFlex mb_40 ssHD">
+                <h1 class="dFlex h4">
+                    <a  class="back" (click)="goBack()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 22L6 12L16 2L17.775 3.775L9.55 12L17.775 20.225L16 22Z" fill=""/>
+                        </svg>
+                    </a>
+                    Latest Artist
+                </h1>
+                <div class="customSelect">
+                    <select class="selectMenu">
+                        <option value="">All Artists</option>
+                        <option value="">Artist 1</option>
+                        <option value="">Artist 2</option>
+                        <option value="">Artist 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="artistsList">
+                <ul class="dFlex list_4">
+                    <li *ngFor="let a of artistaLista | paginate: { itemsPerPage: pagination.pagination.perPage, currentPage: pagination.pagination.page, totalItems: pagination.pagination.total}; let i=index">
+                        <div class="ssBox">
+                          <div class="ssbImg" (click)="goArtist(a)">
+                            <img [src]="getImageUrl(a.foto)" alt="">
+                          </div>
+                          <div class="ssbTxt">
+                            <div class="mt_8 txt18 fwSemiBold ssbCat">{{a.nome}}</div>
+                          </div>
+                        </div>
+                      </li>
+                </ul>
+                <div class="mt_56 textCenter">
+                    <button type="button" (click)="artistaPaginacao1(2)" class="btn">View All</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,73 @@
+<section class="sec pt_80 mb_80 artistsSec">
+  <div class="container">
+    <div class="ssIn">
+      <div class="dFlex mb_80 ssHD" style="margin-bottom: 45px;">
+        <h1 class="dFlex h4">
+          <a (click)="goBack()" class="back">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 22L6 12L16 2L17.775 3.775L9.55 12L17.775 20.225L16 22Z" fill="" />
+            </svg>
+          </a>
+          Perfil
+        </h1>
+      </div>
+
+      <div class="contactsRight" style="padding-left: 450px; width: 75%;">
+        <div class="signupBox">
+          <h2 class="h3 textCenter mb_20">Perfil</h2>
+
+          <form class="lsForm mt_32" [formGroup]="perfilForm" (ngSubmit)="update()">
+
+            <div class="formInpt mb_20">
+              <input id="name" name="nome" type="text" [(ngModel)]="clientObject.nome" class="form__input"
+                formControlName="nome" [ngClass]="{'is-invalid': usernameValidate}" placeholder="Nome">
+              <div
+                *ngIf="perfilForm.get('nome').invalid && (perfilForm.get('nome').dirty || perfilForm.get('nome').touched)"
+                class="invalid-feedback text-danger">
+                Username is required and must be at least 3 characters long.
+              </div>
+            </div>
+            <div class="formInpt shPW mb_20">
+              <input id="telefone" name="telefone" type="number" [(ngModel)]="clientObject.telefone"
+                formControlName="telefone" [ngClass]="{'is-invalid': telValidate}" placeholder="Telefone">
+              <div
+                *ngIf="perfilForm.get('telefone').invalid && (perfilForm.get('telefone').dirty || perfilForm.get('telefone').touched)"
+                class="invalid-feedback text-danger">
+                Telefone is required and must contain only numbers.
+              </div>
+            </div>
+            <div class="formInpt shPW mb_20">
+              <div class="customSelect">
+                <select class="selectMenu" id="sexo" [(ngModel)]="clientObject.sexo" name="sexo" formControlName="sexo"
+                  [ngClass]="{'is-invalid': sexoValidate}" style="width: 100%;">
+                  <option value="" selected>Seleccione...</option>
+                  <option value="Feminino">Feminino</option>
+                  <option value="Masculino">Masculino</option>
+                </select>
+              </div>
+              <div
+                *ngIf="perfilForm.get('sexo').invalid && (perfilForm.get('sexo').dirty || perfilForm.get('sexo').touched)"
+                class="invalid-feedback text-danger">
+                Sexo is required.
+              </div>
+            </div>
+            <ng-container *ngIf="selectedOption == 2">
+              <div class="formInpt shPW mb_20">
+                <input formControlName="password" type="password" placeholder="Senha">
+                <div
+                  *ngIf="perfilForm.get('password').invalid && (perfilForm.get('password').dirty || perfilForm.get('password').touched)"
+                  class="invalid-feedback text-danger">
+                  Senha is required.
+                </div>
+              </div>
+              <div class="formInpt shPW mb_20">
+                <input formControlName="conf_password" type="password" placeholder="Confirmar Senha">
+              </div>
+            </ng-container>
+            <button type="submit" class="btnLogin">Salvar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

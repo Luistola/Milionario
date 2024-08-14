@@ -1,0 +1,123 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: var(--black);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .close {
+    background: display;
+    border: display;
+    cursor: pointer;
+    background-color: var(--yellow);
+    border-radius:2px;
+    padding: 12px 15px;
+    border: 1px solid var(--yellow);
+    border-radius: 2px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.25px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content:left;
+    transition: all 0.5s ease;
+  }
+  
+  .modal-body {
+    padding: 0;
+    
+  }
+
+
+  .modal-container1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70%;
+    height: 100%;
+    display: flex;
+    justify-content:right;
+    align-items: center;
+  }
+  
+  .modal-content1 {
+    background-color: var(--black);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    max-width: 600px;
+    width: 100%;
+  } 
+
+  .voteBox{
+    padding: 20px;
+    
+  }
+
+  .voteModal{
+    margin-top:-493px;
+  }
+
+  .modal-overlay1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  .entryvote {
+    max-width: 1200px; /* adjust the max-width as needed */
+    margin: 40px auto; /* add some margin for better visibility */
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap; /* allow elements to wrap to the next line */
+    justify-content: left/* distribute elements evenly */
+  }
+  
+  .votecard {
+    flex-basis: 40%; /* adjust the width of each element */
+    margin: 20px; /* add some margin between elements */
+    background-color: var(--black);
+    padding: 32px;
+    position: relative;
+    
+  }

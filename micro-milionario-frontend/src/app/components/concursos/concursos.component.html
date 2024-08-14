@@ -1,0 +1,43 @@
+<section class="sec pt_80 pb_80 contestSec">
+    <div class="container">
+        <div class="ssIn">
+            <div class="dFlex mb_40 ssHD">
+                <h1 class="dFlex h4">
+                    <a (click)="goBack()" class="back">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 22L6 12L16 2L17.775 3.775L9.55 12L17.775 20.225L16 22Z" fill=""/>
+                        </svg>
+                    </a>
+                    Contest
+                </h1>
+                <div class="customSelect">
+                    <select class="selectMenu">
+                        <option value="">All Contests</option>
+                        <option value="">Contest 1</option>
+                        <option value="">Contest 2</option>
+                        <option value="">Contest 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="contestList">
+                <ul class="dFlex list_3">
+                    <li *ngFor="let c of concursoLista|slice:0:itemsToShow">
+                      <div class="ssBox">
+                        <div class="ssbImg h_240">
+                          <a (click)="goParticipanteList(c)"><img [src]="getImageUrl(c.foto)" alt="MM"></a>
+                        </div>
+                        <div class="ssbTxt">
+                          <div class="mt_8 txt18 fwSemiBold ssbCat">{{c.nome}}</div>
+                          <div class="mt_4 ssbDt">Inicio - <span>{{c.data_inicio | date: 'dd/MM/yyyy'}}</span></div>
+                          <div class="mt_4 ssbDt">Final - <span>{{c.data_fim | date: 'dd/MM/yyyy'}}</span></div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="mt_56 textCenter">
+                    <a  (click)="loadMoreItems()" class="btn">Ver Mais</a>
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>

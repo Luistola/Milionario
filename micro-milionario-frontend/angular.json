@@ -35,10 +35,14 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "src/assets/css/swiper-bundle.css"
             ],
             "scripts": [
-
+              "src/assets/js/custom.js",
+              "src/assets/js/jquery-3.7.1.min.js",
+              "src/assets/js/swiper-bundle.min.js"
+             
             ]
           },
           "configurations": {
@@ -113,10 +117,13 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "src/assets/css/swiper-bundle.css"
             ],
             "scripts": [
-
+              "src/assets/js/custom.js",
+              "src/assets/js/jquery-3.7.1.min.js",
+              "src/assets/js/swiper-bundle.min.js"
             ]
           }
         },
@@ -146,6 +153,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "micro-milionario-frontend"
 }

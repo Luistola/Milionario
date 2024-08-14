@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { GeralInterfaceListar } from '../geral/geral-interface-listar';
 import { BehaviorSubject } from 'rxjs';
-import { Carteira } from '../../models/carteira/carteira.model';
+import { Carteira } from 'src/app/components/models/carteira/carteira.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,75 +1,63 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthHelpers } from './service/geral/auth-helpers.interceptor';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './login/login.component';
-import { MenuComponent } from './menu/menu.component';
-import { TopHeaderComponent } from './top-header/top-header.component';
-import { FooterComponent } from './footer/footer.component';
-import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component';
-import { Page404Component } from './page404/page404.component';
-import { PlayerComponent } from './player/player.component';
-import { ContactComponent } from './contact/contact.component';
-import { RecargaComponent } from './recarga/recarga.component';
-import { PipeConcursoPipe } from './pipes/pipe-concurso.pipe';
-import { CarteiraComponent } from './carteira/carteira.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HomeComponent } from './components/home/home.component';
+import { Page404Component } from './components/page404/page404.component';
+import { TopHeaderComponent } from './components/top-header/top-header.component';
+import { PolicyComponent } from './components/policy/policy.component';
+import { PousarComponent } from './components/pousar/pousar.component';
+import { PerfilClienteComponent } from './components/perfil-cliente/perfil-cliente.component';
+import { CarteiraComponent } from './components/carteira/carteira.component';
+import { ContactComponent } from './components/contact/contact.component';
 import { ToastrModule } from 'ngx-toastr';
-import { VencedoresComponent } from './vencedores/vencedores.component';
-import { PerfilClienteComponent } from './perfil-cliente/perfil-cliente.component';
-import { SharedModule } from './shared/shared.module';
-import { PolicyComponent } from './policy/policy.component';
-import { PousarComponent } from './pousar/pousar/pousar.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthHelpers } from './service/geral/auth-helpers.interceptor';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { WinnersComponent } from './components/winners/winners/winners.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
+    RegisterComponent,
     LoginComponent,
-    MenuComponent,
-    TopHeaderComponent,
+    DashboardComponent,
     FooterComponent,
     HomeComponent,
-    RegisterComponent,
     Page404Component,
-    PlayerComponent,
-    ContactComponent,
-    RecargaComponent,
-    PipeConcursoPipe,
-    CarteiraComponent,
-    VencedoresComponent,
-    PerfilClienteComponent,
+    TopHeaderComponent,
     PolicyComponent,
     PousarComponent,
-    
+    PerfilClienteComponent,
+    CarteiraComponent,
+    ContactComponent,
+    WinnersComponent,
+
 
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
+    AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    CommonModule,
-    SharedModule,
-    BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot() // ToastrModule added
+    
+    ToastrModule.forRoot()
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthHelpers, multi: true,
     },
     {
-      provide:  LocationStrategy, useClass: HashLocationStrategy,
+      provide: LocationStrategy, useClass: HashLocationStrategy,
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

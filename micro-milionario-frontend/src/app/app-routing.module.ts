@@ -1,19 +1,17 @@
-import { RoleGuardGuard } from './guards/role-guard.guard';
-import { AuthGuardGuard } from './guards/auth-guard.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { Page404Component } from './page404/page404.component';
-import { ContactComponent } from './contact/contact.component';
-import { RecargaComponent } from './recarga/recarga.component';
-import { CarteiraComponent } from './carteira/carteira.component';
-import { VencedoresComponent } from './vencedores/vencedores.component';
-import { PerfilClienteComponent } from './perfil-cliente/perfil-cliente.component';
-import { PolicyComponent } from './policy/policy.component';
-import { PousarComponent } from './pousar/pousar/pousar.component';
+import { PousarComponent } from './components/pousar/pousar.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { Page404Component } from './components/page404/page404.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HomeComponent } from './components/home/home.component';
+import { PolicyComponent } from './components/policy/policy.component';
+import { AuthGuardGuard } from './components/guards/auth-guard.guard';
+import { PerfilClienteComponent } from './components/perfil-cliente/perfil-cliente.component';
+import { CarteiraComponent } from './components/carteira/carteira.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { WinnersComponent } from './components/winners/winners/winners.component';
 
 
 const routes: Routes = [
@@ -47,40 +45,37 @@ const routes: Routes = [
       {
         path: 'artists',
         canActivate: [AuthGuardGuard],
-        /* data: {
-          expectedRoles: ['Cliente']
-        }, */
-        loadChildren: () => import('../app/artists/artists.module')
+        loadChildren: () => import('../app/components/artists/artists/artists.module')
         .then(mModule => mModule.ArtistsModule)
       },
       {
         path: 'concursos',
         canActivate: [AuthGuardGuard],
-        loadChildren: () => import('../app/concursos/concursos.module')
+        loadChildren: () => import('../app/components/concursos/concursos.module')
         .then(mModule => mModule.ConcursosModule)
       },
+      // {
+      //   path: 'eventos',
+      //   canActivate: [AuthGuardGuard],
+      //   loadChildren: () => import('../app/eventos/eventos.module')
+      //   .then(mModule => mModule.EventosModule)
+      // },
+      // {
+      //   path: 'pagamento',
+      //   canActivate: [AuthGuardGuard],
+      //   loadChildren: () => import('../app/pagamento/pagamento.module')
+      //   .then(mModule => mModule.PagamentoModule)
+      // },
       {
-        path: 'eventos',
+        path:'winners',
         canActivate: [AuthGuardGuard],
-        loadChildren: () => import('../app/eventos/eventos.module')
-        .then(mModule => mModule.EventosModule)
+        component: WinnersComponent
       },
-      {
-        path: 'pagamento',
-        canActivate: [AuthGuardGuard],
-        loadChildren: () => import('../app/pagamento/pagamento.module')
-        .then(mModule => mModule.PagamentoModule)
-      },
-      {
-        path:'vencedores',
-        canActivate: [AuthGuardGuard],
-        component: VencedoresComponent
-      },
-      {
-        path:'recarga',
-        canActivate: [AuthGuardGuard],
-        component: RecargaComponent
-      },
+      // {
+      //   path:'recarga',
+      //   canActivate: [AuthGuardGuard],
+      //   component: RecargaComponent
+      // },
       {
         path:'contact',
         canActivate: [AuthGuardGuard],
