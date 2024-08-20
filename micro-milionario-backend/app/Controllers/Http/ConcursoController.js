@@ -35,8 +35,14 @@ class ConcursoController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-   async index () {
-    const listarTodosConcurso= await this.concursoRepositorio.index();
+   async index ({request}) {
+    const ended = request.input("ended");
+    let listarTodosConcurso= await this.concursoRepositorio.index();
+
+    if (ended==="true" && listarTodosConcurso?.rows?.length){
+      listarTodosConcurso = listarTodosConcurso?.rows?.filter(d=>new Date(d.data_fim).getTime() < new Date().getTime())
+    }
+
     return this.dataResponse.dataReponse(200, "listagem de todas as Concurso", listarTodosConcurso)
  }
 
