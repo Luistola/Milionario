@@ -25,6 +25,10 @@ export class ConcursoService {
     return this.http.get<GeralInterfaceListar>(`${this.apiURL}/concurso_active`);
   }
 
+  listarConcursoWinner(ended):Observable<GeralInterfaceListar>{
+    return this.http.get<GeralInterfaceListar>(`${this.apiURL}/concurso/?ended=${ended}`);
+  }
+
   listarById(dados):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/listarById`,{dados:dados});
   }

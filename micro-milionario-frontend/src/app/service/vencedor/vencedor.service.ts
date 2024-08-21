@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { GeralInterfaceListar } from '../geral/geral-interface-listar';
+import { GeralInterfaceUser } from '../geral/apiReposnse';
 
 @Injectable({
   providedIn: 'root'
@@ -28,4 +29,14 @@ export class VencedorService {
   listarVencedoresParticipantes(pagination, dados):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/vencedor/listarByVencedor`,{pagination:pagination, dados:dados});
   }
+
+  listarVencedoresArtistList(contestId,pagination, dados):Observable<GeralInterfaceListar>{
+    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/vencedor/${contestId}`,{pagination:pagination, dados:dados});
+  }
+
+  latestWinnerArtist():Observable<GeralInterfaceUser>{
+    return this.http.get<GeralInterfaceUser>(`${this.apiURL}/vencedor/latest`);
+  }
+
+ 
 }

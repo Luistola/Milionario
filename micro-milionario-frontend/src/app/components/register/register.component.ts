@@ -24,6 +24,8 @@ export class RegisterComponent implements OnInit {
   usuario: Usuario;
   selectedOption;
   fotoFile;
+  inputType: string = 'password';
+  hidePassword: boolean = true;
   files: Set<File>;
   @ViewChild('inputFile', {static: false}) fileInputRef: ElementRef;
 
@@ -229,6 +231,12 @@ export class RegisterComponent implements OnInit {
     }else{
       console.log(carteira.code);
     }
+  }
+
+
+  togglePassword() {
+    this.hidePassword = !this.hidePassword;
+    this.inputType = this.hidePassword ? 'password' : 'text';
   }
 
 }

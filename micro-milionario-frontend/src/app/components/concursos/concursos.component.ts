@@ -38,7 +38,8 @@ export class ConcursosComponent implements OnInit {
      const listagemConcurso= await this.concursoService.listarConcursos1(this.procurarItem).toPromise();
      if(listagemConcurso.code == 200){
        this.isloading= false;
-      this.concursoLista= listagemConcurso.dados
+      this.concursoLista= listagemConcurso.dados;
+      console.log("concursoLista",this.concursoLista);
     }
   }
 

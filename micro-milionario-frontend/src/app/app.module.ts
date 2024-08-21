@@ -21,6 +21,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthHelpers } from './service/geral/auth-helpers.interceptor';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { WinnersComponent } from './components/winners/winners/winners.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { WinnersComponent } from './components/winners/winners/winners.component
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NoopAnimationsModule,
     
     ToastrModule.forRoot()
   ],

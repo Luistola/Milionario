@@ -10,6 +10,9 @@ export interface GeralInterfaceUser {
         is_delete: number
         created_at: string
         updated_at: string
+        winners:[]
+        contest:string
+
 
     }
 }

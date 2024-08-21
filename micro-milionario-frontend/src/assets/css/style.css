@@ -867,7 +867,7 @@ select:focus {
   transform: scale(1.1);
 }
 .ssbImg:hover .wnrTag{
-  background-color: var(--black);
+  background-color: var(--white);
   color: white;
   transition: all ease 0.3s;
 }

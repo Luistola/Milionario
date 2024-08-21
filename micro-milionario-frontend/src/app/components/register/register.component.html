@@ -1,75 +1,75 @@
-
-    <section class="dFlex llsSec">
-        <div class="llsSecBg">
-            <img src="assets/images/llsBg.jpg" alt="MM">
-        </div>
-        <div class="dFlex llsIn">
-            <div class="signupBox">
-                <h1 class="h2 textCenter mb_20">Sign Up</h1>
-                <p class="textCenter">Enter your details to create and sign in to your account</p>
-                <form [formGroup]="registerForm" (ngSubmit)="save()">
-                    <div class="lsForm mt_32" [formGroup]="registerForm">
-                        <div class="formInpt mb_20">
-                            <input type="text" formControlName="username" placeholder="Username">
-                        </div>
-                        <div class="formInpt mb_20">
-                            <input type="email" formControlName="email" placeholder="Email">
-                        </div>
-                        <div class="formInpt mb_20">
-                            <input type="tel" formControlName="telefone" placeholder="Telefone">
-                        </div>
-                        <div class="formInpt mb_20">
-                            <div class="customSelect">
-                                <select class="selectMenu" formControlName="sexo" style="width: 100%;">
-                                    <option  value="" selected>Seleccione...</option>
-                                    <option value="Feminino">Feminino</option>
-                                    <option value="Masculino">Masculino</option>
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="formInpt mb_20">
-                            <div class="customSelect">
-                                <select class="selectMenu" formControlName="role" style="width: 100%;" [(ngModel)]="selectedOption">
-                                    <option [value]="selectedOption" selected>Seleccione...</option>
-                                    <option value="2">Artista</option>
-                                    <option value="3">Fã</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <ng-container *ngIf="selectedOption == 2">
-                            <div class="formInpt mb_20">
-                                <input name="foto" type="file" #inputFile class="form__input"
-                                    (change)="onChangeFoto($event)">
-                            </div>
-                        </ng-container>
-
-                        <div class="formInpt mb_20">
-                            <input type="password" formControlName="password" placeholder="Senha">
-                        </div>
-
-                        <div class="formInpt shPW mb_20">
-                            <input type="password" formControlName="conf_password" placeholder="Confirmar Senha">
-                            <button class="show" role="button">
-                                <img class="showPW" src="assets/images/pshImgHide.png" alt="MM">
-                                <img class="hidePW" src="assets/images/pshImgShow.png" alt="MM">
-                            </button>
-                        </div>
-
-                        <div class="mb_20">
-                            <label class="tccL txt14 fwBold">
-                                <input type="checkbox" formControlName="terms">
-                                <span class="checkmark"></span>
-                                I have read and agree to the terms and conditions
-                            </label>
-                        </div>
-                        <button type="submit" class="btnLogin mb_20">Cadastrar</button>
-
-                        <p class="txt14 fwMedium textCenter">Already have account on Microphone Milionario ? <a
-                                routerLink="/login">Sign in</a></p>
+<section class="dFlex llsSec">
+    <div class="llsSecBg">
+        <img src="assets/images/llsBg.jpg" alt="MM">
+    </div>
+    <div class="dFlex llsIn">
+        <div class="signupBox">
+            <h1 class="h2 textCenter mb_20">Sign Up</h1>
+            <p class="textCenter">Enter your details to create and sign in to your account</p>
+            <form [formGroup]="registerForm" (ngSubmit)="save()">
+                <div class="lsForm mt_32" [formGroup]="registerForm">
+                    <div class="formInpt mb_20">
+                        <input type="text" formControlName="username" placeholder="Username">
                     </div>
-                </form>
-            </div>
+                    <div class="formInpt mb_20">
+                        <input type="email" formControlName="email" placeholder="Email">
+                    </div>
+                    <div class="formInpt mb_20">
+                        <input type="tel" formControlName="telefone" placeholder="Telefone">
+                    </div>
+                    <div class="formInpt mb_20">
+                        <div class="customSelect">
+                            <select class="selectMenu" formControlName="sexo" style="width: 100%;">
+                                <option value="" selected>Seleccione...</option>
+                                <option value="Feminino">Feminino</option>
+                                <option value="Masculino">Masculino</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="formInpt mb_20">
+                        <div class="customSelect">
+                            <select class="selectMenu" formControlName="role" style="width: 100%;"
+                                [(ngModel)]="selectedOption">
+                                <option [value]="selectedOption" selected>Seleccione...</option>
+                                <option value="2">Artista</option>
+                                <option value="3">Fã</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <ng-container *ngIf="selectedOption == 2">
+                        <div class="formInpt mb_20">
+                            <input name="foto" type="file" #inputFile class="form__input"
+                                (change)="onChangeFoto($event)">
+                        </div>
+                    </ng-container>
+
+                    <div class="formInpt mb_20">
+                        <input type="password" formControlName="password" placeholder="Senha">
+                    </div>
+
+                    <div class="formInpt shPW mb_20">
+                        <input [type]="inputType" formControlName="conf_password" placeholder="Confirmar Senha">
+                        <button class="show" role="button" (click)="togglePassword()">
+                            <img class="showPW" src="assets/images/pshImgHide.png" alt="MM">
+                            <img class="hidePW" src="assets/images/pshImgShow.png" alt="MM">
+                        </button>
+                    </div>
+
+                    <div class="mb_20">
+                        <label class="tccL txt14 fwBold">
+                            <input type="checkbox" formControlName="terms">
+                            <span class="checkmark"></span>
+                            I have read and agree to the terms and conditions
+                        </label>
+                    </div>
+                    <button type="submit" class="btnLogin mb_20">Cadastrar</button>
+
+                    <p class="txt14 fwMedium textCenter">Already have account on Microphone Milionario ? <a
+                            routerLink="/login">Sign in</a></p>
+                </div>
+            </form>
         </div>
-    </section>
+    </div>
+</section>
