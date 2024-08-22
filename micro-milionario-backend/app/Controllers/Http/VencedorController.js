@@ -8,6 +8,9 @@ const DataResponse = use("App/Repositorio/DataResponse");
 const ConcursoRepositorio = use('App/Repositorio/Admin/ConcursoRepositorio');
 const ArtistRepositorio = use('App/Repositorio/Admin/ArtistRepositorio');
 
+const ConcursoModel= use('App/Models/Concurso');
+
+
 
 /**
  * Resourceful controller for interacting with vencedors
@@ -147,6 +150,33 @@ class VencedorController {
     return this.dataResponse.dataReponse(200, ' Vencedor Atualizada com sucesso')
 
   }
+
+  async getLatestVencedor({ request }) {
+ 
+    let lastFiveConcurso = await ConcursoModel.query()
+      .where("data_fim", "<", new Date())
+      .orderBy("created_at", "desc")
+      .limit(5)
+      .fetch();
+
+    lastFiveConcurso = await lastFiveConcurso.toJSON();
+
+    for (const contest of lastFiveConcurso) {
+     
+      let winners = await this.vencedorRepositorio.getAllByContestId(
+        contest.id
+      );
+
+      if (winners && winners.length){
+        winners = winners.map(d=>({...d, contest_name: contest.nome}))
+        return this.dataResponse.dataReponse(200, "vencedor", winners);
+      }
+    }
+
+    return this.dataResponse.dataReponse(200, "vencedor", []);
+
+  }
+
 }
 
 module.exports = VencedorController

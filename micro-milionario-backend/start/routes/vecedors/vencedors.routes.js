@@ -9,5 +9,7 @@ module.exports = (ApiRoute, Route) => {
     Route.post('vencedor/update/:id', 'VencedorController.update');
     Route.post('vencedor/:id', 'VencedorController.getByContestId');
 
+    Route.get('vencedor/latest', 'VencedorController.getLatestVencedor');
+
   })
 }
