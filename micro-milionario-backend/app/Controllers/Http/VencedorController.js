@@ -74,17 +74,21 @@ class VencedorController {
       pagination,
       params.id
     );
+    console.log("file: VencedorController.js:77 ~ VencedorController ~ getByContestId ~ listagemVencedor:", listagemVencedor)
 
     let data = await Promise.all(
       listagemVencedor?.data?.map(async (data) => {
+        console.log("file: VencedorController.js:81 ~ VencedorController ~ listagemVencedor?.data?.map ~ data:", data)
         let contestData = await this.concursoRepositorio.listarById(
           data.concurso_id
         );
+        console.log("file: VencedorController.js:84 ~ VencedorController ~ listagemVencedor?.data?.map ~ contestData:", contestData)
         contestData = contestData[0];
 
         let artistData = await this.artistRepositorio.listarByUserId(
           data.participante_id
         );
+        console.log("file: VencedorController.js:90 ~ VencedorController ~ listagemVencedor?.data?.map ~ artistData:", artistData)
         artistData = artistData[0];
 
         return {
@@ -100,10 +104,10 @@ class VencedorController {
           concurso_n_vencedor: contestData.n_vencedor,
           participante_id: data.participante_id,
           participante_concurso_id: data.concurso_id,
-          artist_id: artistData.id,
+          artist_id: artistData?.id,
           artist_user_id: data.participante_id,
-          artist_nome: artistData.nome,
-          artist_foto: artistData.foto,
+          artist_nome: artistData?.nome,
+          artist_foto: artistData?.foto,
         };
       })
     );
