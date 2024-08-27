@@ -123,6 +123,14 @@ class VencedorClienteRepositorio{
         }
       }
 
+      async getAllByContestId(contest_id){
+        let vencedor = await VencedorClienteModel.query()
+        .where('concurso_id', contest_id)
+        .innerJoin('clientes', 'vencedor_clientes.cliente_id', 'clientes.id')  
+        .fetch()
+        
+        return vencedor.toJSON();
+      }
 }
 
 module.exports= VencedorClienteRepositorio

@@ -8,6 +8,8 @@ const DataResponse = use("App/Repositorio/DataResponse");
 const ClienteRepositorio = use('App/Repositorio/Admin/ClienteRepositorio');
 const ConcursoRepositorio = use('App/Repositorio/Admin/ConcursoRepositorio');
 
+const ConcursoModel= use('App/Models/Concurso');
+
 
 /**
  * Resourceful controller for interacting with vencedorclientes
@@ -146,6 +148,32 @@ class VencedorClienteController {
       listagemVencedor
     );
 
+  }
+
+  async getLatestVencedor({ request }) {
+ 
+    let lastFiveConcurso = await ConcursoModel.query()
+      .where("data_fim", "<", new Date())
+      .orderBy("created_at", "desc")
+      .limit(5)
+      .fetch();
+
+    lastFiveConcurso = await lastFiveConcurso.toJSON();
+
+    for (const contest of lastFiveConcurso) {
+     
+      let winners = await this.vencedorClienteRepositorio.getAllByContestId(
+        contest.id
+      );
+
+      if (winners && winners.length){
+        winners = winners.map(d=>({...d, contest_name: contest.nome}))
+
+        return this.dataResponse.dataReponse(200, "vencedor cliente", winners);
+      }
+    }
+
+    return this.dataResponse.dataReponse(200, "vencedor", []);
   }
 }
 
