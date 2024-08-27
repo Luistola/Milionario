@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ConcursoService } from '../service/concurso/concurso.service';
 import { FiltroClass } from '../service/geral/filtro-service';
+import { Participante } from '../service/geral/geral-interface-listar';
 
 @Component({
   selector: 'app-concurso',
@@ -19,6 +20,8 @@ export class ConcursoComponent implements OnInit {
   searchconcursoList:[];
   searchTerm
   setBoeelean:boolean=false;
+  ObjectConcurso:Participante
+
 
   constructor(
     public pagination: FiltroClass,
@@ -112,7 +115,10 @@ export class ConcursoComponent implements OnInit {
 
 
    goParticipanteList(concurso){
-    this.router.navigate(['/dashboard/concurso/participante', concurso.id]);
+    this.ObjectConcurso=concurso;
+    console.log("ppppppppppppppppppppppp",this.ObjectConcurso.id)
+    this.router.navigate(['/dashboard/participante', this.ObjectConcurso.id]);
+    this.concursoService.setData(this.ObjectConcurso);
    }
 
    goVotacaoList(concurso){

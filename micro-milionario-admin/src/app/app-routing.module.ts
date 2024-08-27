@@ -96,6 +96,10 @@ const routes: Routes = [
 
       },
       {
+        path: 'participante/:id',
+        component: ContestEntiresComponent
+      },
+      {
         path:'slide',
         canActivate: [AuthGuardGuard],
         component: SlideComponent

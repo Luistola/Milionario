@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ContestEntiresService } from '../service/contest-entires/contest-entires.service';
 import { ToastrService } from 'ngx-toastr';
 import { FiltroEntriesClass } from '../service/geral/filter-entires-service';
-import { EntiresInterface } from '../service/geral/geral-interface-listar';
+import { EntiresInterface, Participante } from '../service/geral/geral-interface-listar';
 import { ConcursoService } from '../service/concurso/concurso.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-contest-entires',
@@ -15,24 +16,36 @@ export class ContestEntiresComponent implements OnInit {
   editStatus: EntiresInterface;
   entiresList: EntiresInterface[] = []; // define entiresList here
   concursoLista: [];
-  selectedOption
+  selectedOption: any = '';
   ContestBYEntries
+  contestByEntiresData;
+
+
+
 
   constructor(private addEntiresService: ContestEntiresService, private toastr: ToastrService, public pagination: FiltroEntriesClass,
-    private concursoService: ConcursoService,
+    private concursoService: ConcursoService, private route: ActivatedRoute,
   ) {
 
 
   }
 
+
   ngOnInit() {
     this.listarConcursos();
+    this.contestByEntiresData = this.route.snapshot.params;
+    if (this.contestByEntiresData.id && this.contestByEntiresData.id) {
+      console.log("ContestEntiresDetails", this.contestByEntiresData.id);
+      this.getEntryByContest(this.contestByEntiresData.id);
+    }
+
   }
 
-  carregarListas(){
+
+
+  carregarListas() {
     this.getEntryByContest(this.selectedOption);
   }
-
 
 
   async getContestEntries() {
@@ -44,7 +57,7 @@ export class ContestEntiresComponent implements OnInit {
         this.pagination.pagination.page = response.dados.page;
         this.pagination.pagination.perPage = response.dados.perPage;
         this.pagination.pagination.total = response.dados.total;
-      
+
       }
 
     } catch (error) {
@@ -55,13 +68,13 @@ export class ContestEntiresComponent implements OnInit {
   async updateStatus(entiresID: number, entires: EntiresInterface) {
     console.log("first", entires.status);
     try {
-      entires.status =!entires.status; // toggle the status
-      this.editStatus = {...entires }; // create a copy of the entires object
+      entires.status = !entires.status; // toggle the status
+      this.editStatus = { ...entires }; // create a copy of the entires object
       const response = await this.addEntiresService.updateEntiresStatus(entiresID, this.editStatus).toPromise();
       if (response.code == 201) {
         console.log(".......................................................", response.dados)
         // update the original entires object in your component's state
-        this.entiresList = this.entiresList.map(e => e.id === entiresID? this.editStatus : e);
+        this.entiresList = this.entiresList.map(e => e.id === entiresID ? this.editStatus : e);
       }
     } catch (error) {
       console.error(error);
@@ -69,39 +82,39 @@ export class ContestEntiresComponent implements OnInit {
   }
 
 
-  async listarConcursos(){
-   
-    const listagemConcurso= await this.concursoService.adminlistarConcursos(this.pagination.adminpagination).toPromise();
-    if(listagemConcurso.code == 200){
-     this.concursoLista= listagemConcurso.dados.data
-     this.pagination.pagination.lastPage= listagemConcurso.dados.lastPage;
-     this.pagination.pagination.page= listagemConcurso.dados.page;
-     this.pagination.pagination.perPage= listagemConcurso.dados.perPage;
-     this.pagination.pagination.total = listagemConcurso.dados.total;
+  async listarConcursos() {
 
-   }
- }
-
-
-
- 
-
-
- async getEntryByContest(selectedOption) {
-  try {
-    const fetEntryByContest = await this.concursoService.getEntryByContest(selectedOption).toPromise();
-    if (fetEntryByContest.code == 200) {
-      this.ContestBYEntries = fetEntryByContest.dados;
-      if(this.ContestBYEntries.length==0){
-        this.toastr.warning('as integrações do concurso não existem');
-
+    const listagemConcurso = await this.concursoService.adminlistarConcursos(this.pagination.adminpagination).toPromise();
+    if (listagemConcurso.code == 200) {
+      this.concursoLista = listagemConcurso.dados.data
+      this.pagination.pagination.lastPage = listagemConcurso.dados.lastPage;
+      this.pagination.pagination.page = listagemConcurso.dados.page;
+      this.pagination.pagination.perPage = listagemConcurso.dados.perPage;
+      this.pagination.pagination.total = listagemConcurso.dados.total;
+      if (this.contestByEntiresData.id && this.contestByEntiresData.id) {
+        this.selectedOption = this.contestByEntiresData.id;
+        console.log("print value", this.selectedOption);
       }
     }
-  } catch (error) {
-    console.error("Error fetching contest entries:", error);
-    // You can also add additional error handling logic here, such as displaying an error message to the user
   }
-}
+
+
+
+  async getEntryByContest(selectedOption) {
+    try {
+      const fetEntryByContest = await this.concursoService.getEntryByContest(selectedOption).toPromise();
+      if (fetEntryByContest.code == 200) {
+        this.ContestBYEntries = fetEntryByContest.dados;
+        if (this.ContestBYEntries.length == 0) {
+          this.toastr.warning('as integrações do concurso não existem');
+
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching contest entries:", error);
+      // You can also add additional error handling logic here, such as displaying an error message to the user
+    }
+  }
 
 
   concursoEntiresPagination(page: number): void {
@@ -114,10 +127,6 @@ export class ContestEntiresComponent implements OnInit {
     }
 
   }
-
-
- 
-
 
 
 }

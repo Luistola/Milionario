@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
-import { GeralInterfaceListar } from '../geral/geral-interface-listar';
+import { GeralInterfaceListar, Participante } from '../geral/geral-interface-listar';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ import { GeralInterfaceListar } from '../geral/geral-interface-listar';
 export class ConcursoService {
 
   apiURL = environment.apiURL;
+  private data: Participante;
 
   constructor(private http: HttpClient) { }
 
@@ -66,5 +67,15 @@ export class ConcursoService {
 
   getSreachByConsurso(pagination,concursoname):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/search`,{pagination:pagination,name:concursoname});
+  }
+
+ 
+
+  setData(data: Participante) {
+    this.data = data;
+  }
+
+  getData(): Participante {
+    return this.data;
   }
 }

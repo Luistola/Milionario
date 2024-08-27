@@ -25,6 +25,9 @@ import { VerFotoSlideComponent } from './slide/ver-foto-slide/ver-foto-slide.com
 import { PousarComponent } from './pousar/pousar.component';
 import { ContestEntiresComponent } from './contest-entires/contest-entires.component';
 
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +57,8 @@ import { ContestEntiresComponent } from './contest-entires/contest-entires.compo
     HttpClientModule,
     CommonModule,
     ShareModuloModule,
-    BrowserAnimationsModule, // required animations module
+    BrowserAnimationsModule,
+   
     ToastrModule.forRoot() // ToastrModule added
   ],
   providers: [

@@ -44,7 +44,7 @@ export class ConcursosComponent implements OnInit {
       // this.pagination.pagination.page= listagemConcurso.dados.page;
       // this.pagination.pagination.perPage= listagemConcurso.dados.perPage;
       // this.pagination.pagination.total = listagemConcurso.dados.total;
-      console.log("get .................",this.concursoLista);
+      console.log("get ...........44......",this.concursoLista);
     }
   }
 

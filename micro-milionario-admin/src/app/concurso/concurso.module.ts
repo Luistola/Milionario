@@ -10,16 +10,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShareModuloModule } from '../share-modulo/share-modulo.module';
 import { EditConcursoComponent } from './edit-concurso/edit-concurso.component';
 
-
 @NgModule({
-  declarations: [ConcursoComponent, ParticipanteComponent, NewConcursoModalComponent, EditConcursoComponent],
+  declarations: [
+    ConcursoComponent,
+    ParticipanteComponent,
+    NewConcursoModalComponent,
+    EditConcursoComponent,
+
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     ConcursoRoutingModule,
-    ShareModuloModule
+    ShareModuloModule,
+
+    // <--- Add .forRoot() here
   ],
-  
+  exports: [] // <--- Add this line
 })
 export class ConcursoModule { }
