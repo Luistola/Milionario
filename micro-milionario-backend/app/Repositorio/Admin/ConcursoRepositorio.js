@@ -134,7 +134,8 @@ class ConcursoRepositorio{
     }
 
     async getAllWithPagination(pagination){
-        let concursoListar= await ConcursoModel.query()
+        let concursoListar= await ConcursoModel.query().whereNot({ is_delete: true })
+
         .paginate(pagination.page, pagination.perPage);
 
         return concursoListar.toJSON()
@@ -142,7 +143,7 @@ class ConcursoRepositorio{
 
     async searchWithName(name, pagination){
         let concursoListar= await ConcursoModel.query()
-        .where('nome', 'like', `%${name}%`)
+        .where('nome', 'like', `%${name}%`).whereNot({ is_delete: true })
         .paginate(pagination.page, pagination.perPage)
 
         return concursoListar.toJSON()
