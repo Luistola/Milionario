@@ -25,7 +25,7 @@ async function generateWinner() {
       let existingWinnerData = await VencedorModel.query()
         .where("concurso_id", CONTEST_ID)
         .fetch();
-      existingWinnerData = existingWinnerData.toJSON();
+      existingWinnerData = await existingWinnerData.toJSON();
       console.log("file: generateWinner.js: ~ generateWinner ~ existingWinnerData:", existingWinnerData.length)
 
       if (existingWinnerData?.data?.length) continue;
@@ -197,7 +197,7 @@ async function generateWinner() {
 }
 
 cron.schedule("*/5 * * * *", async () => {
-  console.log("Generate Winner Task is running every minute", new Date());
+  console.log("Generate Winner Task is running at - ", new Date());
   await generateWinner();
   console.log(
     "=========================================================================="
