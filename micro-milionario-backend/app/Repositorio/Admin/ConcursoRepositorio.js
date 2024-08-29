@@ -135,7 +135,7 @@ class ConcursoRepositorio{
 
     async getAllWithPagination(pagination){
         let concursoListar= await ConcursoModel.query().whereNot({ is_delete: true })
-
+        .orderBy("created_at", 'desc')
         .paginate(pagination.page, pagination.perPage);
 
         return concursoListar.toJSON()

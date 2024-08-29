@@ -14,7 +14,7 @@ class ContestEntSchema extends Schema {
       table.string("link", 256).nullable();
       table.string("link_type", 256).nullable();
       table.boolean("status").defaultTo(false);
-      table.integer("vote");
+      table.integer("vote").defaultTo(0);
       table.timestamps();
     });
   }
