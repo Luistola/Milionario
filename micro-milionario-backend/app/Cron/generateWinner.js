@@ -13,7 +13,7 @@ async function generateWinner() {
       .orderBy("created_at", "desc")
       .fetch();
 
-    allLatestConcurso = allLatestConcurso.toJSON();
+    allLatestConcurso = await allLatestConcurso.toJSON();
 
     for (const contest of allLatestConcurso) {
       const CONTEST_ID = contest.id;
@@ -26,9 +26,9 @@ async function generateWinner() {
         .where("concurso_id", CONTEST_ID)
         .fetch();
       existingWinnerData = await existingWinnerData.toJSON();
-      console.log("file: generateWinner.js: ~ generateWinner ~ existingWinnerData:", existingWinnerData.length)
+      console.log("existingWinnerData:", existingWinnerData.length)
 
-      if (existingWinnerData?.data?.length) continue;
+      if (existingWinnerData?.length) continue;
 
       const { n_vencedor: winner_count, price_percent } = contest;
 
@@ -38,9 +38,9 @@ async function generateWinner() {
         .where("contest_id", CONTEST_ID)
         .fetch();
 
-      allContestEntry = allContestEntry.toJSON(); // all entry of this contest(ID)
+      allContestEntry = await allContestEntry.toJSON(); // all entry of this contest(ID)
 
-      console.log("file: generateWinner.js: ~ generateWinner ~ allContestEntry.length:", allContestEntry.length)
+      console.log("allContestEntry.length:", allContestEntry.length)
       if (!allContestEntry.length) continue;
 
       let contest_total_votes = 0;
@@ -61,10 +61,10 @@ async function generateWinner() {
         }
       }
 
-      console.log("file: generateWinner.js: ~ generateWinner ~ votes_per_entry.length:", votes_per_entry.length)
-      console.log("file: generateWinner.js: ~ generateWinner ~ contest_total_votes:", contest_total_votes)
+      console.log("votes_per_entry.size:", votes_per_entry.size)
+      console.log("contest_total_votes:", contest_total_votes)
       
-      if (!contest_total_votes || !votes_per_entry.length) continue;
+      if (!contest_total_votes || !votes_per_entry.size) continue;
 
       votes_per_entry = Array.from(votes_per_entry); // converting Map to Array
 
@@ -81,7 +81,9 @@ async function generateWinner() {
           .where("contest_entry_id", entry_id)
           .fetch();
 
-        votesData = votesData.toJSON(); // for each contest entry finding vote data
+        votesData = await votesData.toJSON(); // for each contest entry finding vote data
+
+        console.log("votesData:", votesData?.length)
 
         let client_votes = new Map(); // creating mapping to find client with max votes for this entry; entry id -> total votes
         let entry_total_votes = 0;
@@ -101,6 +103,7 @@ async function generateWinner() {
 
         client_votes = Array.from(client_votes);
 
+        console.log("client_votes.length:", client_votes.length)
         if (client_votes.length) {
           client_votes.sort((a, b) => b[1] - a[1]);
           client_votes.splice(1); // picking up top winner client
@@ -116,6 +119,8 @@ async function generateWinner() {
       }
 
       let remainingAmount = contest_total_votes;
+
+      console.log("winners.length:", winners.length)
 
       if (!winners.length) continue;
 
@@ -135,8 +140,6 @@ async function generateWinner() {
 
         remainingAmount = remainingAmount - winning_amount;
       }
-
-      console.log("file: generateWinner.js ~ generateWinner ~ winners.length:", winners.length)
 
       if (winners.length)
         winners[0] = {
@@ -171,7 +174,7 @@ async function generateWinner() {
 
         // SAVE DATA TO WINNER ARTIST
         let vencedor = await VencedorModel.create(data);
-        vencedor = vencedor.toJSON();
+        vencedor = await vencedor.toJSON();
         console.log("file: generateWinner.js:175 ~ generateWinner ~ vencedor:", vencedor)
 
         delete data.participante_id;
@@ -181,7 +184,7 @@ async function generateWinner() {
 
         // SAVE DATA TO WINNER CLIENT
         let vencedorClient = await VencedorClienteModel.create(data);
-        vencedorClient = vencedorClient.toJSON();
+        vencedorClient = await vencedorClient.toJSON();
         console.log("file: generateWinner.js:185 ~ generateWinner ~ vencedorClient:", vencedorClient)
 
         // SAVE DATA TO CONTEST
