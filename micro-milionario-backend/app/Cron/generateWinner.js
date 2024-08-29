@@ -26,6 +26,7 @@ async function generateWinner() {
         .where("concurso_id", CONTEST_ID)
         .fetch();
       existingWinnerData = existingWinnerData.toJSON();
+      console.log("file: generateWinner.js: ~ generateWinner ~ existingWinnerData:", existingWinnerData.length)
 
       if (existingWinnerData?.data?.length) continue;
 
@@ -39,6 +40,7 @@ async function generateWinner() {
 
       allContestEntry = allContestEntry.toJSON(); // all entry of this contest(ID)
 
+      console.log("file: generateWinner.js: ~ generateWinner ~ allContestEntry.length:", allContestEntry.length)
       if (!allContestEntry.length) continue;
 
       let contest_total_votes = 0;
@@ -59,6 +61,9 @@ async function generateWinner() {
         }
       }
 
+      console.log("file: generateWinner.js: ~ generateWinner ~ votes_per_entry.length:", votes_per_entry.length)
+      console.log("file: generateWinner.js: ~ generateWinner ~ contest_total_votes:", contest_total_votes)
+      
       if (!contest_total_votes || !votes_per_entry.length) continue;
 
       votes_per_entry = Array.from(votes_per_entry); // converting Map to Array
@@ -131,6 +136,8 @@ async function generateWinner() {
         remainingAmount = remainingAmount - winning_amount;
       }
 
+      console.log("file: generateWinner.js ~ generateWinner ~ winners.length:", winners.length)
+
       if (winners.length)
         winners[0] = {
           ...winners[0],
@@ -165,6 +172,7 @@ async function generateWinner() {
         // SAVE DATA TO WINNER ARTIST
         let vencedor = await VencedorModel.create(data);
         vencedor = vencedor.toJSON();
+        console.log("file: generateWinner.js:175 ~ generateWinner ~ vencedor:", vencedor)
 
         delete data.participante_id;
 
@@ -174,11 +182,13 @@ async function generateWinner() {
         // SAVE DATA TO WINNER CLIENT
         let vencedorClient = await VencedorClienteModel.create(data);
         vencedorClient = vencedorClient.toJSON();
+        console.log("file: generateWinner.js:185 ~ generateWinner ~ vencedorClient:", vencedorClient)
 
         // SAVE DATA TO CONTEST
-        await ConcursoModel.query()
+        let updatedContest = await ConcursoModel.query()
           .where("id", CONTEST_ID)
           .update({ is_winner_generated: true });
+        console.log("file: generateWinner.js:191 ~ generateWinner ~ updatedContest:", updatedContest)
       }
     }
   } catch (error) {
