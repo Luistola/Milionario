@@ -153,9 +153,9 @@ class VencedorClienteController {
   async getLatestVencedor({ request }) {
  
     let lastFiveConcurso = await ConcursoModel.query()
-      .where("data_fim", "<", new Date())
+      .where("is_winner_generated", true)
       .orderBy("created_at", "desc")
-      .limit(5)
+      .limit(10)
       .fetch();
 
     lastFiveConcurso = await lastFiveConcurso.toJSON();
@@ -169,11 +169,11 @@ class VencedorClienteController {
       if (winners && winners.length){
         winners = winners.map(d=>({...d, contest_name: contest.nome}))
 
-        return this.dataResponse.dataReponse(200, "vencedor cliente", winners);
+        return this.dataResponse.dataReponse(200, "latest vencedor cliente", winners);
       }
     }
 
-    return this.dataResponse.dataReponse(200, "vencedor", []);
+    return this.dataResponse.dataReponse(200, "latest vencedor cliente", []);
   }
 }
 
