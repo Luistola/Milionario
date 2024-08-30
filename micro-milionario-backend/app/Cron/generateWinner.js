@@ -18,8 +18,7 @@ async function generateWinner() {
     for (const contest of allLatestConcurso) {
       const CONTEST_ID = contest.id;
       console.log(
-        "file: generateWinner.js ~ generateWinner ~ CONTEST_ID:",
-        CONTEST_ID
+        "CONTEST_ID: ", CONTEST_ID, "end date -", contest.data_fim, "current date -", new Date(), "expired -", contest.data_fim < new Date()
       );
 
       let existingWinnerData = await VencedorModel.query()

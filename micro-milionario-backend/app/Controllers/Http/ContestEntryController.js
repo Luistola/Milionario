@@ -77,7 +77,7 @@ class ContestEntryController {
         vote,
       });
 
-      return this.dataResponse.dataReponse(201, "sucesso", data);
+      return this.dataResponse.dataReponse(201, "entrada criada com sucesso", data);
     } catch (error) {
       return this.dataResponse.dataReponse(500, "erro", error);
     }
