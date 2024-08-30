@@ -70,8 +70,7 @@ class ConcursoRepositorio{
   }
 
     async listarById(id){
-      let concursoListar
-      concursoListar = await this.baseRespositorio.showById('id', id)
+      let concursoListar = await ConcursoModel.query().where('id', id).fetch()
 
       return concursoListar.toJSON();
     }

@@ -97,6 +97,7 @@ class VencedorClienteController {
   }
 
   async getByContestId({params,request}){
+    try {
     const { pagination, dados } = request.only(["pagination", "dados"]);
 
     let listagemVencedor = await this.vencedorClienteRepositorio.getByContestId(
@@ -104,42 +105,42 @@ class VencedorClienteController {
       params.id
     );
 
-    let data = await Promise.all(
-      listagemVencedor?.data?.map(async (data) => {
-        let contestData = await this.concursoRepositorio.listarById(
-          data.concurso_id
-        );
-        contestData = contestData[0];
+    let arr = [];
 
-        let clientData = await this.clienteRepositorio.listarById(
-          data.cliente_id
-        );
-        clientData = clientData[0];
+    for (let data of listagemVencedor?.data) {
+      let contestData = await this.concursoRepositorio.listarById(
+        data.concurso_id
+      );
+      contestData = contestData[0];
 
-        return {
-          vecedor_id: data.id,
-          vencedor_concurso_id: data.concurso_id,
-          vencedor_participante_id: data.participante_id,
-          vencedor_posicao: data.posicao,
-          vencedor_total_votos: data.total_votos,
-          vencedor_premio: data.premio,
-          vencedor_data: data.data,
-          concurso_id: contestData.id,
-          concurso_nome: contestData.nome,
-          concurso_n_vencedor: contestData.n_vencedor,
-          participante_id: data.participante_id,
-          participante_concurso_id: data.concurso_id,
-          client_id: clientData.id,
-          client_user_id: data.participante_id,
-          client_nome: clientData.nome,
-          client_foto: clientData.foto,
-        };
-      })
-    );
+      let clientData = await this.clienteRepositorio.listarById(
+        data.cliente_id
+      );
+      clientData = clientData[0];
+
+      arr.push({
+        vecedor_id: data.id,
+        vencedor_concurso_id: data.concurso_id,
+        vencedor_participante_id: data.participante_id,
+        vencedor_posicao: data.posicao,
+        vencedor_total_votos: data.total_votos,
+        vencedor_premio: data.premio,
+        vencedor_data: data.data,
+        concurso_id: contestData.id,
+        concurso_nome: contestData.nome,
+        concurso_n_vencedor: contestData.n_vencedor,
+        participante_id: data.participante_id,
+        participante_concurso_id: data.concurso_id,
+        client_id: clientData.id,
+        client_user_id: data.participante_id,
+        client_nome: clientData.nome,
+        client_foto: clientData.foto,
+      });
+    }
 
     listagemVencedor = {
       ...listagemVencedor,
-      data,
+      data: arr,
     };
 
     return this.dataResponse.dataReponse(
@@ -147,6 +148,9 @@ class VencedorClienteController {
       "Listagem de Vencedor Cliente",
       listagemVencedor
     );
+  } catch (error) {
+      console.log("file: VencedorClienteController.js:157 ~ VencedorClienteController ~ getByContestId ~ error:", error)
+  }
 
   }
 

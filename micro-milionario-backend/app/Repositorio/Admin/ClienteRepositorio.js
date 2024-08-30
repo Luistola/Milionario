@@ -51,10 +51,10 @@ class ClienteRepositorio {
     }
 
     async listarById(id) {
-        let artistListar
-        artistListar = await this.baseRespositorio.showById('id', id)
+        let clienteListar = await ClienteModel.query()
+        .where('id', id).fetch()
 
-        return artistListar.toJSON();
+        return clienteListar.toJSON();
     }
 
     async index() {
