@@ -18,7 +18,7 @@ async function generateWinner() {
     for (const contest of allLatestConcurso) {
       const CONTEST_ID = contest.id;
       console.log(
-        "CONTEST_ID: ", CONTEST_ID, "end date -", contest.data_fim, "current date -", new Date(), "expired -", contest.data_fim < new Date()
+        "CONTEST_ID: ", CONTEST_ID, "end date -", contest.data_fim, "current date -", new Date(), "expired -", new Date(contest.data_fim) < new Date()
       );
 
       let existingWinnerData = await VencedorModel.query()
@@ -126,6 +126,8 @@ async function generateWinner() {
       for (let index in winners) {
         index = parseInt(index);
 
+        if(remainingAmount <= 0)continue;
+
         const winning_amount = (
           (remainingAmount * price_percent) /
           100
@@ -140,7 +142,7 @@ async function generateWinner() {
         remainingAmount = remainingAmount - winning_amount;
       }
 
-      if (winners.length)
+      if (winners.length && remainingAmount > 0)
         winners[0] = {
           ...winners[0],
           winning_amount: winners[0].winning_amount + remainingAmount / 2, // diving amount in artist and fan
@@ -198,7 +200,7 @@ async function generateWinner() {
   }
 }
 
-cron.schedule("*/5 * * * *", async () => {
+cron.schedule("*/2 * * * *", async () => {
   console.log("Generate Winner Task is running at - ", new Date());
   await generateWinner();
   console.log(
