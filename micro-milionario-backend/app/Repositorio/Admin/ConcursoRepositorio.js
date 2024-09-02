@@ -11,7 +11,7 @@ class ConcursoRepositorio{
     async cadastrado(dados) {
 
         const concurso = await ConcursoModel.query()
-            .whereNot({ is_active: true }) // Se = 0
+            // .whereNot({ is_active: true }) // Se = 0
             .whereNot({ is_delete: true }) // Se = 0
             .where('nome', dados.nome)
             .getCount();
@@ -26,7 +26,7 @@ class ConcursoRepositorio{
         if(dados==undefined || dados== null){
             concursoListar= await ConcursoModel.query()
             .orderBy("created_at", 'desc')
-            .whereNot({ is_active: true }) // Se = 0 = Activo
+            // .whereNot({ is_active: true }) // Se = 0 = Activo
             .whereNot({ is_delete: true }) // Se = 0
             .paginate(pagination.page, pagination.perPage)
             
@@ -36,7 +36,7 @@ class ConcursoRepositorio{
             concursoListar= await ConcursoModel.query()
             .orderBy("created_at", 'desc')
             .where('nome', 'like', `%${dados}%`)
-            .whereNot({ is_active: true })
+            // .whereNot({ is_active: true })
             .whereNot({ is_delete: true })
             .paginate(pagination.page, pagination.perPage)
 
@@ -50,7 +50,7 @@ class ConcursoRepositorio{
       if(dados==undefined || dados== null){
           concursoListar= await ConcursoModel.query()
           .orderBy("created_at", 'desc')
-          .whereNot({ is_active: true })
+        //   .whereNot({ is_active: true })
           .whereNot({ is_delete: true })
           .fetch();
           // .paginate(pagination.page, pagination.perPage)
@@ -60,7 +60,7 @@ class ConcursoRepositorio{
           concursoListar= await ConcursoModel.query()
           .orderBy("created_at", 'desc')
           .where('nome', 'like', `%${dados}%`)
-          .whereNot({ is_active: true })
+        //   .whereNot({ is_active: true })
           .whereNot({ is_delete: true })
           .fetch();
           // .paginate(pagination.page, pagination.perPage)
@@ -70,8 +70,7 @@ class ConcursoRepositorio{
   }
 
     async listarById(id){
-      let concursoListar
-      concursoListar = await this.baseRespositorio.showById('id', id)
+      let concursoListar = await ConcursoModel.query().where('id', id).fetch()
 
       return concursoListar.toJSON();
     }
@@ -134,7 +133,8 @@ class ConcursoRepositorio{
     }
 
     async getAllWithPagination(pagination){
-        let concursoListar= await ConcursoModel.query()
+        let concursoListar= await ConcursoModel.query().whereNot({ is_delete: true })
+        .orderBy("created_at", 'desc')
         .paginate(pagination.page, pagination.perPage);
 
         return concursoListar.toJSON()
@@ -142,7 +142,7 @@ class ConcursoRepositorio{
 
     async searchWithName(name, pagination){
         let concursoListar= await ConcursoModel.query()
-        .where('nome', 'like', `%${name}%`)
+        .where('nome', 'like', `%${name}%`).whereNot({ is_delete: true })
         .paginate(pagination.page, pagination.perPage)
 
         return concursoListar.toJSON()

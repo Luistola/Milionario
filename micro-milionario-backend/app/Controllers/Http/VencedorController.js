@@ -68,30 +68,32 @@ class VencedorController {
   }
 
   async getByContestId({params,request}){
-    const { pagination, dados } = request.only(["pagination", "dados"]);
+    try {
+      const { pagination, dados } = request.only(["pagination", "dados"]);
 
-    let listagemVencedor = await this.vencedorRepositorio.getByContestId(
-      pagination,
-      params.id
-    );
-    console.log("file: VencedorController.js:77 ~ VencedorController ~ getByContestId ~ listagemVencedor:", listagemVencedor)
+      let listagemVencedor = await this.vencedorRepositorio.getByContestId(
+        pagination,
+        params.id
+      );
+      console.log(
+        "file: VencedorController.js:77 ~ VencedorController ~ getByContestId ~ listagemVencedor:",
+        listagemVencedor
+      );
 
-    let data = await Promise.all(
-      listagemVencedor?.data?.map(async (data) => {
-        console.log("file: VencedorController.js:81 ~ VencedorController ~ listagemVencedor?.data?.map ~ data:", data)
+      let arr = [];
+
+      for (let data of listagemVencedor?.data) {
         let contestData = await this.concursoRepositorio.listarById(
           data.concurso_id
         );
-        console.log("file: VencedorController.js:84 ~ VencedorController ~ listagemVencedor?.data?.map ~ contestData:", contestData)
         contestData = contestData[0];
 
         let artistData = await this.artistRepositorio.listarByUserId(
           data.participante_id
         );
-        console.log("file: VencedorController.js:90 ~ VencedorController ~ listagemVencedor?.data?.map ~ artistData:", artistData)
         artistData = artistData[0];
 
-        return {
+        arr.push({
           vecedor_id: data.id,
           vencedor_concurso_id: data.concurso_id,
           vencedor_participante_id: data.participante_id,
@@ -108,21 +110,20 @@ class VencedorController {
           artist_user_id: data.participante_id,
           artist_nome: artistData?.nome,
           artist_foto: artistData?.foto,
-        };
-      })
-    );
+        });
+      }
 
-    listagemVencedor = {
-      ...listagemVencedor,
-      data,
-    };
+      listagemVencedor = {
+        ...listagemVencedor,
+        data: arr,
+      };
 
-    return this.dataResponse.dataReponse(
-      200,
-      "Listagem de Vencedor",
-      listagemVencedor
-    );
-
+      return this.dataResponse.dataReponse(
+        200,
+        "Listagem de Vencedor",
+        listagemVencedor
+      );
+    } catch (error) {}
   }
 
   async showById({request}){
@@ -158,9 +159,9 @@ class VencedorController {
   async getLatestVencedor({ request }) {
  
     let lastFiveConcurso = await ConcursoModel.query()
-      .where("data_fim", "<", new Date())
+      .where("is_winner_generated", true)
       .orderBy("created_at", "desc")
-      .limit(5)
+      .limit(10)
       .fetch();
 
     lastFiveConcurso = await lastFiveConcurso.toJSON();
@@ -173,11 +174,11 @@ class VencedorController {
 
       if (winners && winners.length){
         winners = winners.map(d=>({...d, contest_name: contest.nome}))
-        return this.dataResponse.dataReponse(200, "vencedor", winners);
+        return this.dataResponse.dataReponse(200, "latest vencedor", winners);
       }
     }
 
-    return this.dataResponse.dataReponse(200, "vencedor", []);
+    return this.dataResponse.dataReponse(200, "latest vencedor", []);
 
   }
 

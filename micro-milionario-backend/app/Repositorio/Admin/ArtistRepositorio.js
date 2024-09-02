@@ -56,8 +56,7 @@ class ArtistRepositorio {
     }
 
     async listarByUserId(user_id) {
-        let artistListar
-        artistListar = await this.baseRespositorio.showById('user_id', user_id)
+        let artistListar = await ArtistModel.query().where('user_id', user_id).fetch()
 
         return artistListar.toJSON();
     }

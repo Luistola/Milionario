@@ -11,7 +11,11 @@ const VotacaoRepositorio = use('App/Repositorio/Admin/VotacaoRepositorio');
 const VencedorRepositorio = use('App/Repositorio/Admin/VencedorRepositorio');
 const VencedorClienteRepositorio = use('App/Repositorio/Admin/VencedorClienteRepositorio');
 
-
+const ConcursoModel = use("App/Models/Concurso");
+const ContestEntry = use("App/Models/ContestEntry");
+const VotacaoModel = use("App/Models/Votacao");
+const VencedorModel = use("App/Models/Vencedor");
+const VencedorClienteModel = use("App/Models/VencedorCliente");
 
 /**
  * Resourceful controller for interacting with concursos
@@ -116,6 +120,23 @@ class ConcursoController {
 
     const {pagination, dados}= request.only(['pagination','dados']);
     const listagemConcurso= await this.concursoRepositorio.getAllWithPagination(pagination,dados);
+
+    let updatedData = [];
+    for(let data of listagemConcurso?.data){
+      let allContestEntry = await ContestEntry.query()
+        .where("contest_id", data.id)
+        .fetch();
+
+      allContestEntry = await allContestEntry.toJSON(); // all entry of this contest(ID)
+      
+      const totalvotes = allContestEntry.reduce((acc,val)=>val.vote+acc, 0);
+
+      data.totalvotes = totalvotes
+
+      updatedData.push(data);
+    }
+
+    listagemConcurso.data = updatedData;
     return  this.dataResponse.dataReponse(200, 'Listagem de Concurso', listagemConcurso)
 
   }
@@ -177,183 +198,208 @@ class ConcursoController {
   async generateWinner({ params }){
     try {
       const CONTEST_ID = params.id;
-      console.log("file: ConcursoController.js:150 ~ ConcursoController ~ generateWinner ~ CONTEST_ID:", CONTEST_ID)
-      if (!CONTEST_ID) {
-        return this.dataResponse.dataReponse(400, "Contest Id is required");
-      }
 
-      const listagemVencedor = await this.vencedorRepositorio.getByContestId(
-        {page:1, perPage: 2},
-        CONTEST_ID
-      );
-      console.log("file: ConcursoController.js:157 ~ ConcursoController ~ generateWinner ~ listagemVencedor:", listagemVencedor)
+      let contest = await ConcursoModel.query().where("id", CONTEST_ID).fetch();
+      contest = await contest.toJSON()[0];
+      console.log("file: ConcursoController.js:186 ~ ConcursoController ~ generateWinner ~ contest:", contest)
 
-      if(listagemVencedor?.data?.length){
-        return this.dataResponse.dataReponse(400, 'o vencedor já existe')
-      }
-
-      const contestData = await this.concursoRepositorio.listarById(CONTEST_ID);
-      console.log("file: ConcursoController.js:164 ~ ConcursoController ~ generateWinner ~ contestData:", contestData)
-
-      if (contestData && contestData.length) {
-        const { n_vencedor: winnerCount, price_percent: pricePercent } =
-        contestData[0];
-        console.log("file: ConcursoController.js:168 ~ ConcursoController ~ generateWinner ~ pricePercent:", pricePercent)
-        console.log("file: ConcursoController.js:168 ~ ConcursoController ~ generateWinner ~ winnerCount:", winnerCount)
-
-        const winners = [];
-
-        const contestEntryData =
-        await this.contestEntryRepositorio.getAllByContestId(CONTEST_ID); // all entry of this contest(ID)
-        console.log("file: ConcursoController.js:175 ~ ConcursoController ~ generateWinner ~ contestEntryData:", contestEntryData)
-
-        if (contestEntryData) {
-          let totalVotes = 0;
-          let voteContestEntryMapping = new Map(); // creating mapping to find entry with max votes; entry id -> total votes
-
-          for (const entry of contestEntryData) {
-            //iterating over each contest entry
-            const { id: contestEntryId, vote: contestEntryVote } = entry;
-            totalVotes = totalVotes + contestEntryVote;
-            
-            const existingVote = voteContestEntryMapping.get(contestEntryId);
-            if (existingVote) {
-              voteContestEntryMapping.set(
-                contestEntryId,
-                contestEntryVote + existingVote
-              );
-            } else {
-              voteContestEntryMapping.set(contestEntryId, contestEntryVote);
-            }
-          }
-          console.log("file: ConcursoController.js:186 ~ ConcursoController ~ generateWinner ~ totalVotes:", totalVotes)
-          console.log("file: ConcursoController.js:196 ~ ConcursoController ~ generateWinner ~ voteContestEntryMapping:", voteContestEntryMapping)
-
-          voteContestEntryMapping = Array.from(voteContestEntryMapping);
-          voteContestEntryMapping.sort((a, b) => b[1] - a[1]); // sorting data in desc order of votes
-
-          voteContestEntryMapping.splice(winnerCount); // picking up top winner entry
-          console.log("file: ConcursoController.js:204 ~ ConcursoController ~ generateWinner ~ voteContestEntryMapping:", voteContestEntryMapping)
-
-
-          for (const entry of voteContestEntryMapping) {
-            console.log("file: ConcursoController.js:208 ~ ConcursoController ~ generateWinner ~ entry:", entry)
-            // iterating over winning entry
-            const [contestEntryId] = entry;
-
-            const votacao =
-            await this.votacaoRepositorio.getAllByContestEntryId(
-              contestEntryId
-            ); // for each contest entry finding vote data
-            console.log("file: ConcursoController.js:213 ~ ConcursoController ~ generateWinner ~ votacao:", votacao)
-
-            let voteClientMapping = new Map(); // creating mapping to find client with max votes for this entry; entry id -> total votes
-
-            let entryTotalVotes = 0;
-            for (const vote of votacao) {
-              const { cliente_id, voto } = vote;
-              entryTotalVotes = entryTotalVotes + voto;
-              const existingClient = voteClientMapping.get(cliente_id);
-              if (existingClient) {
-                voteClientMapping.set(cliente_id, voto + existingClient);
-              } else {
-                voteClientMapping.set(cliente_id, voto);
-              }
-            }
-            console.log("file: ConcursoController.js:230 ~ ConcursoController ~ generateWinner ~ voteClientMapping:", voteClientMapping)
-
-            voteClientMapping = Array.from(voteClientMapping);
-            voteClientMapping.sort((a, b) => b[1] - a[1]);
-            voteClientMapping.splice(1); // picking up top winner client
-            console.log("file: ConcursoController.js:243 ~ ConcursoController ~ generateWinner ~ voteClientMapping:", voteClientMapping)
-
-            winners.push({
-              contestEntryId,
-              clienteId: voteClientMapping[0][0],
-              entryTotalVotes,
-              givenvote: voteClientMapping[0][1],
-            });
-          }
-
-            console.log("file: ConcursoController.js:243 ~ ConcursoController ~ generateWinner ~ winners:", winners)
-          let remainingAmount = totalVotes;
-          console.log("file: ConcursoController.js:247 ~ ConcursoController ~ generateWinner ~ totalVotes:", totalVotes)
-          
-          for (let index in winners) {
-            console.log("file: ConcursoController.js:247 ~ ConcursoController ~ generateWinner ~ remainingAmount:", remainingAmount)
-            index = parseInt(index);
-            const winningAmount = ((remainingAmount * pricePercent) / 100);
-            console.log("file: ConcursoController.js:253 ~ ConcursoController ~ generateWinner ~ winningAmount:", winningAmount)
-
-            winners[index] = {
-              ...winners[index],
-              winningAmount: winningAmount / 2,
-              position: index + 1,
-            };
-            console.log("file: ConcursoController.js:256 ~ ConcursoController ~ generateWinner ~ winners:", winners[index])
-
-            remainingAmount = remainingAmount - winningAmount;
-            console.log("file: ConcursoController.js:263 ~ ConcursoController ~ generateWinner ~ remainingAmount:", remainingAmount)
-          }
-
-          winners[0] = {
-            ...winners[0],
-            winningAmount: winners[0].winningAmount + remainingAmount / 2,
-          };
-          console.log("file: ConcursoController.js:267 ~ ConcursoController ~ generateWinner ~ winners:", winners)
-
-          for (const winner of winners) {
-            const {
-              contestEntryId,
-              clienteId,
-              entryTotalVotes,
-              winningAmount,
-              position,
-              givenvote
-            } = winner;
-
-            let entry = contestEntryData.find(
-              (data) => data.id == contestEntryId
-            );
-
-            let data = {
-              concurso_id: CONTEST_ID,
-              participante_id: entry.artist_id,
-              posicao: position,
-              total_votos: entryTotalVotes,
-              premio: winningAmount,
-            };
-
-            let vencedor = await this.vencedorRepositorio.criar(data);
-
-            delete data.participante_id;
-
-            data.cliente_id = clienteId;
-            data.total_votos = givenvote;
-            let vencedorClient = await this.vencedorClienteRepositorio.criar(
-              data
-            );
-          }
-
-          return this.dataResponse.dataReponse(
-            200,
-            " Concurso Atualizada com sucesso",
-            winners
-          );
-        } else {
-          return this.dataResponse.dataReponse(
-            400,
-            " Concurso entry not found"
-          );
-        }
-      } else {
-        return this.dataResponse.dataReponse(400, " Concurso not found");
-      }
-    } catch (error) {
       console.log(
-        "file: ConcursoController.js:245 ~ ConcursoController ~ generateWinner ~ error:",
-        error
+        "ConcursoController CONTEST_ID: ",
+        CONTEST_ID,
+        "end date -",
+        contest.data_fim,
+        "current date -",
+        new Date(),
+        "expired -",
+        contest.data_fim < new Date()
       );
+
+      let existingWinnerData = await VencedorModel.query()
+        .where("concurso_id", CONTEST_ID)
+        .fetch();
+      existingWinnerData = await existingWinnerData.toJSON();
+      console.log("existingWinnerData:", existingWinnerData.length);
+
+      // if (existingWinnerData?.length) continue;
+
+      const { n_vencedor: winner_count, price_percent } = contest;
+
+      const winners = [];
+
+      let allContestEntry = await ContestEntry.query()
+        .where("contest_id", CONTEST_ID)
+        .fetch();
+
+      allContestEntry = await allContestEntry.toJSON(); // all entry of this contest(ID)
+
+      console.log("allContestEntry.length:", allContestEntry.length);
+      // if (!allContestEntry.length) continue;
+
+      let contest_total_votes = 0;
+      let votes_per_entry = new Map(); // creating mapping to find entry with max votes; entry id -> total votes
+
+      for (const entry of allContestEntry) {
+        //iterating over each contest entry
+        const { id: entry_id, vote: entry_votes } = entry;
+
+        contest_total_votes = contest_total_votes + entry_votes;
+
+        const existing_entry_vote = votes_per_entry.get(entry_id);
+
+        if (existing_entry_vote) {
+          votes_per_entry.set(entry_id, entry_votes + existing_entry_vote);
+        } else {
+          votes_per_entry.set(entry_id, entry_votes);
+        }
+      }
+
+      console.log("votes_per_entry.size:", votes_per_entry.size);
+      console.log("contest_total_votes:", contest_total_votes);
+
+      // if (!contest_total_votes || !votes_per_entry.size) continue;
+
+      votes_per_entry = Array.from(votes_per_entry); // converting Map to Array
+
+      if (votes_per_entry.length) {
+        votes_per_entry?.sort((a, b) => b[1] - a[1]); // sorting data in desc order of votes
+        votes_per_entry?.splice(winner_count); // picking up top winner entry
+      }
+
+      for (const entry of votes_per_entry) {
+        // iterating over winning entry
+        const [entry_id] = entry;
+
+        let votesData = await VotacaoModel.query()
+          .where("contest_entry_id", entry_id)
+          .fetch();
+
+        votesData = await votesData.toJSON(); // for each contest entry finding vote data
+
+        console.log("votesData:", votesData?.length);
+
+        let client_votes = new Map(); // creating mapping to find client with max votes for this entry; entry id -> total votes
+        let entry_total_votes = 0;
+
+        for (const vote of votesData) {
+          const { cliente_id, voto } = vote;
+          entry_total_votes = entry_total_votes + voto;
+
+          const existing_client_vote = client_votes.get(cliente_id);
+
+          if (existing_client_vote) {
+            client_votes.set(cliente_id, voto + existing_client_vote);
+          } else {
+            client_votes.set(cliente_id, voto);
+          }
+        }
+
+        client_votes = Array.from(client_votes);
+
+        console.log("client_votes.length:", client_votes.length);
+        if (client_votes.length) {
+          client_votes.sort((a, b) => b[1] - a[1]);
+          client_votes.splice(1); // picking up top winner client
+        }
+
+        if (client_votes.length)
+          winners.push({
+            entry_id,
+            client_id: client_votes[0][0],
+            entry_total_votes,
+            given_vote: client_votes[0][1],
+          });
+      }
+
+      let remainingAmount = contest_total_votes;
+
+      console.log("winners.length:", winners.length);
+
+      // if (!winners.length) continue;
+
+      for (let index in winners) {
+        index = parseInt(index);
+
+        const winning_amount = (
+          (remainingAmount * price_percent) /
+          100
+        ).toFixed(1);
+
+        winners[index] = {
+          ...winners[index],
+          winning_amount: winning_amount / 2, // diving amount in artist and fan
+          position: index + 1,
+        };
+
+        remainingAmount = remainingAmount - winning_amount;
+      }
+
+      if (winners.length)
+        winners[0] = {
+          ...winners[0],
+          winning_amount: winners[0].winning_amount + remainingAmount / 2, // diving amount in artist and fan
+        };
+
+      console.log(
+        "file:ConcursoController generateWinner.js:135 ~ generateWinner ~ winners:",
+        winners
+      );
+
+      for (const winner of winners) {
+        const {
+          entry_id,
+          client_id,
+          entry_total_votes,
+          winning_amount,
+          position,
+          given_vote,
+        } = winner;
+
+        const entryData = allContestEntry.find((data) => data.id == entry_id);
+
+        const data = {
+          concurso_id: CONTEST_ID,
+          participante_id: entryData.artist_id,
+          posicao: position,
+          total_votos: entry_total_votes,
+          premio: winning_amount,
+        };
+
+        // SAVE DATA TO WINNER ARTIST
+        // let vencedor = await VencedorModel.create(data);
+        console.log(
+          "file:ConcursoController ConcursoController.js:343 ~ ConcursoController ~ generateWinner ~ data:",
+          data
+        );
+        // vencedor = await vencedor.toJSON();
+        // console.log("file: generateWinner.js:175 ~ generateWinner ~ vencedor:", vencedor)
+
+        delete data.participante_id;
+
+        data.cliente_id = client_id;
+        data.total_votos = given_vote;
+
+        // SAVE DATA TO WINNER CLIENT
+        // let vencedorClient = await VencedorClienteModel.create(data);
+        console.log(
+          "file: ConcursoController.js:354 ~ ConcursoController ~ generateWinner ~ data:",
+          data
+        );
+        // vencedorClient = await vencedorClient.toJSON();
+        // console.log("file: generateWinner.js:185 ~ generateWinner ~ vencedorClient:", vencedorClient)
+
+        // SAVE DATA TO CONTEST
+        // let updatedContest = await ConcursoModel.query()
+        //   .where("id", CONTEST_ID)
+        //   .update({ is_winner_generated: true });
+        // console.log("file: generateWinner.js:191 ~ generateWinner ~ updatedContest:", updatedContest)
+      }
+      return this.dataResponse.dataReponse(
+        200,
+        " Concurso Atualizada com sucesso",
+        winners
+      );
+    } catch (error) {
+    console.log("file: ConcursoController.js: ~ ConcursoController ~ generateWinner ~ error:", error)
     }
   }
 }
