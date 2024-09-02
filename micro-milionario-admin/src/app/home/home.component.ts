@@ -14,9 +14,9 @@ export class HomeComponent implements OnInit {
 
   private filename = '1665874588985.png';
   isloading: boolean= false;
-  totalConcurso;
-  totalArtista;
-  totalCliente;
+  totalConcurso:any
+  totalArtista:any
+  totalCliente:any;
 
   constructor(
     private uploadFileService: UploadFileService,
@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    
     this.listarQtdConcursos();
     this.listarQtdArtista();
     this.listarQtdCliente();

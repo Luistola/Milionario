@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ConcursoService } from 'src/app/service/concurso/concurso.service';
 import { MessageService } from 'src/app/service/message/message.service';
@@ -43,17 +43,19 @@ export class NewConcursoModalComponent implements OnInit {
   }
 
   createForm(): void {
-    this.concursoForm = new FormGroup({
-      nome: new FormControl('', Validators.required),
-      descricao: new FormControl('', Validators.required),
-      premio: new FormControl('', Validators.required),
-      n_vencedor: new FormControl('', Validators.required),
-      price_percent: new FormControl('', Validators.required),
-      data_inicio: new FormControl('', Validators.required),
-      data_fim: new FormControl('', Validators.required),
-      foto: new FormControl('')
-    });
-  }
+  this.concursoForm = new FormGroup({
+    nome: new FormControl('', Validators.required),
+    descricao: new FormControl('', Validators.required),
+    premio: new FormControl('', Validators.required),
+    n_vencedor: new FormControl('', Validators.required),
+    price_percent: new FormControl('', Validators.required),
+    data_inicio: new FormControl('', [Validators.required,]),
+    data_fim: new FormControl('', [Validators.required,]),
+    foto: new FormControl('')
+  });
+}
+
+
 
   onChangeFoto(event) {
 
@@ -72,11 +74,10 @@ export class NewConcursoModalComponent implements OnInit {
       premio: this.concursoForm.get('premio').value,
       n_vencedor: this.concursoForm.get('n_vencedor').value,
       price_percent: this.concursoForm.get('price_percent').value,
-      data_inicio: this.concursoForm.get('data_inicio').value,
-      data_fim: this.concursoForm.get('data_fim').value,
+      data_inicio: new Date(this.concursoForm.get('data_inicio').value).toISOString().split(".")[0],
+      data_fim: new Date(this.concursoForm.get('data_fim').value).toISOString().split(".")[0],
       foto: this.imageReponse // set the foto property to the image response
     };
-  
   }
  
 
@@ -95,6 +96,7 @@ export class NewConcursoModalComponent implements OnInit {
       }
   
       this.setConcurso();
+      console.log("get contwest........",this.concursoBody);
       try {
         const concurso = await this.concursoService.post('/concurso', this.concursoBody).toPromise();
         if (concurso.code === 200) {

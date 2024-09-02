@@ -44,45 +44,44 @@ export class VencedorParticipanteComponent implements OnInit {
   }
 
   carregarListas(){
-    console.log("ggggtttttt",this.selectedOption);
     this.votacaoPaginacaoPorParticipante(1);
     this.votacaoPaginacaoPorCliente(1);
   }
 
   async listarVencedoresPorParticipante(){
     this.isloading= true
-     const listagemVencedorParticipante= await this.vencedorService.listarVencedoresArtistList(this.selectedOption,this.pagination.pagination, this.selectedOption).toPromise();
+     const listagemVencedorParticipante= await this.vencedorService.listarVencedoresArtistList(this.selectedOption,this.pagination.paginationWinner, this.selectedOption).toPromise();
      if(listagemVencedorParticipante.code == 200){
        this.isloading= false;
       this.vencedorParticipanteLista= listagemVencedorParticipante.dados.data
-      this.pagination.pagination.lastPage= listagemVencedorParticipante.dados.lastPage;
-      this.pagination.pagination.page= listagemVencedorParticipante.dados.page;
-      this.pagination.pagination.perPage= listagemVencedorParticipante.dados.perPage;
-      this.pagination.pagination.total = listagemVencedorParticipante.dados.total;
+      this.pagination.paginationWinner.lastPage= listagemVencedorParticipante.dados.lastPage;
+      this.pagination.paginationWinner.page= listagemVencedorParticipante.dados.page;
+      this.pagination.paginationWinner.perPage= listagemVencedorParticipante.dados.perPage;
+      this.pagination.paginationWinner.total = listagemVencedorParticipante.dados.total;
       console.log("artist data",listagemVencedorParticipante);
     }
   }
 
    votacaoPaginacaoPorParticipante(page:number): void{
-     if(this.pagination.pagination.page == null){
-       this.pagination.pagination.page=1;
+     if(this.pagination.paginationWinner.page == null){
+       this.pagination.paginationWinner.page=1;
      }else{
-       this.pagination.pagination.page= page
+       this.pagination.paginationWinner.page= page
        this.listarVencedoresPorParticipante()
      }
 
    }
 
    async listarVencedorPorCliente(){
-    this.isloading= true
-     const listagemVencedorCliente= await this.vencedorClienteService.listarVencedorClientesWinner(this.selectedOption,this.pagination.adminpagination, this.selectedOption).toPromise();
+    // this.isloading= true
+     const listagemVencedorCliente= await this.vencedorClienteService.listarVencedorClientesWinner(this.selectedOption,this.pagination.paginationWinner, this.selectedOption).toPromise();
      if(listagemVencedorCliente.code == 200){
        this.isloading= false;
       this.vencedorClienteLista= listagemVencedorCliente.dados.data
-      this.pagination.pagination.lastPage= listagemVencedorCliente.dados.lastPage;
-      this.pagination.pagination.page= listagemVencedorCliente.dados.page;
-      this.pagination.pagination.perPage= listagemVencedorCliente.dados.perPage;
-      this.pagination.pagination.total = listagemVencedorCliente.dados.total;
+      this.pagination.paginationWinner.lastPage= listagemVencedorCliente.dados.lastPage;
+      this.pagination.paginationWinner.page= listagemVencedorCliente.dados.page;
+      this.pagination.paginationWinner.perPage= listagemVencedorCliente.dados.perPage;
+      this.pagination.paginationWinner.total = listagemVencedorCliente.dados.total;
       if(this.vencedorClienteLista.length==0){
         this.toastr.warning('vencedor não existe');
 
@@ -91,10 +90,10 @@ export class VencedorParticipanteComponent implements OnInit {
   }
 
    votacaoPaginacaoPorCliente(page:number): void{
-     if(this.pagination.pagination.page == null){
-       this.pagination.pagination.page=1;
+     if(this.pagination.paginationWinner.page == null){
+       this.pagination.paginationWinner.page=1;
      }else{
-       this.pagination.pagination.page= page
+       this.pagination.paginationWinner.page= page
        this.listarVencedorPorCliente()
      }
 
@@ -102,27 +101,17 @@ export class VencedorParticipanteComponent implements OnInit {
 
   
 
+async listarConcursos(){
+  const ended=true;
+  this.isloading= true
+   const listagemConcurso= await this.concursoService.listarConcursoWinner(ended).toPromise();
+   if(listagemConcurso.code == 200){
+     this.isloading= false;
+    this.concursoLista= listagemConcurso.dados
+    console.log("get lister.........................",this.concursoLista);
+  }
+}
 
-  async listarConcursos(){
-   
-    const listagemConcurso= await this.concursoService.adminlistarConcursos(this.pagination.adminpagination).toPromise();
-
-    if(listagemConcurso.code == 200){
-     this.concursoLista= listagemConcurso.dados.data;
-     this.pagination.pagination.lastPage= listagemConcurso.dados.lastPage;
-     this.pagination.pagination.page= listagemConcurso.dados.page;
-     this.pagination.pagination.perPage= listagemConcurso.dados.perPage;
-     this.pagination.pagination.total = listagemConcurso.dados.total;
-
-   }
- }
-
-  
-
-
-
-
-
-
+ 
 
 }

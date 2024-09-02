@@ -6,7 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
+  isOpen = false;
 
+  toggleSubMenu() {
+    this.isOpen = !this.isOpen;
+  }
   constructor() { }
 
   ngOnInit() {
