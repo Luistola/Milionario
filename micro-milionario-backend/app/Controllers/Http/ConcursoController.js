@@ -120,6 +120,23 @@ class ConcursoController {
 
     const {pagination, dados}= request.only(['pagination','dados']);
     const listagemConcurso= await this.concursoRepositorio.getAllWithPagination(pagination,dados);
+
+    let updatedData = [];
+    for(let data of listagemConcurso?.data){
+      let allContestEntry = await ContestEntry.query()
+        .where("contest_id", data.id)
+        .fetch();
+
+      allContestEntry = await allContestEntry.toJSON(); // all entry of this contest(ID)
+      
+      const totalvotes = allContestEntry.reduce((acc,val)=>val.vote+acc, 0);
+
+      data.totalvotes = totalvotes
+
+      updatedData.push(data);
+    }
+
+    listagemConcurso.data = updatedData;
     return  this.dataResponse.dataReponse(200, 'Listagem de Concurso', listagemConcurso)
 
   }
