@@ -9,6 +9,7 @@ const ClienteRepositorio = use('App/Repositorio/Admin/ClienteRepositorio');
 const ConcursoRepositorio = use('App/Repositorio/Admin/ConcursoRepositorio');
 
 const ConcursoModel= use('App/Models/Concurso');
+const VencedorClienteModel= use('App/Models/VencedorCliente');
 
 
 /**
@@ -135,6 +136,8 @@ class VencedorClienteController {
         client_user_id: data.participante_id,
         client_nome: clientData.nome,
         client_foto: clientData.foto,
+        data_inicio: data.data_inicio,
+        data_fim: data.data_fim,
       });
     }
 
@@ -166,12 +169,19 @@ class VencedorClienteController {
 
     for (const contest of lastFiveConcurso) {
      
-      let winners = await this.vencedorClienteRepositorio.getAllByContestId(
-        contest.id
-      );
+      let winners = await VencedorClienteModel.query()
+      .where('concurso_id', contest.id)
+      .innerJoin('concursos', 'vencedor_clientes.concurso_id', 'concursos.id')
+      .innerJoin('users', 'vencedor_clientes.cliente_id', 'users.id')
+      .innerJoin('roles', 'users.role_id', 'roles.id')
+      .select("vencedor_clientes.*",
+        "concursos.*",
+        "roles.nome as role_name")
+      .fetch();
+      
+      winners = await winners.toJSON();
 
       if (winners && winners.length){
-        winners = winners.map(d=>({...d, contest_name: contest.nome}))
 
         return this.dataResponse.dataReponse(200, "latest vencedor cliente", winners);
       }

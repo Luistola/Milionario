@@ -9,6 +9,7 @@ const ConcursoRepositorio = use('App/Repositorio/Admin/ConcursoRepositorio');
 const ArtistRepositorio = use('App/Repositorio/Admin/ArtistRepositorio');
 
 const ConcursoModel= use('App/Models/Concurso');
+const VencedorModel= use('App/Models/Vencedor');
 
 
 
@@ -110,6 +111,8 @@ class VencedorController {
           artist_user_id: data.participante_id,
           artist_nome: artistData?.nome,
           artist_foto: artistData?.foto,
+          data_inicio: data.data_inicio,
+          data_fim: data.data_fim,
         });
       }
 
@@ -168,12 +171,21 @@ class VencedorController {
 
     for (const contest of lastFiveConcurso) {
      
-      let winners = await this.vencedorRepositorio.getAllByContestId(
-        contest.id
-      );
+      let winners = await VencedorModel.query()
+      .where('concurso_id', contest.id)
+      .innerJoin('concursos', 'vencedors.concurso_id', 'concursos.id')
+      .innerJoin('artists', 'vencedors.participante_id', 'artists.user_id')
+      .innerJoin('users', 'artists.user_id', 'users.id')
+      .innerJoin('roles', 'users.role_id', 'roles.id')
+      .select("vencedors.*",
+        "artists.*",
+        "concursos.*",
+        "roles.nome as role_name")
+      .fetch();
+      
+      winners = await winners.toJSON();
 
       if (winners && winners.length){
-        winners = winners.map(d=>({...d, contest_name: contest.nome}))
         return this.dataResponse.dataReponse(200, "latest vencedor", winners);
       }
     }

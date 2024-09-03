@@ -35,12 +35,18 @@ class ContestEntryRepositorio {
   }
 
   async getActiveSortedContestById(id) {
-    return await this.baseRespositorio.findByColSortedByCreatedAtWithStatus(
-      "contest_id",
-      id,
-      "asc",
-      1
-    );
+    let concursoListar = await ContestEntry.query()
+    .where("contest_id", id)
+    .innerJoin('artists', 'contest_entries.artist_id', 'artists.user_id')
+    .innerJoin('users', 'contest_entries.artist_id', 'users.id')
+    .select(
+      'contest_entries.*',  
+      'artists.foto as artist_foto',
+    )
+    .orderBy("created_at", "desc")
+    .fetch();
+
+    return concursoListar.toJSON();
   }
   
   async getAllEntryByContest(id) {

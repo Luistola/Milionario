@@ -5,6 +5,7 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const ArtistRepositorio = use('App/Repositorio/Admin/ArtistRepositorio');
 const DataResponse = use("App/Repositorio/DataResponse");
+const UserModel= use('App/Models/User');
 
 /**
  * Resourceful controller for interacting with artists
@@ -68,7 +69,19 @@ class ArtistController {
 
     const { dados } = request.only(['dados']);
     const listagemArtist = await this.artistRepositorio.listarById(dados);
-    return this.dataResponse.dataReponse(200, 'Listagem de Artista por Id', listagemArtist)
+
+    let arr = [];
+
+    for(let artist of listagemArtist){
+      let user = await UserModel.query().where("id", artist.user_id).fetch();
+      user = await user.toJSON();
+      arr.push({
+        ...artist,
+        email: user[0]?.email
+      })
+    }
+
+    return this.dataResponse.dataReponse(200, 'Listagem de Artista por Id', arr)
 
   }
 

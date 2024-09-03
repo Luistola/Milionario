@@ -8,7 +8,7 @@ module.exports = (ApiRoute, Route) => {
     Route.post("vencedor-cliente/listarByUserId", "VencedorClienteController.showByUserId");
     Route.post('vencedor-cliente/update/:id', 'VencedorClienteController.update');
 
-    Route.post('vencedor-cliente/:id', 'VencedorClienteController.getByContestId');
+    Route.post('vencedor-cliente/contest/:id', 'VencedorClienteController.getByContestId');
 
     Route.get('vencedor-cliente/latest', 'VencedorClienteController.getLatestVencedor');
 

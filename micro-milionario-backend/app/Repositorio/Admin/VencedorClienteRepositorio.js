@@ -114,6 +114,7 @@ class VencedorClienteRepositorio{
           
           let vencedorClienteListar = await VencedorClienteModel.query()
           .where('vencedor_clientes.concurso_id', dados)
+          .innerJoin('concursos', 'concurso_id', 'concursos.id')
           .paginate(pagination.page, pagination.perPage)
           
           return vencedorClienteListar.toJSON();

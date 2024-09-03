@@ -130,7 +130,6 @@ class ContestEntryController {
       await this.contestEntryRepositorio.getActiveSortedContestById(
         contest_id
       );
-      console.log("file: ContestEntryController.js:130 ~ ContestEntryController ~ getByContestId ~ existingDatas:", existingDatas)
 
       if (existingDatas) {
         return this.dataResponse.dataReponse(200, "sucesso", existingDatas);
