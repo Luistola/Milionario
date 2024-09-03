@@ -402,6 +402,21 @@ class ConcursoController {
     console.log("file: ConcursoController.js: ~ ConcursoController ~ generateWinner ~ error:", error)
     }
   }
+
+  async contestWithWinner(){
+        
+    let contest = await ConcursoModel.query()
+      .where("is_winner_generated", true)
+      .orderBy("created_at", "desc")
+      .fetch();
+
+    return this.dataResponse.dataReponse(
+      200,
+      "Concurso with winners",
+      contest ?? []
+    );
+
+  }
 }
 
 module.exports = ConcursoController

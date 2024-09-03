@@ -17,5 +17,7 @@ module.exports = (ApiRoute, Route) => {
     Route.post("concurso/search/", "ConcursoController.search");
     Route.get("concurso/generateWinner/:id", "ConcursoController.generateWinner");
 
+    Route.get("concurso-with-winner", "ConcursoController.contestWithWinner");
+
   })
 }
