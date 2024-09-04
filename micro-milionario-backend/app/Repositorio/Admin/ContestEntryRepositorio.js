@@ -42,6 +42,7 @@ class ContestEntryRepositorio {
     .select(
       'contest_entries.*',  
       'artists.foto as artist_foto',
+      'artists.nome as artist_nome',
     )
     .orderBy("created_at", "desc")
     .fetch();
