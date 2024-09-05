@@ -172,10 +172,13 @@ class VencedorClienteController {
       let winners = await VencedorClienteModel.query()
       .where('concurso_id', contest.id)
       .innerJoin('concursos', 'vencedor_clientes.concurso_id', 'concursos.id')
-      .innerJoin('users', 'vencedor_clientes.cliente_id', 'users.id')
+      .innerJoin('clientes', 'vencedor_clientes.cliente_id', 'clientes.id')
+      .innerJoin('users', 'clientes.user_id', 'users.id')
       .innerJoin('roles', 'users.role_id', 'roles.id')
-      .select("vencedor_clientes.*",
+      .select(
         "concursos.*",
+        "clientes.*",
+        "vencedor_clientes.*",
         "roles.nome as role_name")
       .fetch();
       

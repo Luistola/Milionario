@@ -161,15 +161,15 @@ class VencedorController {
 
   async getLatestVencedor({ request }) {
  
-    let lastFiveConcurso = await ConcursoModel.query()
+    let lastestConcurso = await ConcursoModel.query()
       .where("is_winner_generated", true)
       .orderBy("created_at", "desc")
       .limit(10)
       .fetch();
 
-    lastFiveConcurso = await lastFiveConcurso.toJSON();
+    lastestConcurso = await lastestConcurso.toJSON();
 
-    for (const contest of lastFiveConcurso) {
+    for (const contest of lastestConcurso) {
      
       let winners = await VencedorModel.query()
       .where('concurso_id', contest.id)
@@ -177,9 +177,10 @@ class VencedorController {
       .innerJoin('artists', 'vencedors.participante_id', 'artists.user_id')
       .innerJoin('users', 'artists.user_id', 'users.id')
       .innerJoin('roles', 'users.role_id', 'roles.id')
-      .select("vencedors.*",
-        "artists.*",
+      .select(
         "concursos.*",
+        "artists.*",
+        "vencedors.*",
         "roles.nome as role_name")
       .fetch();
       
