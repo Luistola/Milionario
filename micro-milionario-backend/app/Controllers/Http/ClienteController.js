@@ -53,7 +53,7 @@ class ClienteController {
    * @param {Response} ctx.response
    */
   async store({ request }) {
-    const { ...dados } = request.only(['user_id', 'nome', 'sexo', 'telefone']);
+    const { ...dados } = request.only(['user_id', 'nome', 'sexo', 'telefone', 'foto']);
     await this.clienteRepositorio.criar(dados);
     return this.dataResponse.dataReponse(200, "Cliente criada com sucesso");
   }
