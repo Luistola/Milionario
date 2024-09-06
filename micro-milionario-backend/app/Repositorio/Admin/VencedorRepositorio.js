@@ -112,6 +112,7 @@ class VencedorRepositorio{
         let vencedorListar = await VencedorModel.query()
         .where('vencedors.concurso_id', dados)
         .innerJoin('concursos', 'concurso_id', 'concursos.id')
+        .select("concursos.*", "vencedors.*",  "concursos.premio as target_vote", "vencedors.premio as winning_amount")
         .paginate(pagination.page, pagination.perPage)
         
         return vencedorListar.toJSON();

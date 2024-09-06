@@ -120,6 +120,7 @@ class VencedorClienteController {
       clientData = clientData[0];
 
       arr.push({
+        ...data,
         vecedor_id: data.id,
         vencedor_concurso_id: data.concurso_id,
         vencedor_participante_id: data.participante_id,
