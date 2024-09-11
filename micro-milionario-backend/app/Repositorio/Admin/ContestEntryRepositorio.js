@@ -36,7 +36,7 @@ class ContestEntryRepositorio {
 
   async getActiveSortedContestById(id) {
     let concursoListar = await ContestEntry.query()
-    .where("contest_id", id)
+    .where({"contest_id": id, "status": true})
     .innerJoin('artists', 'contest_entries.artist_id', 'artists.user_id')
     .innerJoin('users', 'contest_entries.artist_id', 'users.id')
     .select(
