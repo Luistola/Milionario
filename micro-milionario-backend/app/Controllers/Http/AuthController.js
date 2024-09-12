@@ -1,6 +1,9 @@
 'use strict'
 
 const User = use('App/Models/User')
+const ArtistModel = use('App/Models/Artist');
+const ClienteModel = use('App/Models/Cliente');
+
 const UserRepositorio = use('App/Repositorio/Admin/UserRepositorio');
 const RoleRepositorio = use('App/Repositorio/Admin/RolesRepositorio');
 const DataResponse = use("App/Repositorio/DataResponse");
@@ -43,9 +46,22 @@ class AuthController {
 
     const role = await this.roleRepositorio.getById(user.role_id);
 
+    let foto = null;
+
+    if(user.role_id == 2){//artist
+      const artist = await ArtistModel.query().where('user_id', user.id).first();
+      foto = artist?.foto;
+    }
+    
+    if(user.role_id == 3){//cliente
+      const cliente = await ClienteModel.query().where('user_id', user.id).first();
+      foto = cliente?.foto;
+    }
+
     if (role) {
       userData.role_name = role.nome
     }
+    userData.foto = foto;
 
       return userData;
   }
