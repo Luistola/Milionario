@@ -6,6 +6,7 @@
 const ClienteRepositorio = use('App/Repositorio/Admin/ClienteRepositorio');
 const UserRepositorio = use('App/Repositorio/Admin/UserRepositorio');
 const DataResponse = use("App/Repositorio/DataResponse");
+const UserModel = use('App/Models/User')
 
 /**
  * Resourceful controller for interacting with clientes
@@ -96,19 +97,30 @@ class ClienteController {
 
   async update({ params, request }) {
 
-    const { nome, sexo, telefone } = request.only(['nome', 'sexo', 'telefone']);
+    const { nome, sexo, telefone, email } = request.only(['nome', 'sexo', 'telefone', 'email']);
 
-    if (!nome || !sexo || !telefone) {
+    if (!nome || !sexo || !telefone || !email) {
       return this.dataResponse.dataReponse(500, 'Todos os campos são necessários')
     }
 
     let client = await this.clienteRepositorio.getClientByUserId(params.id)
 
     if (client) {
+      client = await client.toJSON()
+
+      let user = await UserModel.query().where('email', email).first();
+      
+      if(user && user.id != params.id){
+        return this.dataResponse.dataReponse(500, 'Email exists')
+      }
 
       let updated = await this.clienteRepositorio.updateById(client.id, { nome, sexo, telefone })
+      if(updated)
+        updated = updated.toJSON();
+      
+      let updatedUser = await UserModel.query().where('id', params.id).update({ email });
 
-      return this.dataResponse.dataReponse(200, 'Cliente Atualizada com sucesso', updated)
+      return this.dataResponse.dataReponse(200, 'Cliente Atualizada com sucesso', {...updated, email})
     }
 
     return this.dataResponse.dataReponse(200, 'Client not found')
@@ -118,8 +130,17 @@ class ClienteController {
 
   async getClientById({ params }) {
 
-    const data = await this.clienteRepositorio.getClientByUserId(params.id)
-    return this.dataResponse.dataReponse(200, ' El cliente llega con éxito', data)
+    let data = await this.clienteRepositorio.getClientByUserId(params.id)
+
+    if(data){
+      data = await data.toJSON();
+      let user = await UserModel.query().where('id', data.user_id).first();
+      user = await user.toJSON()
+
+      return this.dataResponse.dataReponse(200, 'El cliente llega con éxito.', {...data, email: user.email})
+    }
+
+    return this.dataResponse.dataReponse(400, 'Not found.')
 
   }
 

@@ -109,26 +109,44 @@ class ArtistController {
 
   async getArtistById({ params }) {
 
-    const data = await this.artistRepositorio.getArtistByUserId(params.id)
-    return this.dataResponse.dataReponse(200, 'El artista llega con éxito.', data)
+    let data = await this.artistRepositorio.getArtistByUserId(params.id)
+    if(data){
+      data = await data.toJSON();
+      let user = await UserModel.query().where('id', data.user_id).first();
+      user = await user.toJSON()
+
+      return this.dataResponse.dataReponse(200, 'El artista llega con éxito.', {...data, email: user.email})
+    }
+
+    return this.dataResponse.dataReponse(400, 'Not found.')
 
   }
 
   async updateArtist({ params, request }) {
 
-    const { nome, sexo, telefone } = request.only(['nome', 'sexo', 'telefone']);
+    const { nome, sexo, telefone, email } = request.only(['nome', 'sexo', 'telefone', 'email']);
 
-    if (!nome || !sexo || !telefone) {
+    if (!nome || !sexo || !telefone || !email) {
       return this.dataResponse.dataReponse(500, 'Todos os campos são necessários')
     }
 
     let artist = await this.artistRepositorio.getArtistByUserId(params.id)
 
     if (artist) {
+      artist = await artist.toJSON()
+
+      let user = await UserModel.query().where('email', email).first();
+      
+      if(user && user.id != params.id){
+        return this.dataResponse.dataReponse(500, 'Email exists')
+      }
 
       let updated = await this.artistRepositorio.updateById(artist.id, { nome, sexo, telefone })
+      if(updated)
+        updated = updated.toJSON();
+      let updatedUser = await UserModel.query().where('id', params.id).update({ email });
 
-      return this.dataResponse.dataReponse(200, 'Artist Atualizada com sucesso', updated)
+      return this.dataResponse.dataReponse(200, 'Artist Atualizada com sucesso', {...updated, email})
     }
 
     return this.dataResponse.dataReponse(200, 'Artist not found')
