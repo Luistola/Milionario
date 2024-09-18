@@ -97,9 +97,9 @@ class ClienteController {
 
   async update({ params, request }) {
 
-    const { nome, sexo, telefone, email } = request.only(['nome', 'sexo', 'telefone', 'email']);
+    const { nome, sexo, telefone, email, foto } = request.only(['nome', 'sexo', 'telefone', 'email', 'foto']);
 
-    if (!nome || !sexo || !telefone || !email) {
+    if (!nome || !sexo || !telefone || !email || !foto) {
       return this.dataResponse.dataReponse(500, 'Todos os campos são necessários')
     }
 
@@ -114,7 +114,7 @@ class ClienteController {
         return this.dataResponse.dataReponse(500, 'Email exists')
       }
 
-      let updated = await this.clienteRepositorio.updateById(client.id, { nome, sexo, telefone })
+      let updated = await this.clienteRepositorio.updateById(client.id, { nome, sexo, telefone, foto })
       if(updated)
         updated = updated.toJSON();
       

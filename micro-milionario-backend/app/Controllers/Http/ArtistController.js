@@ -124,9 +124,9 @@ class ArtistController {
 
   async updateArtist({ params, request }) {
 
-    const { nome, sexo, telefone, email } = request.only(['nome', 'sexo', 'telefone', 'email']);
+    const { nome, sexo, telefone, email, foto } = request.only(['nome', 'sexo', 'telefone', 'email', 'foto']);
 
-    if (!nome || !sexo || !telefone || !email) {
+    if (!nome || !sexo || !telefone || !email || !foto) {
       return this.dataResponse.dataReponse(500, 'Todos os campos são necessários')
     }
 
@@ -141,7 +141,7 @@ class ArtistController {
         return this.dataResponse.dataReponse(500, 'Email exists')
       }
 
-      let updated = await this.artistRepositorio.updateById(artist.id, { nome, sexo, telefone })
+      let updated = await this.artistRepositorio.updateById(artist.id, { nome, sexo, telefone, foto })
       if(updated)
         updated = updated.toJSON();
       let updatedUser = await UserModel.query().where('id', params.id).update({ email });
