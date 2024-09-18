@@ -180,6 +180,7 @@ class VencedorClienteController {
         "concursos.*",
         "clientes.*",
         "vencedor_clientes.*",
+        "concursos.nome as concursos_nome",
         "roles.nome as role_name")
       .fetch();
       

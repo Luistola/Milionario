@@ -182,6 +182,7 @@ class VencedorController {
         "concursos.*",
         "artists.*",
         "vencedors.*",
+        "concursos.nome as concursos_nome",
         "roles.nome as role_name")
       .fetch();
       
