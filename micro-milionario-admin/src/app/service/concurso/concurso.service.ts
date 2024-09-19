@@ -78,6 +78,10 @@ export class ConcursoService {
     return this.http.get<GeralInterfaceListar>(`${this.apiURL}/concurso/?ended=${ended}`);
   }
  
+  listarConcursoGenerateWinner():Observable<GeralInterfaceListar>{
+    return this.http.get<GeralInterfaceListar>(`${this.apiURL}/concurso-with-winner`);
+  }
+
 
   setData(data: Participante) {
     this.data = data;

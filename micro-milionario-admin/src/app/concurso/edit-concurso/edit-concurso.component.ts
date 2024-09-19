@@ -53,31 +53,7 @@ export class EditConcursoComponent implements OnInit {
     });
   }
 
-  dataInicioValidator(control: AbstractControl): ValidationErrors | null {
-    const date = control.value;
-    const minDate = new Date('2018-06-07T00:00:00');
-    const maxDate = new Date('2030-12-31T23:59:59');
-    if (date) {
-      const dateTimestamp = new Date(date).getTime();
-      if (dateTimestamp < minDate.getTime() || dateTimestamp > maxDate.getTime()) {
-        return { invalidDate: true };
-      }
-    }
-    return null;
-  }
-  
-  dataFimValidator(control: AbstractControl): ValidationErrors | null {
-    const date = control.value;
-    const minDate = new Date('2018-06-07T00:00:00');
-    const maxDate = new Date('2030-12-31T23:59:59');
-    if (date) {
-      const dateTimestamp = new Date(date).getTime();
-      if (dateTimestamp < minDate.getTime() || dateTimestamp > maxDate.getTime()) {
-        return { invalidDate: true };
-      }
-    }
-    return null;
-  }
+ 
 
   async getConcursoById(data) {
     const concurso = await this.concursoService.listarConcursoById(data).toPromise();

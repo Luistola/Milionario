@@ -44,21 +44,29 @@ export class VencedorParticipanteComponent implements OnInit {
   }
 
   carregarListas(){
+    console.log("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
     this.votacaoPaginacaoPorParticipante(1);
     this.votacaoPaginacaoPorCliente(1);
   }
 
   async listarVencedoresPorParticipante(){
-    this.isloading= true
-     const listagemVencedorParticipante= await this.vencedorService.listarVencedoresArtistList(this.selectedOption,this.pagination.paginationWinner, this.selectedOption).toPromise();
-     if(listagemVencedorParticipante.code == 200){
-       this.isloading= false;
-      this.vencedorParticipanteLista= listagemVencedorParticipante.dados.data
-      this.pagination.paginationWinner.lastPage= listagemVencedorParticipante.dados.lastPage;
-      this.pagination.paginationWinner.page= listagemVencedorParticipante.dados.page;
-      this.pagination.paginationWinner.perPage= listagemVencedorParticipante.dados.perPage;
-      this.pagination.paginationWinner.total = listagemVencedorParticipante.dados.total;
-      console.log("artist data",listagemVencedorParticipante);
+    this.isloading = true;
+    const listagemVencedorParticipante = await this.vencedorService.listarVencedoresArtistList(this.selectedOption, this.pagination.paginationWinner, this.selectedOption).toPromise();
+    if (listagemVencedorParticipante.code == 200) {
+      this.isloading = false;
+      if (listagemVencedorParticipante.dados.data && listagemVencedorParticipante.dados.data.length > 0) {
+        this.vencedorParticipanteLista = listagemVencedorParticipante.dados.data;
+        this.pagination.paginationWinner.lastPage = listagemVencedorParticipante.dados.lastPage;
+        this.pagination.paginationWinner.page = listagemVencedorParticipante.dados.page;
+        this.pagination.paginationWinner.perPage = listagemVencedorParticipante.dados.perPage;
+        this.pagination.paginationWinner.total = listagemVencedorParticipante.dados.total;
+        console.log("artist data", listagemVencedorParticipante);
+      } else {
+        this.vencedorParticipanteLista = [];
+        this.toastr.warning("No winners found for this participant.");
+      }
+    } else {
+      this.toastr.warning("Error loading winners. Please try again.");
     }
   }
 
@@ -101,17 +109,22 @@ export class VencedorParticipanteComponent implements OnInit {
 
   
 
-async listarConcursos(){
-  const ended=true;
-  this.isloading= true
-   const listagemConcurso= await this.concursoService.listarConcursoWinner(ended).toPromise();
-   if(listagemConcurso.code == 200){
-     this.isloading= false;
-    this.concursoLista= listagemConcurso.dados
-    console.log("get lister.........................",this.concursoLista);
+   async listarConcursos() {
+    try {
+      this.isloading = true;
+      const listagemConcurso = await this.concursoService.listarConcursoGenerateWinner().toPromise();
+      if (listagemConcurso.code == 200) {
+        this.isloading = false;
+        this.concursoLista = listagemConcurso.dados;
+        console.log("get lister.........................", listagemConcurso);
+      } else {
+        console.error("Error listing concursos:", listagemConcurso);
+      }
+    } catch (error) {
+      console.error("Error listing concursos:", error);
+      this.isloading = false;
+    }
   }
-}
-
  
 
 }
