@@ -12,36 +12,45 @@
                 </h1>
             </div>
             <div *ngIf="concursoObject" class="dFlex partBox">
-                <div class="partLeft" style="width: 725px;">
+                <div class="partLeft" style="width: 725px; ">
                     <div class="partImg mb_24">
-                        <img class="image-detail" [src]="getImageUrl(concursoObject.foto)" alt=""
-                            style="margin-bottom: 24px;">
+                        <img class="image-detail"
+                            [src]="concursoObject.foto ? getImageUrl(concursoObject.foto) : './assets/images/defaultUser.jpeg'"
+                            alt="MM" style="margin-bottom: 24px;">
+                        <!-- <img class="image-detail" [src]="getImageUrl(concursoObject.foto)" alt="" style="margin-bottom: 24px;"> -->
                     </div>
                 </div>
-                <div class="partRight">
+                <div class="partRight addwidth">
+
                     <div class="adbCtnt">
-                        <h2 class="h5 mb_16">Details of the Participants</h2>
+                        <h2 class="h5 mb_16" style="text-align: center;">{{concursoObject.nome}}</h2>
 
                         <div class="adbInfo mt_24 pt_24">
-                            <div class="dFlex adbi mb_16">
+                            <!-- <div class="dFlex adbi mb_16">
                                 <b class="txt18 fwBold">Name</b>
                                 <div class="txt18">{{concursoObject.nome}}</div>
-                            </div>
+                            </div> -->
                             <div class="dFlex adbi mb_16">
-                                <b class="txt18 fwBold">Described</b>
+                                <b class="txt18 fwBold">descrição</b>
                                 <div class="txt18">{{concursoObject.descricao}}</div>
                             </div>
                             <div class="dFlex adbi mb_16">
-                                <b class="txt18 fwBold">Prize</b>
-                                <div class="txt18">{{concursoObject.premio}}</div>
+                                <b class="txt18 fwBold">Prémio</b>
+                                <div class="txt18">${{concursoObject.premio}}</div>
                             </div>
                             <div class="dFlex adbi mb_16">
-                                <b class="txt18 fwBold">Start Date</b>
-                                <div class="txt18">{{concursoObject.data_inicio | date: 'dd/MM/yyyy'}}</div>
+                                <b class="txt18 fwBold">Início</b>
+                                <div class="txt18">{{concursoObject.data_inicio | formatDate}}</div>
                             </div>
                             <div class="dFlex adbi mb_16">
-                                <b class="txt18 fwBold">End Date</b>
-                                <div class="txt18">{{concursoObject.data_fim | date: 'dd/MM/yyyy'}}</div>
+                                <b class="txt18 fwBold">Final</b>
+                                <div class="txt18">{{concursoObject.data_fim | formatDate}}</div>
+                            </div>
+
+                            <div class="dFlex adbi mb_16">
+                                <b class="txt18 fwBold">
+                                    Número de participantes</b>
+                                <div class="txt18">{{ contestEntriesLength }} </div>
                             </div>
                         </div>
                         <button *ngIf="usuarioActual.role_id != '3'" class="btnLogin txt18 mt_32"
@@ -51,13 +60,14 @@
             </div>
         </div>
     </div>
-  
+
 
 </section>
 <section>
     <div class="container">
-        <div class="row">
-            <div class="votecard" *ngFor="let entry of contestEntriesLista;">
+        <div class="partRight" style="display: flex;">
+            <div class="votecard" style="margin-right: 30px;"
+                *ngFor="let entry of contestEntriesLista |slice:0:itemsToShow;">
                 <div class="adbInfo partInfo">
                     <button class="partAdd" *ngIf="usuarioActual.role_id != '2'" (click)="setContestEntry(entry)">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,30 +77,40 @@
                         </svg>
                     </button>
                     <div class="dFlex adbi mb_16">
-                        <b class="txt18 fwBold">Título:</b>
+                        <div class="txt18"><img
+                                [src]="entry.artist_foto ? getImageUrl(entry.artist_foto) : './assets/images/defaultUser.jpeg'"
+                                alt="MM"></div>
+                    </div>
+                    <div class="dFlex adbi mb_16">
+                        <b class="txt18 fwBold">Título :</b>
                         <div class="txt18">{{ entry.title }}</div>
                     </div>
                     <div class="dFlex adbi mb_16">
-                        <b class="txt18 fwBold">Descricao:</b>
+                        <b class="txt18 fwBold">Nome do artista :</b>
+                        <div class="txt18">{{ entry.artist_nome }}</div>
+                    </div>
+                    <div class="dFlex adbi mb_16">
+                        <b class="txt18 fwBold">descrição :</b>
                         <div class="txt18">{{ entry.description }}</div>
                     </div>
                     <div class="dFlex adbi mb_16">
-                        <b class="txt18 fwBold">Tipo de link:</b>
+                        <b class="txt18 fwBold">Tipo de link :</b>
                         <div class="txt18">{{ entry.link_type }}</div>
                     </div>
                     <div class="dFlex adbi mb_16">
-                        <b class="txt18 fwBold">Link:</b>
+                        <b class="txt18 fwBold">Link :</b>
                         <a href="{{ entry.link }}" target="_blank">{{ entry.link }}</a>
                     </div>
-                    <div class="dFlex adbi mb_16">
-                        <b class="txt18 fwBold">Vote:</b>
-                        <div class="txt18">{{ entry.vote }}</div>
-                    </div>
                 </div>
+
             </div>
 
+
         </div>
-        
+        <div class="mt_56 textCenter" *ngIf="(contestEntriesLista?.length > 0)">
+            <a (click)="loadMoreItems()" class="btn">Ver Mais</a>
+        </div>
+
 
     </div>
 

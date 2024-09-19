@@ -6,24 +6,24 @@
                     <img src="assets/images/logo.png" alt="MM">
                 </a>
                 <ul class="dFlex footerNav">
-                    <li class="active">
+                    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                         <a routerLink="/dashboard">Home</a>
-                    </li>
-                    <li >
+                      </li>
+                      <li routerLinkActive="active">
                         <a routerLink="/dashboard/artists">Artists</a>
-                    </li>
-                    <li>
+                      </li>
+                      <li routerLinkActive="active">
                         <a routerLink="/dashboard/concursos">Contest</a>
-                    </li>
-                    <li>
+                      </li>
+                      <li routerLinkActive="active">
                         <a routerLink="/dashboard/winners">Winners</a>
-                    </li>
-                    <li>
-                        <a routerLink="/dashboard/contact">Contacts</a>
-                    </li>
-                    <li *ngIf="user.role_id == '3'">
+                      </li>
+                      <li *ngIf="userRole == '3'" routerLinkActive="active">
                         <a routerLink="/dashboard/carteira">Wallet</a>
-                    </li>
+                      </li>
+                      <li routerLinkActive="active">
+                        <a routerLink="/dashboard/política">Policy</a>
+                      </li>
                 </ul>
                 <ul class="dFlex footerSocial">
                     <li>

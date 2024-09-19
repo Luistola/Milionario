@@ -34,6 +34,9 @@ export class LoginComponent implements OnInit {
   vencedorClienteBody;
   totalVotos
   valorPremio
+  inputType: string = 'password';
+  hidePassword: boolean = true;
+  showPW = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,7 +60,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
-      remember: [false, [Validators.required]]
+     
     });
   }
 
@@ -73,10 +76,13 @@ export class LoginComponent implements OnInit {
     )
   }
 
+ 
+
   setUsuario(emailUtilizador): void{
     this.usuario = {
       email: emailUtilizador,
       password: this.loginForm.get('password').value
+     
     };
 
   }
@@ -92,14 +98,20 @@ export class LoginComponent implements OnInit {
    }
 
    async verificarValor() {
-    if (isNaN(this.loginForm.get('email').value)) {
+    
+    const emailValue = this.loginForm.get('email').value;
+    if (!emailValue || emailValue.trim() === '') {
+      console.log('Email input is empty!');
+      return; // or throw an error, depending on your requirements
+    }
+    if (isNaN(emailValue)) {
       console.log('O valor digitado não é um número válido!');
-      this.utilizadorEmail = this.loginForm.get('email').value;
+      this.utilizadorEmail = emailValue;
       this.setUsuario(this.utilizadorEmail);
       this.login();
     } else {
       console.log('O valor digitado é um número válido!');
-      await this.buscaUtilizadorPeloTelefone(this.loginForm.get('email').value);
+      await this.buscaUtilizadorPeloTelefone(emailValue);
     }
   }
   async login(): Promise<void> {
@@ -269,8 +281,17 @@ export class LoginComponent implements OnInit {
     }
    }
 
+   togglePassword() {
+    this.hidePassword = !this.hidePassword;
+    this.inputType = this.hidePassword ? 'password' : 'text';
+  }
+
   ngOnDestroy() {
     //location.reload();
+  }
+
+  togglePW() {
+    this.showPW = !this.showPW;
   }
 
 }

@@ -14,7 +14,8 @@
             <div class="dFlex adBox" *ngIf="artista">
                 <div class="adbLeft">
                     <div class="adbImg mb_24">
-                        <img [src]="getImageUrl(artista.foto)" alt="MM">
+                        <img [src]="artista.foto ? getImageUrl(artista.foto) : './assets/images/defaultUser.jpeg'" alt="MM">
+                        <!-- <img [src]="getImageUrl(artista.foto)" alt="MM"> -->
                     </div>
                     <!-- <ul class="dFlex footerSocial">
                         <li>
@@ -79,6 +80,11 @@
                         <div class="dFlex adbi mb_16">
                             <b class="txt18 fwBold">Telefone</b>
                             <div class="txt18">{{artista.telefone}}</div>
+                        </div>
+
+                        <div class="dFlex adbi mb_16">
+                            <b class="txt18 fwBold">Email</b>
+                            <div class="txt18">{{artista.email}}</div>
                         </div>
                         
                     </div>

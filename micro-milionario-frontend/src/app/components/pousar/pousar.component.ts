@@ -44,16 +44,13 @@ export class PousarComponent implements OnInit {
   getImageUrl(filename: string) {
     try {
       this.thumbnail = this.pousarService.getImageUrl('/download/images/', filename);
-      console.log("dddddddddddddd", this.thumbnail);
     } catch (error) {
       console.error("An error occurred while fetching the image URL:", error);
     }
   }
 
   initVideo() {
-    console.log("I AM HERE===?", this.videoElement)
     if (this.videoElement) {
-      console.log("HE:LL0000")
       this.videoElement.nativeElement.play();
     }
   }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { GeralInterfaceListar } from '../geral/geral-interface-listar';
+import { GeralInterfaceConcurso } from '../geral/apiReposnse';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ export class ConcursoService {
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/listar`,{pagination:pagination, dados:dados});
   }
 
-  listarConcursos1(dados):Observable<GeralInterfaceListar>{
-    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/listarAlt`,{dados:dados});
+  listarConcursos1(dados):Observable<GeralInterfaceConcurso>{
+    return this.http.post<GeralInterfaceConcurso>(`${this.apiURL}/concurso/listarAlt`,{dados:dados});
   }
 
   listarConcurso():Observable<GeralInterfaceListar>{
@@ -27,6 +28,10 @@ export class ConcursoService {
 
   listarConcursoWinner(ended):Observable<GeralInterfaceListar>{
     return this.http.get<GeralInterfaceListar>(`${this.apiURL}/concurso/?ended=${ended}`);
+  }
+
+  listarConcursoGenerateWinner():Observable<GeralInterfaceListar>{
+    return this.http.get<GeralInterfaceListar>(`${this.apiURL}/concurso-with-winner`);
   }
 
   listarById(dados):Observable<GeralInterfaceListar>{
@@ -40,4 +45,7 @@ export class ConcursoService {
   update(url, body):Observable<GeralInterfaceListar>{
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}${url}`, body);
   }
+
+ 
+
 }

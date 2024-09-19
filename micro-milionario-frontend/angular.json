@@ -36,10 +36,9 @@
             "styles": [
               "src/styles.css",
               "node_modules/ngx-toastr/toastr.css",
-              "src/assets/css/swiper-bundle.css"
+              "src/assets/css/swiper-bundle1.css"
             ],
             "scripts": [
-              "src/assets/js/custom.js",
               "src/assets/js/jquery-3.7.1.min.js",
               "src/assets/js/swiper-bundle.min.js"
              

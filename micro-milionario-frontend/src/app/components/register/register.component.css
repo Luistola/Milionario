@@ -1,0 +1,23 @@
+.formInpt {
+    position: relative;
+  }
+  
+  .show {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  input {
+    padding-right: 30px; /* adjust this value to make space for the eye icon */
+  }
+
+  .show {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }

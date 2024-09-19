@@ -106,7 +106,6 @@ export class CarteiraComponent implements OnInit {
       this.addInModelCarteira();
       const carteira = await this.carteiraService.update('/carteira/update/', this.carteiraBody).toPromise();
       if(carteira.code == 200){
-        console.log("update.........",carteira.dados);
         this.topHeaderService.updatePoints(carteira.dados);
         this.getPointsValue(this.userId);
         this.toastr.success(carteira.message);

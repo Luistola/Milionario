@@ -22,10 +22,11 @@ export class RegisterComponent implements OnInit {
   userBody;
   carteiraBody;
   usuario: Usuario;
-  selectedOption;
+  selectedOption:string="";
   fotoFile;
   inputType: string = 'password';
   hidePassword: boolean = true;
+  showPW = false;
   files: Set<File>;
   @ViewChild('inputFile', {static: false}) fileInputRef: ElementRef;
 
@@ -58,7 +59,9 @@ export class RegisterComponent implements OnInit {
       instagram: [''],
       twitter: [''],
       password: ['', [Validators.required]],
-      conf_password: ['']
+      conf_password: [''],
+      terms: [false, Validators.requiredTrue]
+
     });
   }
 
@@ -111,6 +114,7 @@ export class RegisterComponent implements OnInit {
       user_id: user.id,
       nome: this.registerForm.get('username').value,
       telefone: this.registerForm.get('telefone').value,
+      foto: this.imageReponse,
       sexo: this.registerForm.get('sexo').value,
     };
 
@@ -143,18 +147,18 @@ export class RegisterComponent implements OnInit {
 
 
   async save() {
-    if (this.registerForm.invalid) {
-      Object.values(this.registerForm.controls).forEach(control => control.markAsTouched());
-      return;
-    }
-  
+   if (this.registerForm.invalid) {
+    Object.values(this.registerForm.controls).forEach(control => control.markAsTouched());
+    this.toastr.error('Please fill in all required fields', 'Error!');
+    return;
+  }
     this.setUsuario();
   
     try {
       const response = await this.authService.register(this.usuario).toPromise();
       const userData = response.dados;
-  
-      if (this.usuario.role_id === '2') {
+    
+      if (this.usuario.role_id === '2' || this.usuario.role_id === '3') {
         if (this.files && this.files.size > 0) {
           try {
             const imageApi = await this.uploadFileService.upload('/concurso/images', this.files).toPromise();
@@ -170,15 +174,28 @@ export class RegisterComponent implements OnInit {
             return;
           }
         }
-  
-        try {
-          this.setArtista(userData);
-          await this.saveArtist(this.userBody);
-          // await this.saveCarteira(this.carteiraBody);
-        } catch (error) {
-          console.error(error);
-          this.toastr.error('Erro ao registar artista!', 'Erro!');
-          return;
+    
+        if (this.usuario.role_id === '2') {
+          try {
+            this.setArtista(userData);
+            await this.saveArtist(this.userBody);
+            // await this.saveCarteira(this.carteiraBody);
+          } catch (error) {
+            console.error(error);
+            this.toastr.error('Erro ao registar artista!', 'Erro!');
+            return;
+          }
+        } else if (this.usuario.role_id === '3') {
+          try {
+            this.setCliente(userData);
+            this.setCarteira(userData);
+            await this.saveCliente(this.userBody);
+            await this.saveCarteira(this.carteiraBody);
+          } catch (error) {
+            console.error(error);
+            this.toastr.error('Erro ao registar cliente!', 'Erro!');
+            return;
+          }
         }
       } else {
         try {
@@ -192,7 +209,7 @@ export class RegisterComponent implements OnInit {
           return;
         }
       }
-  
+    
       this.toastr.success('Registado Com Sucesso!', 'Sucesso!');
       console.log('Registado Com Sucesso!');
       this.router.navigate(['/login']);
@@ -237,6 +254,12 @@ export class RegisterComponent implements OnInit {
   togglePassword() {
     this.hidePassword = !this.hidePassword;
     this.inputType = this.hidePassword ? 'password' : 'text';
+  }
+
+ 
+
+  togglePW() {
+    this.showPW = !this.showPW;
   }
 
 }

@@ -10,5 +10,8 @@ export interface Usuario{
     password?:string;
     created_at?: string;
     updated_at?:string;
-    token?: token
+    token?: token;
+   
+    
+    
 }

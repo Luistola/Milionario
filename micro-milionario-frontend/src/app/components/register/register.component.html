@@ -6,10 +6,10 @@
         <div class="signupBox">
             <h1 class="h2 textCenter mb_20">Sign Up</h1>
             <p class="textCenter">Enter your details to create and sign in to your account</p>
-            <form [formGroup]="registerForm" (ngSubmit)="save()">
+            <!-- <form [formGroup]="registerForm" (ngSubmit)="save()">
                 <div class="lsForm mt_32" [formGroup]="registerForm">
                     <div class="formInpt mb_20">
-                        <input type="text" formControlName="username" placeholder="Username">
+                        <input type="text"  formControlName="username" placeholder="Username">
                     </div>
                     <div class="formInpt mb_20">
                         <input type="email" formControlName="email" placeholder="Email">
@@ -31,7 +31,7 @@
                         <div class="customSelect">
                             <select class="selectMenu" formControlName="role" style="width: 100%;"
                                 [(ngModel)]="selectedOption">
-                                <option [value]="selectedOption" selected>Seleccione...</option>
+                                <option value="" selected>Seleccione...</option>
                                 <option value="2">Artista</option>
                                 <option value="3">Fã</option>
                             </select>
@@ -64,12 +64,112 @@
                             I have read and agree to the terms and conditions
                         </label>
                     </div>
-                    <button type="submit" class="btnLogin mb_20">Cadastrar</button>
+                    <button type="submit" [disabled]="registerForm.invalid" [ngClass]="{'disabled-btn': registerForm.invalid}" class="btnLogin mb_20">Cadastrar</button>
 
                     <p class="txt14 fwMedium textCenter">Already have account on Microphone Milionario ? <a
                             routerLink="/login">Sign in</a></p>
                 </div>
-            </form>
+            </form> -->
+
+
+            <form [formGroup]="registerForm" (ngSubmit)="save()">
+                <div class="lsForm mt_32" [formGroup]="registerForm">
+                  <div class="formInpt mb_20">
+                    <input type="text" formControlName="username" placeholder="Username">
+                    <div *ngIf="registerForm.get('username').invalid && (registerForm.get('username').dirty || registerForm.get('username').touched)" class="invalid-feedback text-danger">
+                      Username is required.
+                    </div>
+                  </div>
+                  <div class="formInpt mb_20">
+                    <input type="email" formControlName="email" placeholder="Email">
+                    <div *ngIf="registerForm.get('email').invalid && (registerForm.get('email').dirty || registerForm.get('email').touched)" class="invalid-feedback text-danger">
+                      Please enter a valid email address.
+                    </div>
+                  </div>
+                  <div class="formInpt mb_20">
+                    <input type="tel" formControlName="telefone" placeholder="Telefone">
+                    <div *ngIf="registerForm.get('telefone').invalid && (registerForm.get('telefone').dirty || registerForm.get('telefone').touched)" class="invalid-feedback text-danger">
+                      Please enter a valid phone number.
+                    </div>
+                  </div>
+                  <div class="formInpt mb_20">
+                    <div class="customSelect">
+                      <select class="selectMenu" formControlName="sexo" style="width: 100%;">
+                        <option value="" selected>Seleccione...</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Masculino">Masculino</option>
+                      </select>
+                    </div>
+                    <div *ngIf="registerForm.get('sexo').invalid && (registerForm.get('sexo').dirty || registerForm.get('sexo').touched)" class="invalid-feedback text-danger">
+                      Please select a gender.
+                    </div>
+                  </div>
+                  <div class="formInpt mb_20">
+                    <div class="customSelect">
+                      <select class="selectMenu" formControlName="role" style="width: 100%;" [(ngModel)]="selectedOption">
+                        <option value="" selected>Seleccione...</option>
+                        <option value="2">Artista</option>
+                        <option value="3">Fã</option>
+                      </select>
+                    </div>
+                    <div *ngIf="registerForm.get('role').invalid && (registerForm.get('role').dirty || registerForm.get('role').touched)" class="invalid-feedback text-danger">
+                      Please select a role.
+                    </div>
+                  </div>
+              
+                  <ng-container *ngIf="selectedOption == '2'">
+                    <div class="formInpt mb_20">
+                      <input name="foto" type="file" #inputFile class="form__input" (change)="onChangeFoto($event)">
+                      <div *ngIf="registerForm.get('foto').invalid && (registerForm.get('foto').dirty || registerForm.get('foto').touched)" class="invalid-feedback text-danger">
+                        Please upload a file.
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <ng-container *ngIf="selectedOption == '3'">
+                    <div class="formInpt mb_20">
+                      <input name="foto" type="file" #inputFile class="form__input" (change)="onChangeFoto($event)">
+                      <div *ngIf="registerForm.get('foto').invalid && (registerForm.get('foto').dirty || registerForm.get('foto').touched)" class="invalid-feedback text-danger">
+                        Please upload a file.
+                      </div>
+                    </div>
+                  </ng-container>
+              
+                  <div class="formInpt mb_20">
+                    <input [type]="showPW ? 'text' : 'password'" formControlName="password" placeholder="Senha">
+                    <div *ngIf="registerForm.get('password').invalid && (registerForm.get('password').dirty || registerForm.get('password').touched)" class="invalid-feedback text-danger">
+                      Password is required.
+                    </div>
+                  </div>
+              
+                  <div class="formInpt shPW mb_20">
+                    <input [type]="showPW ? 'text' : 'password'" formControlName="conf_password" placeholder="Confirmar Senha">
+                    <div class="show" role="button" (click)="togglePW()">
+                      <img class="showPW" src="assets/images/pshImgHide.png" alt="MM" [style.display]="showPW ? 'block' : 'none'">
+                      <img class="hidePW" src="assets/images/pshImgShow.png" alt="MM" [style.display]="showPW ? 'none' : 'block'">
+                    </div>
+                    <div *ngIf="registerForm.get('conf_password').invalid && (registerForm.get('conf_password').dirty || registerForm.get('conf_password').touched)" class="invalid-feedback text-danger">
+                      Passwords do not match.
+                    </div>
+                  </div>
+
+
+                  <div class="mb_20">
+                    <label class="tccL txt14 fwBold">
+                      <input type="checkbox" formControlName="terms">
+                      <span class="checkmark"></span>
+                      I have read and agree to the terms and conditions
+                    </label>
+                    <div *ngIf="registerForm.get('terms').invalid && (registerForm.get('terms').dirty || registerForm.get('terms').touched)" class="invalid-feedback text-danger">
+                      Please agree to the terms and conditions.
+                    </div>
+                  </div>
+                  <button type="submit" [disabled]="registerForm.invalid" [ngClass]="{'disabled-btn': registerForm.invalid}" class="btnLogin mb_20">Cadastrar</button>
+
+                  <p class="txt14 fwMedium textCenter">Already have account on Microphone Milionario ? <a
+                          routerLink="/login">Sign in</a></p>
+              </div>
+          </form>
         </div>
     </div>
 </section>

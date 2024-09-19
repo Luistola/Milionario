@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { GeralInterfaceListar } from '../geral/geral-interface-listar';
-import { GeralInterfaceUser } from '../geral/apiReposnse';
+import { GeralInterfaceConcurso, GeralInterfaceUser } from '../geral/apiReposnse';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +23,9 @@ export class VencedorClienteService {
   }
 
   listarVencedorClientesWinner(contestId,pagination, dados):Observable<GeralInterfaceListar>{
-    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/vencedor-cliente/${contestId}`,{pagination:pagination, dados:dados});
+    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/vencedor-cliente/contest/${contestId}`,{pagination:pagination, dados:dados});
   }
-  latestWinnerClient():Observable<GeralInterfaceUser>{
-    return this.http.get<GeralInterfaceUser>(`${this.apiURL}/vencedor-cliente/latest`);
+  latestWinnerClient():Observable<GeralInterfaceConcurso>{
+    return this.http.get<GeralInterfaceConcurso>(`${this.apiURL}/vencedor-cliente/latest`);
   }
 }

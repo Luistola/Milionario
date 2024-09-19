@@ -10,32 +10,35 @@
                     </a>
                     Latest Artist
                 </h1>
-                <div class="customSelect">
+                <!-- <div class="customSelect">
                     <select class="selectMenu">
                         <option value="">All Artists</option>
                         <option value="">Artist 1</option>
                         <option value="">Artist 2</option>
                         <option value="">Artist 3</option>
                     </select>
-                </div>
+                </div> -->
             </div>
             <div class="artistsList">
-                <ul class="dFlex list_4">
-                    <li *ngFor="let a of artistaLista | paginate: { itemsPerPage: pagination.pagination.perPage, currentPage: pagination.pagination.page, totalItems: pagination.pagination.total}; let i=index">
-                        <div class="ssBox">
-                          <div class="ssbImg" (click)="goArtist(a)">
-                            <img [src]="getImageUrl(a.foto)" alt="">
-                          </div>
-                          <div class="ssbTxt">
-                            <div class="mt_8 txt18 fwSemiBold ssbCat">{{a.nome}}</div>
-                          </div>
-                        </div>
-                      </li>
+                <ul class="dFlex list_4" *ngIf="artistaLista.length > 0">
+                  <li *ngFor="let a of artistaLista | paginate: { itemsPerPage: pagination.pagination.perPage, currentPage: pagination.pagination.page, totalItems: pagination.pagination.total}; let i=index">
+                    <div class="ssBox">
+                      <div class="ssbImg" (click)="goArtist(a)">
+                        <img [src]="a.foto ? getImageUrl(a.foto) : './assets/images/defaultUser.jpeg'" alt="MM">
+                      </div>
+                      <div class="ssbTxt">
+                        <div class="mt_8 txt18 fwSemiBold ssbCat">Nome : {{a.nome}}</div>
+                      </div>
+                    </div>
+                  </li>
                 </ul>
-                <div class="mt_56 textCenter">
-                    <button type="button" (click)="artistaPaginacao1(2)" class="btn">View All</button>
+                <div class="mt_56 textCenter" *ngIf="artistaLista.length === 0">
+                  <h3>Artista não encontrado.</h3>
                 </div>
-            </div>
+                <div class="mt_56 textCenter">
+                  <button type="button" (click)="artistaPaginacao1(2)" class="btn">Ver Mais</button>
+                </div>
+              </div>
         </div>
     </div>
 </section>

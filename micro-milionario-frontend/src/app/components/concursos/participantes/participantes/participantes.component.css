@@ -110,14 +110,17 @@
   .row {
     display: flex;
     flex-wrap: wrap; /* allow elements to wrap to the next line */
-    justify-content: left/* distribute elements evenly */
+    justify-content: left;/* distribute elements evenly */
+    margin-top: -67px;
   }
   
   .votecard {
     flex-basis: 40%; /* adjust the width of each element */
-    margin: 20px; /* add some margin between elements */
     background-color: var(--black);
     padding: 32px;
     position: relative;
     
+  }
+  .addwidth{
+    width:512px;
   }

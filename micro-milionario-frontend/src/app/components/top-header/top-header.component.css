@@ -1,0 +1,5 @@
+@media only screen and (max-width: 768px) {
+    .nav li.router-link-active {
+      /* Custom styles for active link in mobile view */
+    }
+  }

@@ -231,7 +231,7 @@ main {
 }
 .container {
   width: 100%;
-  max-width: 1320px;
+  max-width: 1481px;
   padding-left: 15px;
   padding-right: 15px;
   margin-left: auto;
@@ -612,12 +612,12 @@ select:focus {
   height: 16px;
   position: absolute;
   right: 20px;
-  top: 50%;
+  top: 40%;
   transform: translateY(-50%);
   cursor: pointer;
 }
 .shPW button.show img.showPW, .shPW button.hide img.hidePW{
-  pointer-events: none;
+  //pointer-events: none;
 }
 .shPW button.show img.showPW{
   display: block;
@@ -862,6 +862,8 @@ select:focus {
   max-width: none;
   object-fit: cover;
   transition: all ease 0.3s;
+  cursor: pointer;
+
 }
 .ssbImg:hover img{
   transform: scale(1.1);
@@ -872,7 +874,7 @@ select:focus {
   transition: all ease 0.3s;
 }
 .ssbTxt{
-  text-transform: capitalize;
+ // text-transform: capitalize;
 }
 .ssSliderMain{
   position: relative;
@@ -1187,6 +1189,7 @@ select:focus {
   border-radius: 16px;
 }
 .partBox{
+  margin-top: -48px;
 
 }
 .partLeft{
@@ -1194,7 +1197,7 @@ select:focus {
   padding-right: 24px;
 }
 .partRight{
-  width: 424px;
+  /* width: 550px; */
 }
 .adbImg img, .partImg img{
   width: 100%;
@@ -1281,3 +1284,4 @@ select:focus {
 .menuToggle{
   display: none;
 }
+

@@ -4,13 +4,14 @@ import { first } from 'rxjs/operators';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { CarteiraService } from 'src/app/service/carteira/carteira.service';
 import { TopHeaderService } from 'src/app/service/top-header/top-header.service';
+import { UploadFileService } from 'src/app/service/upload/upload-file.service';
 
 @Component({
   selector: 'app-top-header',
   templateUrl: './top-header.component.html',
   styleUrls: ['./top-header.component.css']
 })
-export class TopHeaderComponent implements OnInit {
+export class TopHeaderComponent implements OnInit{
   itensInCarrinho: number;
   carteira;
   carteiraLocal;
@@ -21,13 +22,17 @@ export class TopHeaderComponent implements OnInit {
   userRole;
   profileToggle:string = '';
   toggleModal=false;
+  imageUpdate
+  activeLink = '';
+
 
   constructor(
     private auth: AuthService,
     private carteiraService: CarteiraService,
     private router: Router,
     private topHeaderService: TopHeaderService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private uploadService: UploadFileService,
   ) {
     console.log(this.auth.pegarUsuario);
     this.carteiraService.carteira.subscribe(d=> {
@@ -39,15 +44,28 @@ export class TopHeaderComponent implements OnInit {
     this.userRole=this.auth.pegarUsuario.role_id;
   }
 
+  
+
   ngOnInit() {
     this.topHeaderService.pointsChanged.subscribe((points) => {
       this.points = points;
       this.User = this.auth.pegarUsuario;
       this.getPointsValue(this.User.id);
     });
+
+    this.topHeaderService.imageChanged.subscribe((image)=>{
+      this.User = this.auth.pegarUsuario;
+      this.getImageUrl(image.foto);
+
+    })
     this.User = this.auth.pegarUsuario;
     this.getPointsValue(this.User.id);
+    this.getImageUrl(this.User.foto);
 
+  }
+
+  getImageUrl(filename: string){
+    this.imageUpdate= this.uploadService.getImageUrl('/download/images/',filename);
   }
 
 
@@ -57,7 +75,6 @@ export class TopHeaderComponent implements OnInit {
       const points = await this.carteiraService.listarById(dados).toPromise();
       if (points.code == 200) {
         this.fetchpoints = points.dados[0];
-        console.log("checking..................",this.fetchpoints);
       }
     } catch (error) {
       console.error('Error fetching points:', error);
@@ -91,4 +108,16 @@ export class TopHeaderComponent implements OnInit {
     }
   }
 
+
+  toggleBodyClass() {
+    const body = document.querySelector('body');
+    if (body) {
+      if (body.classList.contains('menuOpen')) {
+        body.classList.remove('menuOpen');
+      } else {
+        body.classList.add('menuOpen');
+      }
+    }
+  }
+  
 }

@@ -13,7 +13,7 @@ import { Location } from '@angular/common';
 export class ConcursosComponent implements OnInit {
 
  
-  concursoLista;
+  concursoLista: any[] = [];
   isloading: boolean= false;
   concursoCarregar
   procurarItem:string

@@ -41,6 +41,9 @@ export class ParticipantesComponent implements OnInit {
   addEntriesData1: any;
   showModal = false;
   voteModal=false;
+  contestEntriesLength
+  itemsToShow: number = 2;
+  itemsToLoad: number = 2;
 
   constructor(
     private route: ActivatedRoute,
@@ -196,14 +199,19 @@ export class ParticipantesComponent implements OnInit {
     try {
       const response = await this.addEntiresService.getcontestAgainstEntires(this.concursoId).toPromise();
       if (response.code == 200) {
-        this.contestEntriesLista = response.dados
-
+        this.contestEntriesLista = response.dados;
+        this.contestEntriesLength = this.contestEntriesLista.length;
+        console.log("lent", this.contestEntriesLista);
+        console.log("Length:", this.contestEntriesLista.length); // <--- Get the length here
+  
       }
-
+  
     } catch (error) {
       console.error(error);
     }
   }
+
+
 
 
   openLink(link: string) {
@@ -213,6 +221,10 @@ export class ParticipantesComponent implements OnInit {
   }
   closePopup(): void {
     this.showModal = false;
+  }
+
+  loadMoreItems() {
+    this.itemsToShow += this.itemsToLoad;
   }
 
 

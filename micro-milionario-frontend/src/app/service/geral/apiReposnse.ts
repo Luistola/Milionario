@@ -18,18 +18,12 @@ export interface GeralInterfaceUser {
 }
 
 
-export interface GeralInterfacePousar {
+export interface GeralInterfaceConcurso {
     code: number,
     message: string,
-    dados: {
-        created_at: string
-        description: string
-        file: string
-        id: number
-        title: string
-        type: string
-        updated_at: string
-    }
+    dados: []
+        
+    
 }
 
 
@@ -61,7 +55,7 @@ export interface createEntiresInterface {
 export interface GetEntriesInterface {
     code: number
     message: string
-    dados: EntiresInterface[]
+    dados: []
   }
   
   export interface EntiresInterface {

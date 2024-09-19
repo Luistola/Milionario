@@ -1,9 +1,13 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { ConcursoService } from 'src/app/service/concurso/concurso.service';
+import { FiltroClass } from 'src/app/service/geral/filtro-service';
 import { UploadFileService } from 'src/app/service/upload/upload-file.service';
 import { VencedorClienteService } from 'src/app/service/vencedor-cliente/vencedor-cliente.service';
 import { VencedorService } from 'src/app/service/vencedor/vencedor.service';
 import Swiper from 'swiper';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -14,11 +18,32 @@ export class HomeComponent implements OnInit, AfterViewInit {
   swiper1;
   swiper2;
   swiper3;
-  latestArtistVencedorLista;
-  latestClientVencedorLista;
+  latestArtistVencedorLista:any[]=[];
+  latestClientVencedorLista:any[]=[];
+  concursoLista: any[] = [];
+  isloading: boolean= false;
+  concursoCarregar
+  procurarItem:string
+  slideSelecionado: any;
+  itemsToShow: number = 3;
+  itemsToLoad: number = 3;
+  User;
+  
 
   constructor( private vencedorService: VencedorService,
-    private vencedorClienteService: VencedorClienteService, private uploadService: UploadFileService, private router: Router,) { }
+    private vencedorClienteService: VencedorClienteService, private uploadService: UploadFileService, private router: Router, public pagination: FiltroClass,
+    private concursoService: ConcursoService,  private auth: AuthService,  private location: Location
+    ) { }
+
+
+    ngOnInit() {
+      this.User = this.auth.pegarUsuario;
+      console.log("user profile",this.User);
+      this.concursoPaginacao(1);
+      this.latestWinnerArtist();
+      this.latestWinnerClient();
+     
+    }
 
   ngAfterViewInit(): void {
     this.swiper1 = new Swiper(".ssSlider1", {
@@ -26,6 +51,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       slidesPerGroup: 1,
       spaceBetween: 24,
       loop: true,
+      minSlides: 4, 
       mousewheel: false,
       freeMode: false,
       navigation: {
@@ -54,7 +80,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           spaceBetween: 24,
         },
       },
-    });
+    }as any);
 
     this.swiper2 = new Swiper(".ssSlider2", {
       slidesPerView: 3,
@@ -92,11 +118,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit() {
-    this.latestWinnerArtist();
-    this.latestWinnerClient();
-   
-  }
+  
 
   prevSlider(swiper) {
     swiper.slidePrev();
@@ -111,11 +133,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
 
+
+  
+
   async latestWinnerArtist(){
     const latestArtistVencedor= await this.vencedorService.latestWinnerArtist().toPromise();
      if(latestArtistVencedor.code == 200){
       this.latestArtistVencedorLista= latestArtistVencedor.dados;
-      console.log("latestWinnerArtist",this.latestArtistVencedorLista);
     }
 
   }
@@ -124,7 +148,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const latestClientVencedor= await this.vencedorClienteService.latestWinnerClient().toPromise();
      if(latestClientVencedor.code == 200){
       this.latestClientVencedorLista= latestClientVencedor.dados;
-      console.log("latestWinnerClient",this.latestClientVencedorLista);
     }
     
   }
@@ -132,4 +155,49 @@ export class HomeComponent implements OnInit, AfterViewInit {
   goArtist(artista){
     this.router.navigate(['/dashboard/artists/artist', artista.id]);
    }
+
+
+   async listarConcursos(){
+    this.isloading= true
+     const listagemConcurso= await this.concursoService.listarConcursos1(this.procurarItem).toPromise();
+     if(listagemConcurso.code == 200){
+       this.isloading= false;
+      this.concursoLista= listagemConcurso.dados;
+    }
+  }
+
+   concursoPaginacao(page:number): void{
+
+     if(this.pagination.pagination.page == null){
+       this.pagination.pagination.page=1;
+     }else{
+       this.pagination.pagination.page= page
+       this.listarConcursos()
+     }
+
+   }
+
+   goParticipanteList(concurso){
+    this.router.navigate(['/dashboard/concursos/participantes', concurso.id]);
+    
+   }
+
+   seeMoreWinner(){
+      this.router.navigate(['/dashboard/winners']);
+   }
+
+   loadMoreItems() {
+    if(this.itemsToShow += this.itemsToLoad){
+      this.router.navigate(['/dashboard/concursos']);
+
+    }
+
+    
+
+    
+   
+  }
+
+  
+
 }

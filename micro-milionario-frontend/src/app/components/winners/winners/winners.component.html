@@ -3,75 +3,128 @@
         <div class="ssIn">
             <div class="dFlex mb_40 ssHD">
                 <h1 class="dFlex h4">
-                    <a href="#" class="back">
+                    <a (click)="goBack()" class="back">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M16 22L6 12L16 2L17.775 3.775L9.55 12L17.775 20.225L16 22Z" fill="" />
                         </svg>
                     </a>
-                    Latest Winner
+                    <span>{{ (latestArtistVencedorLista?.length > 0 && latestClientVencedorLista.length > 0) ? 'Latest
+                        Winner' : 'Winners' }}</span>
+
                 </h1>
                 <div class="customSelect">
-                    <select class="selectMenu">
+                    <select class="selectMenu" [(ngModel)]="selectedOption"
+                        (change)="carregarListasWinner($event.target.value)">
                         <option value="">All Winners</option>
-                        <!-- Loop through concursoLista array and create options -->
                         <option *ngFor="let c of concursoLista" [value]="c.id">{{ c.nome }}</option>
                     </select>
                 </div>
             </div>
-            <div class="artistsList">
+            <!-- getWinner -->
+            <div class="artistsList" *ngIf="vencedorParticipanteLista?.length > 0 && vencedorClienteLista.length > 0">
                 <ul class="dFlex list_4">
-                    <li *ngFor="let v of latestArtistVencedorLista;">
+                    <li *ngFor="let p of vencedorParticipanteLista |slice:0:itemsToShow;">
                         <div class="ssBox">
                             <div class="ssbImg">
-                                <img [src]="getImageUrl(v.foto)" alt="MM">
-                                <div class="fwSemiBold colorBlack wnrTag">{{v.posicao}}Price</div>
+                                <img [src]="p.artist_foto ? getImageUrl(p.artist_foto) : './assets/images/defaultUser.jpeg'"
+                                    alt="MM">
+                                <div class="fwSemiBold colorBlack wnrTag">{{p.vencedor_posicao}}</div>
                             </div>
                             <div class="ssbTxt">
-                                <div class="mt_8 ssbNm">{{v.nome}}</div>
-                                <div class="mt_4 txt18 fwSemiBold ssbCat">{{v.contest_name}}</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Nome : {{p.artist_nome}}</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Concurso : {{p.concurso_nome}}</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Total de votos : {{p.vencedor_total_votos}}
+                                    <div class="mt_4 txt18 fwSemiBold ssbCat">Prémio : {{p.premio}}</div>
+                                    <div class="mt_8 txt18 fwSemiBold ssbCat">Início - <span>{{p.data_inicio |
+                                        formatDate}}</span></div>
+                                <div class="mt_8 txt18 fwSemiBold ssbCat">Final - <span>{{p.data_fim
+                                        |formatDate}}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li *ngFor="let p of vencedorClienteLista |slice:0:itemsToShow;">
+                        <div class="ssBox">
+                            <div class="ssbImg">
+                                <img [src]="p.foto ? getImageUrl(p.foto) : './assets/images/winners.jpeg'" alt="MM">
+                                <div class="fwSemiBold colorBlack wnrTag">{{p.vencedor_posicao}}</div>
+                            </div>
+                            <div class="ssbTxt">
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Nome : {{p.client_nome}}</div>
+                                <div class="mt_8 txt18 fwSemiBold ssbCat">Concurso : {{p.concurso_nome}}</div>
+                                <div class="mt_8 txt18 fwSemiBold ssbCat">Total de votos : {{p.vencedor_total_votos}}</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Prémio : {{p.premio}}</div>
+                                <div class="mt_8 txt18 fwSemiBold ssbCat">Início - <span>{{p.data_inicio |
+                                    formatDate}}</span></div>
+                            <div class="mt_8 txt18 fwSemiBold ssbCat">Final - <span>{{p.data_fim
+                                    |formatDate}}</span></div>
+
                             </div>
                         </div>
                     </li>
                 </ul>
-                <!-- <div class="mt_56 textCenter">
-                    <a href="#" class="btn">View All</a>
-                </div> -->
+                <div class="mt_56 textCenter"
+                    *ngIf="(vencedorParticipanteLista?.length > 0 && vencedorClienteLista?.length > 0 )">
+                    <a (click)="loadMoreItems()" class="btn">Ver Mais</a>
+                </div>
+
+                <div class="mt_56 textCenter"
+                    *ngIf="!(vencedorParticipanteLista?.length > 0 && vencedorClienteLista?.length > 0 )">
+                    <h3>O vencedor não sai
+                        .</h3>
+                </div>
             </div>
-        </div>
-    </div>
-</section>
-<section class="sec pt_80 pb_80 artistsSec">
-    <div class="container">
-        <div class="ssIn">
-            <div class="dFlex mb_40 ssHD">
-                <h1 class="dFlex h4">
-                    <a class="back">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16 22L6 12L16 2L17.775 3.775L9.55 12L17.775 20.225L16 22Z" fill="" />
-                        </svg>
-                    </a>
-                    Latest Winner Client
-                </h1>
-               
-            </div>
-            <div class="artistsList">
+
+            <!-- getLatestWinner -->
+            <div class="artistsList"
+                *ngIf="latestArtistVencedorLista?.length > 0 && latestClientVencedorLista.length > 0">
                 <ul class="dFlex list_4">
-                    <li *ngFor="let c of latestClientVencedorLista;">
+                    <li *ngFor="let v of latestArtistVencedorLista |slice:0:itemsToShow;">
                         <div class="ssBox">
                             <div class="ssbImg">
-                                <img [src]="getImageUrl(c.foto)" alt="MM">
-                                <div class="fwSemiBold colorBlack wnrTag">{{c.posicao}}Price</div>
+                                <img [src]="v.foto ? getImageUrl(v.foto) : './assets/images/winners.jpeg'" alt="MM">
+                                <div class="fwSemiBold colorBlack wnrTag">{{v.posicao}}</div>
                             </div>
                             <div class="ssbTxt">
-                                <div class="mt_8 ssbNm">{{c.nome}}</div>
-                                <div class="mt_4 txt18 fwSemiBold ssbCat">Angola Dance Winner</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Concurso : {{v.concursos_nome}}</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Perfil : {{v.role_name}}</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Nome : {{v.nome}}</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Total de votos : {{v.total_votos}}</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Prémio : {{v.premio}}</div>
+                                <div class="mt_8 txt18 fwSemiBold ssbCat">Início - <span>{{v.data_inicio |
+                                        formatDate}}</span></div>
+                                <div class="mt_8 txt18 fwSemiBold ssbCat">Final - <span>{{v.data_fim
+                                        |formatDate}}</span></div>
                             </div>
                         </div>
-                    </li> 
+                    </li>
+                    <li *ngFor="let c of latestClientVencedorLista |slice:0:itemsToShow;">
+                        <div class="ssBox">
+                            <div class="ssbImg">
+                                <img [src]="c.foto ? getImageUrl(c.foto) : './assets/images/winners.jpeg'" alt="MM">
+                                <div class="fwSemiBold colorBlack wnrTag">{{c.posicao}}</div>
+                            </div>
+                            <div class="ssbTxt">
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Concurso : {{c.concursos_nome}}</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Perfil : {{c.role_name}}</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Nome : {{c.nome}}</div>
+                                <div class="mt_8 txt18 fwSemiBold ssbCat">Total de votos : {{c.total_votos}}</div>
+                                <div class="mt_4 txt18 fwSemiBold ssbCat">Prémio : {{c.premio}}</div>
+                                <div class="mt_8 txt18 fwSemiBold ssbCat">Início - <span>{{c.data_inicio | formatDate}}</span></div>
+                                <div class="mt_8 txt18 fwSemiBold ssbCat">Final - <span>{{c.data_fim |formatDate}}</span></div>
+
+                            </div>
+                        </div>
+                    </li>
                 </ul>
-                
-                <div class="mt_56 textCenter">
-                    <a href="#" class="btn">View All</a>
+                <div class="mt_56 textCenter"
+                    *ngIf="(latestArtistVencedorLista?.length > 0 && latestClientVencedorLista?.length > 0 )">
+                    <a (click)="loadMoreItems()" class="btn">Ver Mais</a>
+                </div>
+
+                <div class="mt_56 textCenter"
+                    *ngIf="!(latestArtistVencedorLista?.length > 0 && latestClientVencedorLista?.length > 0 )">
+                    <h3>O último vencedor não sai</h3>
                 </div>
             </div>
         </div>

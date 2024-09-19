@@ -19,9 +19,14 @@ import { ToastrModule } from 'ngx-toastr';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthHelpers } from './service/geral/auth-helpers.interceptor';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { WinnersComponent } from './components/winners/winners/winners.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { VencedorClienteService } from './service/vencedor-cliente/vencedor-cliente.service';
+import { VencedorService } from './service/vencedor/vencedor.service';
+import { FormatDatePipe } from './pipes/format-date.pipe';
+import { SharedModule } from './components/shared/shared.module';
+import { FilterpipePipe } from './pipes/filterpipe.pipe';
 
 @NgModule({
   declarations: [
@@ -39,6 +44,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     CarteiraComponent,
     ContactComponent,
     WinnersComponent,
+    FilterpipePipe
+    
 
 
   ],
@@ -49,9 +56,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     HttpClientModule,
     NoopAnimationsModule,
-    
+    SharedModule,
+    CommonModule,
     ToastrModule.forRoot()
   ],
+  exports:[],
   providers: [
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthHelpers, multi: true,

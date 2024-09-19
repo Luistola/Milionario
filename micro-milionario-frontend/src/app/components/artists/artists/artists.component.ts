@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class ArtistsComponent implements OnInit {
 
   
-  artistaLista: [];
+  artistaLista: any[]=[];
   isloading: boolean= false;
   artistaCarregar
   procurarItem:string
@@ -40,7 +40,7 @@ export class ArtistsComponent implements OnInit {
      const listagemArtista= await this.artistService.listarArtistas(this.pagination.pagination, this.procurarItem).toPromise();
      if(listagemArtista.code == 200){
        this.isloading= false;
-      this.artistaLista= listagemArtista.dados.data
+       this.artistaLista= listagemArtista.dados.data
       this.pagination.pagination.lastPage= listagemArtista.dados.lastPage;
       this.pagination.pagination.page= listagemArtista.dados.page;
       this.pagination.pagination.perPage= listagemArtista.dados.perPage;

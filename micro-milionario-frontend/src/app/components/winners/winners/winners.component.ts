@@ -6,6 +6,7 @@ import { VencedorService } from 'src/app/service/vencedor/vencedor.service';
 import { VencedorClienteService } from 'src/app/service/vencedor-cliente/vencedor-cliente.service';
 import { ConcursoService } from 'src/app/service/concurso/concurso.service';
 import { UploadFileService } from 'src/app/service/upload/upload-file.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-winners',
@@ -17,18 +18,18 @@ export class WinnersComponent implements OnInit {
   vencedorClienteLista: [];
   concursoLista;
   concursoId;
-  concursoSelecionado:string = 'Todos Concursos';
-  isloading: boolean= false;
-  tituloCliente: boolean= false;
+  concursoSelecionado: string = 'Todos Concursos';
+  isloading: boolean = false;
+  tituloCliente: boolean = false;
   votacaoCarregar;
-  selectedOption;
-  procurarItem:string;
+  selectedOption='';
+  procurarItem: string;
   concurso = new Array<any>();
-  latestArtistVencedorLista;
-  latestClientVencedorLista;
-  itemsToShow: number = 6;
-  itemsToLoad: number = 6;
-  data;
+  latestArtistVencedorLista: any[] = [];
+  latestClientVencedorLista: any[] = [];
+  itemsToShow: number = 2;
+  itemsToLoad: number = 2;
+  
 
 
   constructor(
@@ -39,7 +40,8 @@ export class WinnersComponent implements OnInit {
     private concursoService: ConcursoService,
     private uploadService: UploadFileService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -56,17 +58,17 @@ export class WinnersComponent implements OnInit {
       });
       // this.concursoId = this.encryptionService.decryptData(encryptedParam);
     });
-    if(this.concurso[0].id != undefined){
+    if (this.concurso[0].id != undefined) {
       this.carregarListas(this.concurso[0]);
     }
 
-     this.votacaoPaginacaoPorParticipante(1);
-     this.votacaoPaginacaoPorCliente(1);
+   // this.votacaoPaginacaoPorParticipante(1);
+   // this.votacaoPaginacaoPorCliente(1);
 
   }
-  
 
-  async carregarListas(concurso){
+
+  async carregarListas(concurso) {
     this.selectedOption = concurso.id;
     this.concursoSelecionado = concurso.nome;
     console.log(this.selectedOption);
@@ -75,97 +77,184 @@ export class WinnersComponent implements OnInit {
     await this.votacaoPaginacaoPorCliente(1);
   }
 
-  async listarVencedorPorParticipante(){
+  async listarVencedorPorParticipante() {
     // console.log(this.selectedOption);
-    this.isloading= true
-     const listagemVencedor= await this.vencedorService.listarVencedoresArtistList(this.selectedOption,this.pagination.pagination, this.selectedOption).toPromise();
-     if(listagemVencedor.code == 200){
-       this.isloading= false;
-      this.vencedorParticipanteLista= listagemVencedor.dados.data
-      this.pagination.pagination.lastPage= listagemVencedor.dados.lastPage;
-      this.pagination.pagination.page= listagemVencedor.dados.page;
-      this.pagination.pagination.perPage= listagemVencedor.dados.perPage;
+    this.isloading = true
+    const listagemVencedor = await this.vencedorService.listarVencedoresArtistList(this.selectedOption, this.pagination.pagination, this.selectedOption).toPromise();
+    if (listagemVencedor.code == 200) {
+      this.isloading = false;
+      this.vencedorParticipanteLista = listagemVencedor.dados.data
+      this.pagination.pagination.lastPage = listagemVencedor.dados.lastPage;
+      this.pagination.pagination.page = listagemVencedor.dados.page;
+      this.pagination.pagination.perPage = listagemVencedor.dados.perPage;
       this.pagination.pagination.total = listagemVencedor.dados.total;
-      console.log("pppppppppppppppppppppppp",this.vencedorParticipanteLista);
     }
   }
 
-   votacaoPaginacaoPorParticipante(page:number): void{
-     if(this.pagination.pagination.page == null){
-       this.pagination.pagination.page=1;
-     }else{
-       this.pagination.pagination.page= page
-       this.listarVencedorPorParticipante()
-     }
+  votacaoPaginacaoPorParticipante(page: number): void {
+    if (this.pagination.pagination.page == null) {
+      this.pagination.pagination.page = 1;
+    } else {
+      this.pagination.pagination.page = page
+      this.listarVencedorPorParticipante()
+    }
 
-   }
+  }
 
-   async listarVencedorPorCliente(){
+  async listarVencedorPorCliente() {
     // console.log(this.selectedOption);
-    this.isloading= true
-     const listagemVencedor= await this.vencedorClienteService.listarVencedorClientesWinner(this.selectedOption,this.pagination.pagination, this.selectedOption).toPromise();
-     if(listagemVencedor.code == 200){
-       this.isloading= false;
-      this.vencedorClienteLista= listagemVencedor.dados.data
-      this.pagination.pagination.lastPage= listagemVencedor.dados.lastPage;
-      this.pagination.pagination.page= listagemVencedor.dados.page;
-      this.pagination.pagination.perPage= listagemVencedor.dados.perPage;
+    this.isloading = true
+    const listagemVencedor = await this.vencedorClienteService.listarVencedorClientesWinner(this.selectedOption, this.pagination.pagination, this.selectedOption).toPromise();
+    if (listagemVencedor.code == 200) {
+      this.isloading = false;
+      this.vencedorClienteLista = listagemVencedor.dados.data
+      this.pagination.pagination.lastPage = listagemVencedor.dados.lastPage;
+      this.pagination.pagination.page = listagemVencedor.dados.page;
+      this.pagination.pagination.perPage = listagemVencedor.dados.perPage;
       this.pagination.pagination.total = listagemVencedor.dados.total;
-      console.log("listarVencedorPorCliente",this.vencedorClienteLista);
     }
   }
 
-   votacaoPaginacaoPorCliente(page:number): void{
-     if(this.pagination.pagination.page == null){
-       this.pagination.pagination.page=1;
-     }else{
-       this.pagination.pagination.page= page
-       this.listarVencedorPorCliente()
-     }
+  votacaoPaginacaoPorCliente(page: number): void {
+    if (this.pagination.pagination.page == null) {
+      this.pagination.pagination.page = 1;
+    } else {
+      this.pagination.pagination.page = page
+      this.listarVencedorPorCliente()
+    }
 
-   }
+  }
 
-   async listarConcursos(){
-    const ended=true;
-    this.isloading= true
-     const listagemConcurso= await this.concursoService.listarConcursoWinner(ended).toPromise();
-     if(listagemConcurso.code == 200){
-       this.isloading= false;
-      this.concursoLista= listagemConcurso.dados
-      console.log("get lister.........................",listagemConcurso);
+  async listarConcursos() {
+    try {
+      this.isloading = true;
+      const listagemConcurso = await this.concursoService.listarConcursoGenerateWinner().toPromise();
+      if (listagemConcurso.code == 200) {
+        this.isloading = false;
+        this.concursoLista = listagemConcurso.dados;
+      } else {
+        console.error("Error listing concursos:", listagemConcurso);
+      }
+    } catch (error) {
+      console.error("Error listing concursos:", error);
+      this.isloading = false;
     }
   }
 
-   goArtist(artista){
+  goArtist(artista) {
     this.router.navigate(['/dashboard/artists/artist', artista.id]);
-   }
+  }
 
-   getImageUrl(filename: string){
-    return this.uploadService.getImageUrl('/download/images/',filename);
+  getImageUrl(filename: string) {
+    return this.uploadService.getImageUrl('/download/images/', filename);
   }
 
 
 
-  async latestWinnerArtist(){
-    const latestArtistVencedor= await this.vencedorService.latestWinnerArtist().toPromise();
-     if(latestArtistVencedor.code == 200){
-      this.latestArtistVencedorLista= latestArtistVencedor.dados;
-      console.log("latestWinnerArtist",this.latestArtistVencedorLista);
+  async latestWinnerArtist() {
+    const latestArtistVencedor = await this.vencedorService.latestWinnerArtist().toPromise();
+    if (latestArtistVencedor.code == 200) {
+      this.latestArtistVencedorLista = latestArtistVencedor.dados;
     }
 
   }
 
- async latestWinnerClient(){
-    const latestClientVencedor= await this.vencedorClienteService.latestWinnerClient().toPromise();
-     if(latestClientVencedor.code == 200){
-      this.latestClientVencedorLista= latestClientVencedor.dados;
-      console.log("latestWinnerClient",this.latestClientVencedorLista);
+  async latestWinnerClient() {
+    const latestClientVencedor = await this.vencedorClienteService.latestWinnerClient().toPromise();
+    if (latestClientVencedor.code == 200) {
+      this.latestClientVencedorLista = latestClientVencedor.dados;
     }
-    
+
   }
 
-   goBack(){
+
+
+  async latestWinnerArtistRemove() {
+    this.latestArtistVencedorLista = null;
+
+  }
+
+  async latestWinnerClientRemove() {
+    this.latestClientVencedorLista = null;
+
+  }
+
+
+
+  loadMoreItems() {
+    this.itemsToShow += this.itemsToLoad;
+  }
+
+  goBack() {
     this.location.back();
   }
+
+
+
+
+  carregarListasWinner(data:any) {
+    this.latestWinnerArtistRemove();
+    this.latestWinnerClientRemove();
+    this.votacaoPaginacaoPorParticipanteArtist(1);
+    this.votacaoPaginacaoPorClienteWinner(1);
+  }
+
+  async listarVencedoresPorParticipante() {
+    this.isloading = true
+    const listagemVencedorParticipante = await this.vencedorService.listarVencedoresArtistList(this.selectedOption, this.pagination.pagination, this.selectedOption).toPromise();
+    if (listagemVencedorParticipante.code == 200) {
+      this.isloading = false;
+      this.vencedorParticipanteLista = listagemVencedorParticipante.dados.data
+      this.pagination.pagination.lastPage = listagemVencedorParticipante.dados.lastPage;
+      this.pagination.pagination.page = listagemVencedorParticipante.dados.page;
+      this.pagination.pagination.perPage = listagemVencedorParticipante.dados.perPage;
+      this.pagination.pagination.total = listagemVencedorParticipante.dados.total;
+      if (this.vencedorParticipanteLista.length == 0) {
+        this.toastr.warning('vencedor não existe');
+
+      }
+    }
+  }
+
+  votacaoPaginacaoPorParticipanteArtist(page: number): void {
+    if (this.pagination.pagination.page == null) {
+      this.pagination.pagination.page = 1;
+    } else {
+      this.pagination.pagination.page = page
+      this.listarVencedoresPorParticipante()
+    }
+
+  }
+
+  async listarVencedorPorClienteWinner() {
+    this.isloading = true
+    const listagemVencedorCliente = await this.vencedorClienteService.listarVencedorClientesWinner(this.selectedOption, this.pagination.pagination, this.selectedOption).toPromise();
+    if (listagemVencedorCliente.code == 200) {
+      this.isloading = false;
+      this.vencedorClienteLista = listagemVencedorCliente.dados.data
+      this.pagination.pagination.lastPage = listagemVencedorCliente.dados.lastPage;
+      this.pagination.pagination.page = listagemVencedorCliente.dados.page;
+      this.pagination.pagination.perPage = listagemVencedorCliente.dados.perPage;
+      this.pagination.pagination.total = listagemVencedorCliente.dados.total;
+      if (this.vencedorClienteLista.length == 0) {
+        this.toastr.warning('vencedor não existe');
+
+      }
+    }
+  }
+
+  votacaoPaginacaoPorClienteWinner(page: number): void {
+    if (this.pagination.pagination.page == null) {
+      this.pagination.pagination.page = 1;
+    } else {
+      this.pagination.pagination.page = page
+      this.listarVencedorPorCliente()
+    }
+
+  }
+
+
+ 
+
 
 }

@@ -11,13 +11,22 @@ import { AuthService } from 'src/app/service/auth/auth.service';
 export class FooterComponent implements OnInit {
 
   user: Usuario;
+  activeLink = '';
+  username
+  userRole;
 
   constructor(
     private router: Router,
     private auth: AuthService,
   ) {
 
+    this.username = this.auth.pegarUsuario;
+    this.userRole=this.auth.pegarUsuario.role_id;
+
   }
+
+  
+
 
   ngOnInit() {
     this.user = this.auth.pegarUsuario;

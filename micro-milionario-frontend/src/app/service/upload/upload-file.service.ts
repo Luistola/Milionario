@@ -19,7 +19,12 @@ export class UploadFileService {
     return this.http.post<ImageResponse>(`${this.apiURL}${url}`, formData);
   }
 
+  
+
   getImageUrl(url: string, filename: string) {
     return `${this.apiURL}${url}${filename}`;
+  }
+  getImageUrlnew(url: string, filename: string):Observable<ImageResponse>{
+    return this.http.get<ImageResponse> (`${this.apiURL}${url}${filename}`);
   }
 }

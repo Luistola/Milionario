@@ -1,48 +1,114 @@
 <section class="sec homeBnrSec">
-    <div class="homeBnr">
-        <img src="assets/images/homeBannerImg.jpg" alt="MM">
-    </div>
+  <div class="homeBnr">
+    <img src="assets/images/homeBannerImg.jpg" alt="MM">
+  </div>
 </section>
 
 <section class="sec mt_56 ssSec">
-    <div class="container">
-        <div class="ssIn">
-            <div class="dFlex mb_24 ssHD">
-                <h2 class="h6">Latest Winner</h2>
-                <a  class="txt18 dFlex seeAll">
-                    <span>See All</span>
-                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13.6 12.5006L9 7.90062L9.70775 7.19287L15.0155 12.5006L9.70775 17.8084L9 17.1006L13.6 12.5006Z" fill=""/>
-                    </svg>
-                </a>
-            </div>
-            <div class="ssSliderMain">
-                <div class="swiper ssSlider1">
-                    <ul class="swiper-wrapper">
-                        <li class="swiper-slide" *ngFor="let v of latestArtistVencedorLista;">
-                            <div class="ssBox">
-                                <div class="ssbImg">
-                                    <img [src]="getImageUrl(v.foto)" alt="MM">
-                                </div>
-                                <div class="ssbTxt">
-                                    <div class="mt_8 ssbNm">{{v.nome}}</div>
-                                    <div class="mt_4 txt18 fwSemiBold ssbCat">{{v.contest_name}}</div>
-                                    <!-- <div class="mt_4 fwLight ssbDt">21/07/2023</div> -->
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+  <div class="container">
+    <div class="ssIn">
+      <div class="dFlex mb_24 ssHD">
+        <h2 class="h6">Latest Winner</h2>
+        <a class="txt18 dFlex seeAll">
+          <span (click)="seeMoreWinner()">See All</span>
+          <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.6 12.5006L9 7.90062L9.70775 7.19287L15.0155 12.5006L9.70775 17.8084L9 17.1006L13.6 12.5006Z"
+              fill="" />
+          </svg>
+        </a>
+      </div>
+      <div class="ssSliderMain">
+        <div class="swiper ssSlider1">
+          <ul class="swiper-wrapper">
+            <li class="swiper-slide" *ngFor="let v of latestArtistVencedorLista ;">
+              <div class="ssBox">
+                <div class="ssbImg">
+                  <img [src]="v.foto ? getImageUrl(v.foto) : './assets/images/winners.jpeg'" alt="MM">
                 </div>
-                <div class="swiper-nav">
-                    <div class="swiper-button-next swiper-button-next1"(click)="nextSlider(swiper1)" ></div>
-                    <div class="swiper-button-prev swiper-button-prev1" (click)="prevSlider(swiper1)"></div>
+                <div class="ssbTxt">
+                  <div class="mt_4 txt18 fwSemiBold ssbCat">Concurso : {{v.concursos_nome}}</div>
+                  <!-- <div class="mt_4 txt18 fwSemiBold ssbCat">Nome do Concurso  :{{v.contest_name}}</div> -->
+                  <div class="mt_4 txt18 fwSemiBold ssbCat">Perfil : {{v.role_name}}</div>
+                  <div class="mt_4 txt18 fwSemiBold ssbCat">Nome : {{v.nome}}</div>
+                  <div class="mt_4 txt18 fwSemiBold ssbCat">Total de votos : {{v.total_votos}}</div>
+                  <div class="mt_4 txt18 fwSemiBold ssbCat">Prémio : {{v.premio}}</div>
+                  <div class="mt_8 txt18 fwSemiBold ssbCat">Início - <span>{{v.data_inicio | formatDate}}</span></div>
+                  <div class="mt_8 txt18 fwSemiBold ssbCat">Final - <span>{{v.data_fim |formatDate}}</span></div>
                 </div>
-            </div>
+              </div>
+            </li>
+
+            <li class="swiper-slide" *ngFor="let v of latestClientVencedorLista;">
+              <div class="ssBox">
+                <div class="ssbImg">
+                  <img [src]="v.foto ? getImageUrl(v.foto) : './assets/images/winners.jpeg'" alt="MM">
+                </div>
+                <div class="ssbTxt">
+                  <div class="mt_4 txt18 fwSemiBold ssbCat">Concurso : {{v.concursos_nome}}</div>
+                  <!-- <div class="mt_8 txt18 fwSemiBold ssbCat">Nome do Concurso: {{v.contest_name}}</div> -->
+                  <div class="mt_4 txt18 fwSemiBold ssbCat">Perfil : {{v.role_name}}</div>
+                  <div class="mt_4 txt18 fwSemiBold ssbCat">Nome : {{v.nome}}</div>
+                  <div class="mt_8 txt18 fwSemiBold ssbCat">Total de votos : {{v.total_votos}}</div>
+                  <div class="mt_4 txt18 fwSemiBold ssbCat">Prémio : {{v.premio}}</div>
+                  <div class="mt_8 txt18 fwSemiBold ssbCat">Início - <span>{{v.data_inicio | formatDate}}</span></div>
+                  <div class="mt_8 txt18 fwSemiBold ssbCat">Final - <span>{{v.data_fim |formatDate}}</span></div>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
+        <div class="swiper-nav">
+          <div class="swiper-button-next swiper-button-next1" (click)="nextSlider(swiper1)"></div>
+          <div class="swiper-button-prev swiper-button-prev1" (click)="prevSlider(swiper1)"></div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<section class="sec mt_56 ssSec">
+<section class="sec pt_80 pb_80 contestSec">
+  <div class="container">
+    <div class="ssIn">
+      <div class="dFlex mb_40 ssHD">
+        <h1 class="dFlex h4">
+          <a  class="back">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 22L6 12L16 2L17.775 3.775L9.55 12L17.775 20.225L16 22Z" fill="" />
+            </svg>
+          </a>
+          Latest Contest
+        </h1>
+      </div>
+      <div class="contestList">
+        <ul class="dFlex list_3" *ngIf="concursoLista.length > 0">
+          <li *ngFor="let c of concursoLista|slice:0:itemsToShow">
+            <div class="ssBox">
+              <div class="ssbImg h_240">
+                <a (click)="goParticipanteList(c)"><img [src]="getImageUrl(c.foto)" alt="MM"></a>
+              </div>
+              <div class="ssbTxt">
+                <div class="mt_8 txt18 fwSemiBold ssbCat">Concurso : {{c.nome}}</div>
+                <div class="mt_8 txt18 fwSemiBold ssbCat">Início - <span>{{c.data_inicio | formatDate}}</span></div>
+                <div class="mt_8 txt18 fwSemiBold ssbCat">Final - <span>{{c.data_fim |formatDate}}</span></div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="mt_56 textCenter" *ngIf="concursoLista.length > 0">
+          <a (click)="loadMoreItems()" class="btn">Ver Mais</a>
+        </div>
+        <div class="mt_56 textCenter" *ngIf="concursoLista.length === 0">
+          <h3>Nenhum concurso encontrado.</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- <section class="sec mt_56 ssSec">
     <div class="container">
         <div class="ssIn">
             <div class="dFlex mb_24 ssHD">
@@ -60,13 +126,12 @@
                         <li class="swiper-slide" *ngFor="let v of latestClientVencedorLista;">
                             <div class="ssBox">
                                 <div class="ssbImg">
-                                    <img [src]="getImageUrl(v.foto)" alt="MM">
-                                </div>
+                                    <img src="assets/images/winners.jpeg" alt="MM">
+                                  </div>
                                 <div class="ssbTxt">
                                     <div class="mt_8 ssbNm">{{v.nome}}</div>
                                     <div class="mt_8 txt18 fwSemiBold ssbCat">{{v.contest_name}}</div>
-                                    <!-- <div class="mt_4 ssbDt">start Date - <span>13/09/2023</span></div>
-                                    <div class="mt_4 ssbDt">Final Date - <span>25/09/2023</span></div> -->
+                                    
                                 </div>
                             </div>
                         </li>
@@ -79,5 +144,4 @@
             </div>
         </div>
     </div>
-</section>
-
+</section> -->

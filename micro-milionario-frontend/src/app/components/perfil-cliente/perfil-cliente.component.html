@@ -19,27 +19,39 @@
           <form class="lsForm mt_32" [formGroup]="perfilForm" (ngSubmit)="update()">
 
             <div class="formInpt mb_20">
-              <input id="name" name="nome" type="text" [(ngModel)]="clientObject.nome" class="form__input"
-                formControlName="nome" [ngClass]="{'is-invalid': usernameValidate}" placeholder="Nome">
+              <input id="name" name="nome" type="text" formControlName="nome" class="form__input"
+                     [ngClass]="{'is-invalid': usernameValidate}" placeholder="Nome">
               <div
                 *ngIf="perfilForm.get('nome').invalid && (perfilForm.get('nome').dirty || perfilForm.get('nome').touched)"
                 class="invalid-feedback text-danger">
                 Username is required and must be at least 3 characters long.
               </div>
             </div>
+          
             <div class="formInpt shPW mb_20">
-              <input id="telefone" name="telefone" type="number" [(ngModel)]="clientObject.telefone"
-                formControlName="telefone" [ngClass]="{'is-invalid': telValidate}" placeholder="Telefone">
+              <input id="telefone" name="telefone" type="number" formControlName="telefone"
+                     [ngClass]="{'is-invalid': telValidate}" placeholder="Telefone">
               <div
                 *ngIf="perfilForm.get('telefone').invalid && (perfilForm.get('telefone').dirty || perfilForm.get('telefone').touched)"
                 class="invalid-feedback text-danger">
                 Telefone is required and must contain only numbers.
               </div>
             </div>
+          
+            <div class="formInpt mb_20">
+              <input id="name" name="email" type="email" formControlName="email" class="form__input"
+                     [ngClass]="{'is-invalid': usernameValidate}" placeholder="Email">
+              <div
+                *ngIf="perfilForm.get('email').invalid && (perfilForm.get('email').dirty || perfilForm.get('email').touched)"
+                class="invalid-feedback text-danger">
+                Please enter a valid email address.
+              </div>
+            </div>
+          
             <div class="formInpt shPW mb_20">
               <div class="customSelect">
-                <select class="selectMenu" id="sexo" [(ngModel)]="clientObject.sexo" name="sexo" formControlName="sexo"
-                  [ngClass]="{'is-invalid': sexoValidate}" style="width: 100%;">
+                <select class="selectMenu" id="sexo" formControlName="sexo" [ngClass]="{'is-invalid': sexoValidate}"
+                        style="width: 100%;">
                   <option value="" selected>Seleccione...</option>
                   <option value="Feminino">Feminino</option>
                   <option value="Masculino">Masculino</option>
@@ -51,6 +63,30 @@
                 Sexo is required.
               </div>
             </div>
+          
+            <ng-container *ngIf="user.role_id == '2'">
+              <div class="formInpt mb_20">
+                <input name="foto" type="file" formControlName="foto"  #inputFile class="form__input" (change)="onChangeFoto($event)">
+                <div
+                  *ngIf="perfilForm.get('foto').invalid && (perfilForm.get('foto').dirty || perfilForm.get('foto').touched)"
+                  class="invalid-feedback text-danger">
+                  Please upload a file.
+                </div>
+              </div>
+            </ng-container>
+          
+            <ng-container *ngIf="user.role_id == '3'">
+              <div class="formInpt mb_20">
+                <input name="foto" type="file" formControlName="foto"  #inputFile class="form__input" (change)="onChangeFoto($event)">
+                <div
+                  *ngIf="perfilForm.get('foto').invalid && (perfilForm.get('foto').dirty || perfilForm.get('foto').touched)"
+                  class="invalid-feedback text-danger">
+                  Please upload a file.
+                </div>
+              </div>
+            </ng-container>
+            
+          
             <ng-container *ngIf="selectedOption == 2">
               <div class="formInpt shPW mb_20">
                 <input formControlName="password" type="password" placeholder="Senha">
@@ -64,6 +100,7 @@
                 <input formControlName="conf_password" type="password" placeholder="Confirmar Senha">
               </div>
             </ng-container>
+          
             <button type="submit" class="btnLogin">Salvar</button>
           </form>
         </div>
