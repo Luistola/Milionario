@@ -22,7 +22,7 @@ export class VencedorClienteService {
   }
 //new
   listarVencedorClientesWinner(contestId,pagination, dados):Observable<GeralInterfaceListar>{
-    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/vencedor-cliente/${contestId}`,{pagination:pagination, dados:dados});
+    return this.http.post<GeralInterfaceListar>(`${this.apiURL}/vencedor-cliente/contest/${contestId}`,{pagination:pagination, dados:dados});
   }
 }
 

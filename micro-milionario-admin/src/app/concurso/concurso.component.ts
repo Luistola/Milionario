@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ConcursoService } from '../service/concurso/concurso.service';
 import { FiltroClass } from '../service/geral/filtro-service';
 import { Participante } from '../service/geral/geral-interface-listar';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-concurso',
@@ -12,7 +14,7 @@ import { Participante } from '../service/geral/geral-interface-listar';
 })
 export class ConcursoComponent implements OnInit {
 
-  concursoLista: [];
+  concursoLista:[];
   isloading: boolean= false;
   concursoCarregar
   procurarItem:string
@@ -21,6 +23,7 @@ export class ConcursoComponent implements OnInit {
   searchTerm
   setBoeelean:boolean=false;
   ObjectConcurso:Participante
+
 
 
   constructor(
@@ -46,7 +49,6 @@ export class ConcursoComponent implements OnInit {
     
   }
 
-
   search(){
     document.getElementById('concursoPage').style.display='none';
     document.getElementById('serachPag').style.display='block';
@@ -59,17 +61,17 @@ export class ConcursoComponent implements OnInit {
   async listarConcursos(){
      const listagemConcurso= await this.concursoService.adminlistarConcursos(this.pagination.pagination).toPromise();
      if(listagemConcurso.code == 200){
-      this.concursoLista= listagemConcurso.dados.data
+      this.concursoLista= listagemConcurso.dados.data;
       this.pagination.pagination.lastPage= listagemConcurso.dados.lastPage;
       this.pagination.pagination.page= listagemConcurso.dados.page;
       this.pagination.pagination.perPage= listagemConcurso.dados.perPage;
       this.pagination.pagination.total = listagemConcurso.dados.total;
+      console.log("gfffffffffffffffffffffffff",this.concursoLista)
 
     }
   }
 
 
-   
 
    async sreachConcurso(){
     const listConcursoSerch= await this.concursoService.getSreachByConsurso(this.pagination.pagination,this.searchTerm).toPromise();
@@ -79,7 +81,6 @@ export class ConcursoComponent implements OnInit {
       this.pagination.pagination.page= listConcursoSerch.dados.page;
       this.pagination.pagination.perPage= listConcursoSerch.dados.perPage;
       this.pagination.pagination.total = listConcursoSerch.dados.total;
-      console.log("first",this.concursoLista);
       // if(this.concursoLista.length==0){
       //   this.concursoPaginacao(this.pagination.pagination.page);
       // }
@@ -116,7 +117,6 @@ export class ConcursoComponent implements OnInit {
 
    goParticipanteList(concurso){
     this.ObjectConcurso=concurso;
-    console.log("ppppppppppppppppppppppp",this.ObjectConcurso.id)
     this.router.navigate(['/dashboard/participante', this.ObjectConcurso.id]);
     this.concursoService.setData(this.ObjectConcurso);
    }
@@ -133,7 +133,49 @@ export class ConcursoComponent implements OnInit {
    async apagarConcurso(concurso){
     await this.apagar(concurso.id);
     this.concursoPaginacao(this.pagination.pagination.page);
+
   }
+
+
+  async deleteContest(concurso){
+    try {
+      const deleteContest = await this.concursoService.deleteContest(concurso.id).toPromise();
+      if (deleteContest.code == 200) {
+       // this.concursoPaginacao(this.pagination.pagination.page);
+        this.toastr.success(concurso.message, 'Sucesso!');
+      }
+    } catch (error) {
+      // Handle the error here
+      console.error(error);
+      this.toastr.error('Erro ao apagar concurso', 'Erro!');
+    }
+
+  }
+
+  async apagarConcursoDelete(concurso) {
+    await this.deleteContest(concurso)
+    this.concursoPaginacao(this.pagination.pagination.page);
+  }
+
+
+  // formatDate(date: string): string {
+  //   console.log("first", date);
+  //   const updateDate= date.split(".")[0];
+  //   console.log("update",updateDate);
+  //   let dateObj = new Date(updateDate);
+  //   console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjj",dateObj)
+  //   return dateObj.toLocaleString();
+  // }
+
+ 
+  // formatDate(date: string): string {
+  //   console.log("first", date);
+  //   let dateObj = new Date(date);
+  //   console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjj",dateObj)
+  //   return dateObj.toLocaleString();
+  // }
+
+
 
 
   async vencedorConcurso(concurso) {
@@ -162,11 +204,9 @@ export class ConcursoComponent implements OnInit {
       this.toastr.success(concurso.message, 'Sucesso!');
     }
    }
-   
 
 
    
-
-
+   
 
 }

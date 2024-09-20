@@ -6,7 +6,7 @@
       <small>Panel Controlo</small>
       </h1>
       <ol class="breadcrumb">
-      <li><a routerLink="dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
       <li class="active">Inscrições no concurso</li>
       </ol>
   </section>
@@ -44,6 +44,7 @@
                   <th style="width: 10px">#</th>
                   <th>TÍTULO</th>
                   <th>Descrição</th>
+                  <th>Nome do artista</th>
                   <th>TIPO DE LINK DE TÍTULO</th>
                   <th>LINK</th>
                   <th>STATUS</th>
@@ -53,6 +54,7 @@
                   <td>{{i+1}}</td>
                   <td>{{c.title}}</td>
                   <td>{{c.description}}</td>
+                  <td>{{c.artist_nome}}</td>
                   <td>{{c.link_type}}</td>
                   <td>{{c.link}}</td>
                   <td>

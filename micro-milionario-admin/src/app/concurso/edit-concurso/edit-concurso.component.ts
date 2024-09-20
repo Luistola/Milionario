@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { ConcursoService } from 'src/app/service/concurso/concurso.service';
 import { UploadFileService } from 'src/app/service/upload/upload-file.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-edit-concurso',
@@ -46,11 +47,13 @@ export class EditConcursoComponent implements OnInit {
       premio: new FormControl('', Validators.required),
       n_vencedor: new FormControl('', Validators.required),
       price_percent: new FormControl('', Validators.required),
-      data_inicio: new FormControl('', Validators.required),
-      data_fim: new FormControl('', Validators.required),
+      data_inicio: new FormControl('', [Validators.required]),
+      data_fim: new FormControl('', [Validators.required]),
       foto: new FormControl('')
     });
   }
+
+ 
 
   async getConcursoById(data) {
     const concurso = await this.concursoService.listarConcursoById(data).toPromise();
@@ -72,9 +75,11 @@ export class EditConcursoComponent implements OnInit {
       data_fim: this.formatDate(this.concurso.data_fim)
 
     });
+    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhh",this.concursoForm.get('data_inicio').value)
     this.fotoFile = this.concurso.foto;
   }
 
+  
   onChangeFoto(event) {
     const selectedFiles = <FileList>event.srcElement.files;
     this.fotoFile = selectedFiles[0].name;
@@ -88,8 +93,8 @@ export class EditConcursoComponent implements OnInit {
       premio: this.concursoForm.get('premio').value,
       n_vencedor: this.concursoForm.get('n_vencedor').value,
       price_percent: this.concursoForm.get('price_percent').value,
-      data_inicio: this.concursoForm.get('data_inicio').value,
-      data_fim: this.concursoForm.get('data_fim').value,
+      data_inicio: new Date(this.concursoForm.get('data_inicio').value).toISOString().split(".")[0],
+      data_fim: new Date(this.concursoForm.get('data_fim').value).toISOString().split(".")[0],
       foto: this.imageReponse // set the foto property to the image response
     };
   }
@@ -118,21 +123,46 @@ export class EditConcursoComponent implements OnInit {
   }
 
 
-
-  formatDate(date) {
-    let dateObj = new Date(date);
-    let month = dateObj.getUTCMonth() + 1; //months from 1-12
-    let day = dateObj.getUTCDate();
-    let year = dateObj.getUTCFullYear();
-    return year + '-' + this.pad(month) + '-' + this.pad(day);
+//live
+formatDate(date: string): string {
+  let dateObj;
+  try {
+    //const updateDate= date.split(".")[0];
+    dateObj = new Date(date); // create a Date object from the input string
+    console.log("dateObj.....:", dateObj);
+  } catch (e) {
+    console.error("Error parsing date:", e);
+    return null; // or some default value
   }
-
-  pad(number) {
-    if (number < 10) {
-      return '0' + number;
-    }
-    return number;
+  if (!dateObj || isNaN(dateObj.getTime())) {
+    console.error("Invalid date:", date);
+    return null; // or some default value
   }
+  console.log("dateObj isValid:", dateObj instanceof Date);
+  let year = dateObj.getFullYear();
+  let month = (`0${dateObj.getMonth() + 1}`).slice(-2);
+  let day = (`0${dateObj.getDate()}`).slice(-2);
+  let hour = (`0${dateObj.getHours()}`).slice(-2);
+  let minute = (`0${dateObj.getMinutes()}`).slice(-2);
+  return `${year}-${month}-${day}T${hour}:${minute}`;
+}
+
+  // formatDate(date: string): string {
+  //   console.log("firsoooooooooooooooooooot", date.split(".")[0]);
+  //   // const updateDate= date.split(".")[0];
+  //   console.log("fffffffffffffffffffffffffffffffffffffff",date)
+  //   let dateObj = new Date(date);
+  //   let year = dateObj.getFullYear();
+  //   let month = (`0${dateObj.getMonth() + 1}`).slice(-2);
+  //   let day = (`0${dateObj.getDate()}`).slice(-2);
+  //   let hour = (`0${dateObj.getHours()}`).slice(-2);
+  //   let minute = (`0${dateObj.getMinutes()}`).slice(-2);
+  //   return `${year}-${month}-${day}T${hour}:${minute}`;
+  // }
+
+
+
+  
 
   goBack() {
     this.location.back();

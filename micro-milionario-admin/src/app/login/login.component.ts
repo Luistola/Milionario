@@ -60,11 +60,11 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.usuario).subscribe(async (data:any) => {
         this.toastr.success('Login Com Sucesso!', 'Sucesso!');
         console.log('Login Com Sucesso!');
-        await this.findWinner(this.dataActual);
-        this.isloading = false;
+        //await this.findWinner(this.dataActual);
         this.router.navigate(['/dashboard']);
       }, error =>{
-        this.isloading = false;
+        console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+        //this.isloading = false;
         console.log(error);
       });
     }

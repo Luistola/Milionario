@@ -69,7 +69,19 @@ export class ConcursoService {
     return this.http.post<GeralInterfaceListar>(`${this.apiURL}/concurso/search`,{pagination:pagination,name:concursoname});
   }
 
+
+  deleteContest(contestId):Observable<GeralInterfaceListar>{
+    return this.http.delete<GeralInterfaceListar>(`${this.apiURL}/concurso/delete/${contestId}`);
+  }
+
+  listarConcursoWinner(ended):Observable<GeralInterfaceListar>{
+    return this.http.get<GeralInterfaceListar>(`${this.apiURL}/concurso/?ended=${ended}`);
+  }
  
+  listarConcursoGenerateWinner():Observable<GeralInterfaceListar>{
+    return this.http.get<GeralInterfaceListar>(`${this.apiURL}/concurso-with-winner`);
+  }
+
 
   setData(data: Participante) {
     this.data = data;

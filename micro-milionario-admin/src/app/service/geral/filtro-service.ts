@@ -12,13 +12,13 @@ export class FiltroClass {
     }
 
 
-    adminpagination = {
-        perPage: 10000,
+    paginationWinner = {
+        perPage: 4,
         page: 1,
         lastPage: null,
-        total: null
+        total: null                                                                        
     
     }
 
     constructor(){}
-}
+}               
